@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'paginas',
+    'registros',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'PainelSAM.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'teste',
+        'NAME': 'db_gopi_sam',
         'USER': 'DB_GOPI_SAM',
         'PASSWORD': 'sam_GOPI@2021',
         'HOST': '127.0.0.1',

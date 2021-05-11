@@ -1,0 +1,123 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Lotes Detalhados</h1>
+
+    <!-- Collapsable Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">Selecionar os campos abaixo para fazer uma busca detalhada</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+                <form>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                    <label for="lote">Busca por Lote</label>
+                    <input type="text" class="form-control form-control-sm" id="buscaLote" placeholder="Lote">
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="gerencia">Busca por Gerência</label>
+                    <input type="text" class="form-control form-control-sm" id="buscaGerencia" placeholder="Gerência">
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="ano">Busca por Ano do Lote</label>
+                    <select id="buscaAno" class="form-control form-control-sm">
+                        <option selected></option>
+                        <option>2019</option>
+                        <option>2020</option>
+                        <option>2021</option>
+                    </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tabela de Lotes Detalhados</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Lote</th>
+                            <th>Gerência</th>
+                            <th>AL</th>
+                            <th>Centro</th>
+                            <th>Elemento PEP</th>
+                            <th>Depósito</th>
+                            <th>Tipo de Venda</th>
+                            <th>Alienação foi Autorizada?</th>
+                            <th>Superbid</th>
+                            <th>Quantidade de Fotos</th>
+                            <th>Local de Armazenamento</th>
+                            <th>Fase</th>
+                            <th>Data SIPA</th>
+                            <th>Data Envio Lotes Leilão</th>
+                            <th>Data Solicitação Leilão</th>
+                            <th>Data de Resultado do Leilão</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Lote</th>
+                            <th>Gerência</th>
+                            <th>AL</th>
+                            <th>Centro</th>
+                            <th>Elemento PEP</th>
+                            <th>Depósito</th>
+                            <th>Tipo de Venda</th>
+                            <th>Alienação foi Autorizada?</th>
+                            <th>Superbid</th>
+                            <th>Quantidade de Fotos</th>
+                            <th>Local de Armazenamento</th>
+                            <th>Fase</th>
+                            <th>Data SIPA</th>
+                            <th>Data Envio Lotes Leilão</th>
+                            <th>Data Solicitação Leilão</th>
+                            <th>Data de Resultado do Leilão</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for lote in object_list %}
+                        <tr>
+                            <td>{{ lote.lote_lote }}</td>
+                            <td>{{ lote.lote_gerencia }}</td>
+                            <td>{{ lote.lote_al }}</td>
+                            <td>{{ lote.lote_centro }}</td>
+                            <td>{{ lote.lote_elementoPep }}</td>
+                            <td>{{ lote.lote_deposito }}</td>
+                            <td>{{ lote.lote_tipoVenda }}</td>
+                            <td>{{ lote.lote_alienacaoAutorizada }}</td>
+                            <td>{{ lote.lote_superbid }}</td>
+                            <td>{{ lote.lote_quantidadeFoto }}</td>
+                            <td>{{ lote.lote_localArmazenamento }}</td>
+                            <td>{{ lote.lote_fase }}</td>
+                            <td>{{ lote.lote_dataSipa }}</td>
+                            <td>{{ lote.lote_dataEnvioLotesLeilao }}</td>
+                            <td>{{ lote.lote_dataSolicitacaoLeilao }}</td>
+                            <td>{{ lote.lote_dataResultadoLeilao }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

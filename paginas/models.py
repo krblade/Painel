@@ -13,3 +13,9 @@ class TesteTable(models.Model):
     def __str__(self):
         return self.name
         
+class TesteB(models.Model):
+    alfa = models.CharField(primary_key=True, max_length=50)
+    beta = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.alfa
