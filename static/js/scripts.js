@@ -13,7 +13,8 @@
 
 $(document).ready(function() {
     var table = $('#dataTable').DataTable();
-     
+    
+
     $('#dataTable tbody')
         .on( 'mouseenter', 'td', function () {
             var colIdx = table.cell(this).index();
@@ -24,3 +25,12 @@ $(document).ready(function() {
             
         } );
 } );
+
+
+
+setTimeout(function(){
+    if ($('#msg').is(':empty')) {
+    }else{
+        $('#msg').remove();
+    }
+}, 2000)

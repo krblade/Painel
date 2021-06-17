@@ -336,6 +336,13 @@
 
                 <!-- Begin Page Content -->
                 <!-- Content Médio-->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} m-2" id="msg" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
                 {% block content  %} {% endblock %}
 
@@ -387,6 +394,7 @@
 
     <!-- Bootstrap core JavaScript-->
     <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+    
     <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
     <!-- Core plugin JavaScript-->

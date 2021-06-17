@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView
 from .models import LOTE, LOTE_HIS, TESTES, HIST_LOTE
 from django.urls import reverse_lazy
 import csv
+from django.contrib import messages
 
 # Create your views here.
 class LotesDetalheView(LoginRequiredMixin, ListView):
@@ -23,6 +24,7 @@ class LotesDetalheView(LoginRequiredMixin, ListView):
 class LotesDetView(LoginRequiredMixin, ListView):
     model = LOTE_HIS
     template_name = 'table_lotesDetLista.html'
+    context_object_name = 'lote'
 
     def get_queryset(self, **kwargs):
 
@@ -30,6 +32,12 @@ class LotesDetView(LoginRequiredMixin, ListView):
         #self.object_list = LOTE.objects.filter(lote_lote=lote)
         self.object_list = LOTE_HIS.objects.filter(lohi_lote=self.kwargs['pk'])
         return self.object_list
+
+    def get_context_data(self, **kwargs):
+
+        context = super(LotesDetView, self).get_context_data(**kwargs)
+        context['lote'] = LOTE.objects.filter(lote_lote=self.kwargs['pk'])
+        return context
 
 class LoteInternoView(LoginRequiredMixin, ListView):
     model = LOTE
@@ -56,6 +64,7 @@ class LoteUpdateView(LoginRequiredMixin, UpdateView):
         print(lote.lote_al)
         print(self.request.POST['lote_al'])
         url = super().form_valid(form)
+        messages.success(self.request, 'Lote atualizado com sucesso!')
         if(lote.lote_al != self.request.POST['lote_al']):
             gravarHistorico('Alteração', self.request.user, lote.lote_lote, 'AL', lote.lote_al, self.request.POST['lote_al'])
         if(lote.lote_gerencia != self.request.POST['lote_gerencia']):
@@ -106,6 +115,7 @@ class LoteCreateView(LoginRequiredMixin, CreateView):
             
     def form_valid(self, form):
         url = super().form_valid(form)
+        messages.success(self.request, 'Lote inserido com sucesso!')
         gravarHistorico(
             'Novo Lote',
             self.request.user,
@@ -159,13 +169,13 @@ def LotesBusca(request):
                 'formBusca': formBuscaLote
             })
         else:
-            lista = LOTE.objects.all()
+            lista = None
             return render(request, 'table_lotesLista.html', {
                 'lotes':lista,
                 'formBusca': formBuscaLote
             })
     else:
-        lista = LOTE.objects.all()
+        lista = None
         return render(request, 'table_lotesLista.html', {
             'lotes':lista,
             'formBusca':novoFormBusca()

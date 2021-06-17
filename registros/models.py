@@ -1,11 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from reversion import revisions as reversion
 
 # Create your models here.
 
-@reversion.register()
 class GERENCIA(models.Model):
     gere_nome = models.CharField(max_length=50, null=False)
     gere_grupo = models.CharField(max_length=50, null=False)
@@ -13,7 +11,6 @@ class GERENCIA(models.Model):
     def __str__(self):
         return self.gere_nome
 
-@reversion.register()
 class LOTE(models.Model):
     lote_lote = models.CharField(primary_key=True, max_length=50, null=False)
     lote_gerencia = models.ForeignKey(GERENCIA, on_delete=models.CASCADE)
