@@ -1,0 +1,12 @@
+<html>
+<head>
+<title> TESTES </title>
+</head>
+<body>
+    <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input value="save" type="submit">
+    </form>
+    
+</body>

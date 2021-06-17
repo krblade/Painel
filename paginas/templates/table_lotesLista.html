@@ -5,7 +5,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Lotes Detalhados</h1>
+    <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
 
     <!-- Collapsable Card Example -->
     <div class="card shadow mb-4">
@@ -17,11 +17,25 @@
         <!-- Card Content - Collapse -->
         <div class="collapse show" id="collapseCardExample">
             <div class="card-body">
-                <form>
+                <form id='busca-lotes' action="{% url 'lotes-lista' %}" method="POST">
+                {% csrf_token %}
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
+                    {{ formBusca.lote.errors }}
                     <label for="lote">Busca por Lote</label>
-                    <input type="text" class="form-control form-control-sm" id="buscaLote" placeholder="Lote">
+                    {{ formBusca.lote }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    {{ formBusca.ano.errors }}
+                    <label for="lote">Busca por Ano</label>
+                    <p>{{ formBusca.ano }}</p>
+                    </div>
+                    <div class="form-group col-md-3">
+                    </div>
+                    <div class="form-group col-md-3">
+                    </div>
+                    <!--<label for="lote">Busca por Lote</label>
+                    <input type="text" class="form-control form-control-sm" name="buscaLote" id="buscaLote" placeholder="Lote">
                     </div>
                     <div class="form-group col-md-4">
                     <label for="gerencia">Busca por Gerência</label>
@@ -34,10 +48,12 @@
                         <option>2019</option>
                         <option>2020</option>
                         <option>2021</option>
-                    </select>
-                    </div>
+                    </select>-->
+                    
                 </div>
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="submit" id="busca" class="btn btn-primary">Buscar</button>
+                <a href="{% url 'lote-novo' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Novo Lote</a>
                 </form>
             </div>
         </div>
@@ -46,13 +62,14 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tabela de Lotes Detalhados</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tabela geral de Lotes</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Ver Detalhe</th>
                             <th>Lote</th>
                             <th>Gerência</th>
                             <th>AL</th>
@@ -65,14 +82,11 @@
                             <th>Quantidade de Fotos</th>
                             <th>Local de Armazenamento</th>
                             <th>Fase</th>
-                            <th>Data SIPA</th>
-                            <th>Data Envio Lotes Leilão</th>
-                            <th>Data Solicitação Leilão</th>
-                            <th>Data de Resultado do Leilão</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>Editar</th>
                             <th>Lote</th>
                             <th>Gerência</th>
                             <th>AL</th>
@@ -85,15 +99,12 @@
                             <th>Quantidade de Fotos</th>
                             <th>Local de Armazenamento</th>
                             <th>Fase</th>
-                            <th>Data SIPA</th>
-                            <th>Data Envio Lotes Leilão</th>
-                            <th>Data Solicitação Leilão</th>
-                            <th>Data de Resultado do Leilão</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                    {% for lote in object_list %}
+                    {% for lote in lotes %}
                         <tr>
+                            <td><a href="{% url 'lote-interno' lote.lote_lote %}">Edit</a></td>
                             <td>{{ lote.lote_lote }}</td>
                             <td>{{ lote.lote_gerencia }}</td>
                             <td>{{ lote.lote_al }}</td>
@@ -106,10 +117,6 @@
                             <td>{{ lote.lote_quantidadeFoto }}</td>
                             <td>{{ lote.lote_localArmazenamento }}</td>
                             <td>{{ lote.lote_fase }}</td>
-                            <td>{{ lote.lote_dataSipa }}</td>
-                            <td>{{ lote.lote_dataEnvioLotesLeilao }}</td>
-                            <td>{{ lote.lote_dataSolicitacaoLeilao }}</td>
-                            <td>{{ lote.lote_dataResultadoLeilao }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

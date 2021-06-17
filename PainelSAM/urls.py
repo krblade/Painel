@@ -21,4 +21,5 @@ urlpatterns = [
     path('paginas', include('paginas.urls')),
     path('', include('paginas.urls')),
     path('', include('registros.urls')),
+
 ]

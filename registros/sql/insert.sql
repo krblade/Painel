@@ -1,0 +1,1 @@
+Insert into registros.GERENCIA (gere_nome,gere_grupo) values ('POCOS/SM','POCOS');

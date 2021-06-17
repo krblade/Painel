@@ -1,0 +1,99 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Lote Detalhado</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Detalhes do Lote</h6>
+        </div>
+        <div class="card-body">
+            {% if object_list.0.lohi_lote %}
+            <a href="{% url 'lote-interno-novo' object_list.0.lohi_lote  %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Novo Detalhe do Lote</a>
+            {% endif %}
+            <a href="{% url 'lote-novo' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Retornar</a>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Editar</th>
+                            <th>Lote</th>
+                            <th>Material</th>
+                            <th>Tipo de Avaliação</th>
+                            <th>Quantidade Original</th>
+                            <th>Quantidade Retirada Dip</th>
+                            <th>Quantidade Não Localizada</th>
+                            <th>Quantidade Atual</th>
+                            <th>Unidade</th>
+                            <th>Dip Sipa</th>
+                            <th>Retirada</th>
+                            <th>Valor Contabil Unitario</th>
+                            <th>Valor Contabil Total</th>
+                            <th>Valor Reposição Unitario</th>
+                            <th>Valor Total Reposicao</th>
+                            <th>Valor Comparação VMA</th>
+                            <th>VMA Unitario</th>
+                            <th>VMA Total</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Editar</th>
+                            <th>Lote</th>
+                            <th>Material</th>
+                            <th>Tipo de Avaliação</th>
+                            <th>Quantidade Original</th>
+                            <th>Quantidade Retirada Dip</th>
+                            <th>Quantidade Não Localizada</th>
+                            <th>Quantidade Atual</th>
+                            <th>Unidade</th>
+                            <th>Dip Sipa</th>
+                            <th>Retirada</th>
+                            <th>Valor Contabil Unitario</th>
+                            <th>Valor Contabil Total</th>
+                            <th>Valor Reposição Unitario</th>
+                            <th>Valor Total Reposicao</th>
+                            <th>Valor Comparação VMA</th>
+                            <th>VMA Unitario</th>
+                            <th>VMA Total</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for lote in object_list %}
+                        <tr>
+                            <td><a href="#">Edit</a></td>
+                            <td>{{ lote.lohi_lote }}</td>
+                            <td>{{ lote.lohi_material }}</td>
+                            <td>{{ lote.lohi_tipoAvaliacao }}</td>
+                            <td>{{ lote.lohi_quantidadeOriginal }}</td>
+                            <td>{{ lote.lohi_quantidadeRetiradaDip }}</td>
+                            <td>{{ lote.lohi_quantidadeNaoLocalizada }}</td>
+                            <td>{{ lote.lohi_quantidadeAtual }}</td>
+                            <td>{{ lote.lohi_unidade }}</td>
+                            <td>{{ lote.lohi_dipSipa }}</td>
+                            <td>{{ lote.lohi_retirada }}</td>
+                            <td>{{ lote.lohi_valorContabilUnitario }}</td>
+                            <td>{{ lote.lohi_valorContabilTotal }}</td>
+                            <td>{{ lote.lohi_valorReposicaoUnitario }}</td>
+                            <td>{{ lote.lohi_valorTotalReposicao }}</td>
+                            <td>{{ lote.lohi_valorComparacaoVMA }}</td>
+                            <td>{{ lote.lohi_vmaUnitario }}</td>
+                            <td>{{ lote.lohi_vmaTotal }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
