@@ -2,8 +2,22 @@
 
 {% block content %}
 <!-- Begin Page Content -->
+{% if formBusca %}
+<div id="loader">
+    <center><p><strong>Carregando...</strong></p></center>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if formBusca %}
+<div id="cont" class="container-fluid">
+{% endif %}
+{% if formUpload %}
 <div class="container-fluid">
-
+{% endif %}
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
 
@@ -12,53 +26,121 @@
         <!-- Card Header - Accordion -->
         <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
             role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            {% if formBusca %}
             <h6 class="m-0 font-weight-bold text-primary">Selecionar os campos abaixo para fazer uma busca detalhada</h6>
+            {% endif %}
+            {% if formUpload %}
+            <h6 class="m-0 font-weight-bold text-primary">Faça a busca do arquivo e depois insira os lotes salvando</h6>
+            {% endif %}
         </a>
         <!-- Card Content - Collapse -->
         <div class="collapse show" id="collapseCardExample">
             <div class="card-body">
+                {% if formBusca %}
                 <form id='busca-lotes' action="{% url 'lotes-lista' %}" method="POST">
+                {% endif %}
+                {% if formUpload %}
+                <form id='upload-lotes' action="{% url 'lotes-upload' %}" method="POST" enctype="multipart/form-data">
+                {% endif %}
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-3">
+                {% if formBusca %}
                     {{ formBusca.lote.errors }}
                     <label for="lote">Busca por Lote</label>
                     {{ formBusca.lote }}
+                {% endif %}
+                {% if formUpload %}
+                    {{ formUpload.non_field_errors }}
+                    {{ formUpload.frmUpload.help_text }}
+                    {{ formUpload.frmUpload.errors }}
+                    <label for="upload">Inserir lotes com upload de Arquivo Excel</label>
+                    <p>{{ formUpload.frmUpload }}</p>
+                {% endif %}
                     </div>
                     <div class="form-group col-md-3">
+                {% if formBusca %}
                     {{ formBusca.ano.errors }}
                     <label for="lote">Busca por Ano</label>
                     <p>{{ formBusca.ano }}</p>
+                {% endif %}
+                {% if formUpload %}
+                    <label for="upload">Fazer Download de arquivo padrão</label>
+                    <p><a href="https://petrobrasbr-my.sharepoint.com/:x:/g/personal/marcelo-ferreira_stefanini_petrobras_com_br/ESpPVUBpJTVPioR_40VWTkYBRKOfiYa5OtJmdgcNhHBWvw?e=3pkOUj" target="_ blank">Arquivo</a></p>
+                {% endif %}
                     </div>
                     <div class="form-group col-md-3">
+                {% if formBusca %}
+                    {{ formBusca.gerencia.errors }}
+                    <label for="lote">Busca por Gerencia</label>
+                    <p>{{ formBusca.gerencia }}</p>
+                {% endif %}
                     </div>
                     <div class="form-group col-md-3">
+                {% if formBusca %}
+                    {{ formBusca.proprietario.errors }}
+                    <label for="lote">Busca por Proprietario</label>
+                    <p>{{ formBusca.proprietario }}</p>
+                {% endif %}   
                     </div>
-                    <!--<label for="lote">Busca por Lote</label>
-                    <input type="text" class="form-control form-control-sm" name="buscaLote" id="buscaLote" placeholder="Lote">
-                    </div>
-                    <div class="form-group col-md-4">
-                    <label for="gerencia">Busca por Gerência</label>
-                    <input type="text" class="form-control form-control-sm" id="buscaGerencia" placeholder="Gerência">
-                    </div>
-                    <div class="form-group col-md-4">
-                    <label for="ano">Busca por Ano do Lote</label>
-                    <select id="buscaAno" class="form-control form-control-sm">
-                        <option selected></option>
-                        <option>2019</option>
-                        <option>2020</option>
-                        <option>2021</option>
-                    </select>-->
-                    
                 </div>
+                {% if formBusca %}
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    {{ formBusca.al.errors }}
+                    <label for="lote">Busca por AL</label>
+                    {{ formBusca.al }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    {{ formBusca.responsavel.errors }}
+                    <label for="lote">Busca por Responsavel</label>
+                    {{ formBusca.responsavel }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    {{ formBusca.alienacaoAutorizada.errors }}
+                    <label for="lote">Busca por Alienacao Autorizada</label>
+                    {{ formBusca.alienacaoAutorizada }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    {{ formBusca.localArmazenamento.errors }}
+                    <label for="localArmazenamento">Busca por Local de Armazenamento</label>
+                    {{ formBusca.localArmazenamento }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    {{ formBusca.tipoVenda.errors }}
+                    <label for="tipoVenda">Busca por Tipo de Venda</label>
+                    {{ formBusca.tipoVenda }}
+                    </div>
+               
+                    <div class="form-group col-md-3">
+                    {{ formBusca.nm.errors }}
+                    <label for="nm">Busca por NM</label>
+                    {{ formBusca.nm }}
+                    </div>
+                </div>
+                {% endif %}
+                
+
+
+                {% if formBusca %}
                 <button type="submit" id="busca" class="btn btn-primary">Buscar</button>
+                <button type="reset" id="limpar" class="btn btn-primary">Limpar</button>
                 <a href="{% url 'lote-novo' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Novo Lote</a>
+                <a href="{% url 'lotes-upload' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Inserir Lotes em CSV</a>
+                {% endif %}
+                {% if formUpload %}
+                <button type="submit" id="visualizar" class="btn btn-primary">Inserir Planilha</button>
+                    
+                {% endif %}
                 </form>
+                
             </div>
         </div>
     </div>
-
 
     {% if lotes %}
     <!-- DataTales Example -->
@@ -67,58 +149,83 @@
             <h6 class="m-0 font-weight-bold text-primary">Tabela geral de Lotes</h6>
         </div>
         <div class="card-body">
+            Valor Contabil Total dos lotes selecionados: {{ valorContabil }}
+            {% if formBuscaB %}
+                <form id='busca-lotes' action="{% url 'exportar' %}" method="POST">
+                {% csrf_token %}
+                <div id='exportar' class='exportar'>
+                {{ formBuscaB }}
+                </div>
+                <button type="submit" id="visualizar" class="btn btn-primary">Exportar para excel</button>
+                </form>
+            {% endif %}
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Editar</th>
+                            <th>Ver Detalhe</th>
                             <th>Lote</th>
                             <th>Gerência</th>
+                            <th>Proprietário</th>
                             <th>AL</th>
-                            <th>Centro</th>
-                            <th>Elemento PEP</th>
-                            <th>Depósito</th>
-                            <th>Tipo de Venda</th>
-                            <th>Alienação foi Autorizada?</th>
-                            <th>Superbid</th>
+                            <th>Ano</th>
+                            <th>Responsável</th>
+                            <th>Alienação Autorizada?</th>
                             <th>Quantidade de Fotos</th>
-                            <th>Local de Armazenamento</th>
-                            <th>Fase</th>
+                            <th>Local Armazenamento</th>
+                            <th>ISA Sipa</th>
+                            <th>Data Sipa</th>
+                            <th>Tipo da Venda</th>
+                            <th>Leilao</th>
+                            <th>ISA de Envioao ARM</th> 
+                            <th>Data de Envio ao ARM</th>
+                            <th>VMA Total do Lote</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Editar</th>
+                            <th>Ver Detalhe</th>
                             <th>Lote</th>
                             <th>Gerência</th>
+                            <th>Proprietário</th>
                             <th>AL</th>
-                            <th>Centro</th>
-                            <th>Elemento PEP</th>
-                            <th>Depósito</th>
-                            <th>Tipo de Venda</th>
-                            <th>Alienação foi Autorizada?</th>
-                            <th>Superbid</th>
+                            <th>Ano</th>
+                            <th>Responsável</th>
+                            <th>Alienação Autorizada?</th>
                             <th>Quantidade de Fotos</th>
-                            <th>Local de Armazenamento</th>
-                            <th>Fase</th>
+                            <th>Local Armazenamento</th>
+                            <th>ISA Sipa</th>
+                            <th>Data Sipa</th>
+                            <th>Tipo da Venda</th>
+                            <th>Leilao</th>
+                            <th>ISA de Envioao ARM</th> 
+                            <th>Data de Envio ao ARM</th>
+                            <th>VMA Total do Lote</th>
                         </tr>
                     </tfoot>
                     <tbody>
                     {% for lote in lotes %}
                         <tr>
                             <td><a href="{% url 'lote-interno' lote.lote_lote %}">Edit</a></td>
+                            <td><a href="{% url 'lotes-det-lista' lote.lote_lote %}">Det</a></td>
                             <td>{{ lote.lote_lote }}</td>
                             <td>{{ lote.lote_gerencia }}</td>
+                            <td>{{ lote.lote_proprietario }}</td>
                             <td>{{ lote.lote_al }}</td>
-                            <td>{{ lote.lote_centro }}</td>
-                            <td>{{ lote.lote_elementoPep }}</td>
-                            <td>{{ lote.lote_deposito }}</td>
-                            <td>{{ lote.lote_tipoVenda }}</td>
+                            <td>{{ lote.lote_ano }}</td>
+                            <td>{{ lote.lote_responsavel }}</td>
                             <td>{{ lote.lote_alienacaoAutorizada }}</td>
-                            <td>{{ lote.lote_superbid }}</td>
                             <td>{{ lote.lote_quantidadeFoto }}</td>
                             <td>{{ lote.lote_localArmazenamento }}</td>
-                            <td>{{ lote.lote_fase }}</td>
+                            <td>{{ lote.lote_isaSipa }}</td>
+                            <td>{{ lote.lote_dataSipa }}</td>
+                            <td>{{ lote.lote_tipoVenda }}</td>
+                            <td>{{ lote.lote_leilao }}</td>
+                            <td>{{ lote.lote_isaEnvioArm }}</td>
+                            <td>{{ lote.lote_dataEnvoArm }}</td>
+                            <td>{{ lote.lote_vmaLote }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

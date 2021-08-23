@@ -10,8 +10,10 @@
 //     });
 
 // });
-
+$('#cont').hide();
+$('#exportar').hide();
 $(document).ready(function() {
+
     var table = $('#dataTable').DataTable();
     
 
@@ -27,10 +29,24 @@ $(document).ready(function() {
 } );
 
 
-
 setTimeout(function(){
     if ($('#msg').is(':empty')) {
     }else{
         $('#msg').remove();
     }
 }, 2000)
+
+$.ajax({
+    type:'GET',
+    url:'/lotes-lista',
+    success: function(res){
+        console.log('sucesso')
+        $('#loader').hide();
+        $('#cont').show();
+    }
+
+})
+$('#busca').click(function(){ 
+    $('#loader').show();
+    $('#cont').hide();
+});

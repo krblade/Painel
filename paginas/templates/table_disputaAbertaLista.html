@@ -1,0 +1,87 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Disputa Aberta Direta</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tabela</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Lote</th>
+                            <th>CNPJ Comprador</th>
+                            <th>Nome</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Comunicado Venda Enviado</th>
+                            <th>Valor Venda Lance Total</th>
+                            <th>Valor Venda SAB</th>
+                            <th>Prazo para Pagamento</th>
+                            <th>Data do Pagamento</th>
+                            <th>Valor Pago</th>
+                            <th>Lance Total</th>
+                            <th>Leilão</th>
+                            <th>Data do Leilão</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Lote</th>
+                            <th>CNPJ Comprador</th>
+                            <th>Nome</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Comunicado Venda Enviado</th>
+                            <th>Valor Venda Lance Total</th>
+                            <th>Valor Venda SAB</th>
+                            <th>Prazo para Pagamento</th>
+                            <th>Data do Pagamento</th>
+                            <th>Valor Pago</th>
+                            <th>Lance Total</th>
+                            <th>Leilão</th>
+                            <th>Data do Leilão</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for lote in object_list %}
+                        <tr>
+                            <td>{{ lote.diab_lote.lote_lote }}</td>
+                            <td>{{ lote.diab_comprador.comp_cnpj }}</td>
+                            <td>{{ lote.diab_comprador.comp_nomeComprador }}</td>
+                            <td>{{ lote.diab_comprador.comp_cidade }}</td>
+                            <td>{{ lote.diab_comprador.comp_estado }}</td>
+                            <td>{{ lote.diab_comprador.comp_celular }}</td>
+                            <td>{{ lote.diab_comprador.comp_email }}</td>
+                            <td>{{ lote.diab_comunicadoVendaEnviado }}</td>
+                            <td>{{ lote.diab_valorVendaLanceTotal }}</td>
+                            <td>{{ lote.diab_valorVendaSab }}</td>
+                            <td>{{ lote.diab_prazoPagamento }}</td>
+                            <td>{{ lote.diab_dataPagamento }}</td>
+                            <td>{{ lote.diab_valorPago }}</td>
+                            <td>{{ lote.diab_lanceTotal }}</td>
+                            <td>{{ lote.diab_lote.lote_leilao.leil_nome }}</td>
+                            <td>{{ lote.diab_lote.lote_leilao.leil_dataResultadoLeilao }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

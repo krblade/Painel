@@ -4,6 +4,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
+    {% if request.user.is_authenticated %}
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -208,7 +209,12 @@
             </div>
         </div>
     </div>
-
+    {% else %}
+    <form method="post">{% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Login">
+    </form>
+    {% endif %}
     
 
 </div>

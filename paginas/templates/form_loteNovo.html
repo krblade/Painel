@@ -26,6 +26,10 @@
                     {{ form.lote_lote }}
                     </div>
                     <div class="form-group col-md-3">
+                    <label for="lote">Proprietario:</label><br>
+                    {{ form.lote_proprietario }}
+                    </div>
+                    <div class="form-group col-md-3">
                     <label for="lote">Gerência:</label><br>
                     {{ form.lote_gerencia }}
                     </div>
@@ -33,69 +37,61 @@
                     <label for="lote">AL:</label><br>
                     {{ form.lote_al }}
                     </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Centro:</label><br>
-                    {{ form.lote_centro }}
-                    </div>  
                 </div>
+                
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                    <label for="lote">Elemento PEP:</label><br>
-                    {{ form.lote_elementoPep }}
-                    </div>
+                    <label for="lote">Ano do Lote:</label><br>
+                    {{ form.lote_ano }}
+                    </div>  
                     <div class="form-group col-md-3">
-                    <label for="lote">Depósito:</label><br>
-                    {{ form.lote_deposito }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Tipo de Venda:</label><br>
-                    {{ form.lote_tipoVenda }}
+                    <label for="lote">Responsável:</label><br>
+                    {{ form.lote_responsavel }}
                     </div>
                     <div class="form-group col-md-3">
                     <label for="lote">Alienação Autorizada?</label><br>
                     {{ form.lote_alienacaoAutorizada }}
                     </div>
-                </div>
-                <div class="form-row">
                     <div class="form-group col-md-3">
-                    <label for="lote">Superbid:</label><br>
-                    {{ form.lote_superbid }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Quantidade de fotos:</label><br>
+                    <label for="lote">Quantidade de Fotos:</label><br>
                     {{ form.lote_quantidadeFoto }}
                     </div>
+                </div>
+
+                <div class="form-row"> 
+                    
                     <div class="form-group col-md-3">
                     <label for="lote">Local de Armazenamento:</label><br>
                     {{ form.lote_localArmazenamento }}
                     </div>
                     <div class="form-group col-md-3">
-                    <label for="lote">Fase:</label><br>
-                    {{ form.lote_fase }}
+                    <label for="lote">ISA SIPA:</label><br>
+                    {{ form.lote_isaSipa }}
                     </div>
-                </div>
-                <div class="form-row">
                     <div class="form-group col-md-3">
                     <label for="lote">Data SIPA:</label><br>
                     {{ form.lote_dataSipa }}
                     </div>
                     <div class="form-group col-md-3">
-                    <label for="lote">Data Envio Leilão:</label><br>
-                    {{ form.lote_dataEnvioLotesLeilao }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Data Sol Leilão:</label><br>
-                    {{ form.lote_dataSolicitacaoLeilao }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Data Result Leilão:</label><br>
-                    {{ form.lote_dataResultadoLeilao }}
+                    <label for="lote">Tipo de Venda:</label><br>
+                    {{ form.lote_tipoVenda }}
                     </div>
                 </div>
-                <div class="form-row">
+
+                <div class="form-row"> 
                     <div class="form-group col-md-3">
-                    <label for="lote">Ano:</label><br>
-                    {{ form.lote_ano }}
+                    <label for="lote">Leilão:</label><br>
+                    {{ form.lote_leilao }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">ISA Envio ARM:</label><br>
+                    {{ form.lote_isaEnvioArm }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Data Envio ARM:</label><br>
+                    {{ form.lote_dataEnvoArm }}
+                    </div>
+                    <div class="form-group col-md-3">
                     </div>
                 </div>
                 

@@ -19,82 +19,94 @@
             <div class="card-body">
                 <form id='busca-lotes' method="POST">
                 {% csrf_token %}
-                
+    
                 <div class="form-row">
                     <div class="form-group col-md-3">
                     <label for="lote">LOTE:</label><br>
-                    
+                    {% if lote.0.lote_lote %}
+                        {{lote.0.lote_lote}}
+                    {% endif %}
                     </div>
                     <div class="form-group col-md-3">
                     <label for="lote">Material:</label><br>
-                    {{ form.lohi_material }}
+                    {{ form.lode_material }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Centro Atual:</label><br>
+                    {{ form.lode_centroAtual }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Elemento PEP:</label><br>
+                    {{ form.lode_elementoPep }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="lote">Depósito:</label><br>
+                    {{ form.lode_deposito }}
                     </div>
                     <div class="form-group col-md-3">
                     <label for="lote">Tipo de Avaliação:</label><br>
-                    {{ form.lohi_tipoAvaliacao }}
+                    {{ form.lode_tipoAvaliacao }}
                     </div>
                     <div class="form-group col-md-3">
-                    <label for="lote">Quantidade Original:</label><br>
-                    {{ form.lohi_quantidadeOriginal }}
+                    <label for="lote">Lote NM:</label><br>
+                    {{ form.lode_loteNm }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Número de Série:</label><br>
+                    {{ form.lode_numeroSerie }}
                     </div>
                 </div>
+
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                    <label for="lote">Quantidade Ret. DIP:</label><br>
-                    {{ form.lohi_quantidadeRetiradaDip }}
+                    <label for="lote">Quantidade Original:</label><br>
+                    {{ form.lode_quantidadeOriginal }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Quantidade Retirada DIP:</label><br>
+                    {{ form.lode_quantidadeRetiradaDip }}
                     </div>
                     <div class="form-group col-md-3">
                     <label for="lote">Quantidade Não Localizada:</label><br>
-                    {{ form.lohi_quantidadeNaoLocalizada }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Quantidade Atual:</label><br>
-                    {{ form.lohi_quantidadeAtual }}
+                    {{ form.lode_quantidadeNaoLocalizada }}
                     </div>
                     <div class="form-group col-md-3">
                     <label for="lote">Unidade:</label><br>
-                    {{ form.lohi_unidade }}
+                    {{ form.lode_unidade }}
                     </div>
                 </div>
+
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                    <label for="lote">Retirada:</label><br>
-                    {{ form.lohi_retirada }}
+                    <label for="lote">ISA de Retirada:</label><br>
+                    {{ form.lode_isaRetirada }}
                     </div>
                     <div class="form-group col-md-3">
-                    <label for="lote">Valor Contábil Unit.:</label><br>
-                    {{ form.lohi_valorContabilUnitario }}
+                    <label for="lote">Data de Retirada</label><br>
+                    {{ form.lode_dataRetirada }}
                     </div>
                     <div class="form-group col-md-3">
-                    <label for="lote">Valor Contábil Total:</label><br>
-                    {{ form.lohi_valorContabilTotal }}
+                    <label for="lote">Valor Contabil Total:</label><br>
+                    {{ form.lode_valorContabilTotal }}
                     </div>
                     <div class="form-group col-md-3">
-                    <label for="lote">Valor Reposição Unit.:</label><br>
-                    {{ form.lohi_valorReposicaoUnitario }}
+                    <label for="lote">Valor Total de Reposição:</label><br>
+                    {{ form.lode_valorTotalReposicao }}
                     </div>
                 </div>
+
                 <div class="form-row">
-                    <div class="form-group col-md-3">
-                    <label for="lote">Valor Total Reposição:</label><br>
-                    {{ form.lohi_valorTotalReposicao }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">Valor Comparação VMA:</label><br>
-                    {{ form.lohi_valorComparacaoVMA }}
-                    </div>
-                    <div class="form-group col-md-3">
-                    <label for="lote">VMA Unit.:</label><br>
-                    {{ form.lohi_vmaUnitario }}
-                    </div>
                     <div class="form-group col-md-3">
                     <label for="lote">VMA Total:</label><br>
-                    {{ form.lohi_vmaTotal }}
+                    {{ form.lode_vmaTotal }}
                     </div>
                 </div>
                 
                 <button type="submit" id="busca" class="btn btn-primary">Salvar</button>
-                <a href="{% url 'lotes-lista' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                <a href="{% url 'lotes-det-lista' lote.0.lote_lote %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i>Retornar</a>
                 </form>
             </div>

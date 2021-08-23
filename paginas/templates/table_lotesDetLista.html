@@ -14,7 +14,7 @@
         </div>
         <div class="card-body">
             {% if lote.0.lote_lote %}
-            <a href="{% url 'lote-interno-novo' lote.0.lote_lote  %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            <a href="{% url 'lote-det-novo' lote.0.lote_lote  %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Novo Detalhe do Lote</a>
 
             <a href="{% url 'lote-interno' lote.0.lote_lote %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -26,67 +26,97 @@
                         <tr>
                             <th>Editar</th>
                             <th>Lote</th>
-                            <th>Material</th>
+                            <th>Material cod</th>
+                            <th>Material descrição</th>
+                            <th>Material NCM</th>
+                            <th>Grupo de mercadoria</th>
+                            <th>Centro</th>
+                            <th>Elemento PEP</th>
+                            <th>Depósito</th>
                             <th>Tipo de Avaliação</th>
+                            <th>Lote NM</th>
+                            <th>Número de Série</th>
                             <th>Quantidade Original</th>
-                            <th>Quantidade Retirada Dip</th>
+                            <th>Quantidade Retirada DiP</th>
                             <th>Quantidade Não Localizada</th>
                             <th>Quantidade Atual</th>
                             <th>Unidade</th>
-                            <th>Dip Sipa</th>
-                            <th>Retirada</th>
-                            <th>Valor Contabil Unitario</th>
-                            <th>Valor Contabil Total</th>
-                            <th>Valor Reposição Unitario</th>
-                            <th>Valor Total Reposicao</th>
+                            <th>ISA de Retirada</th>
+                            <th>Data de Retirada</th>
+                            <th>Valor Contábil Unitário</th>
+                            <th>Valor Contábil Total</th>
+                            <th>Valor Contábil Total Atual</th>
+                            <th>Valor Reposição Unitário</th>
+                            <th>Valor Reposição Total</th>
                             <th>Valor Comparação VMA</th>
-                            <th>VMA Unitario</th>
+                            <th>VMA Unitário</th>
                             <th>VMA Total</th>
+                            <th>VMA Percentual do Total</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Editar</th>
                             <th>Lote</th>
-                            <th>Material</th>
+                            <th>Material cod</th>
+                            <th>Material descrição</th>
+                            <th>Material NCM</th>
+                            <th>Grupo de mercadoria</th>
+                            <th>Centro</th>
+                            <th>Elemento PEP</th>
+                            <th>Depósito</th>
                             <th>Tipo de Avaliação</th>
+                            <th>Lote NM</th>
+                            <th>Número de Série</th>
                             <th>Quantidade Original</th>
-                            <th>Quantidade Retirada Dip</th>
+                            <th>Quantidade Retirada DiP</th>
                             <th>Quantidade Não Localizada</th>
                             <th>Quantidade Atual</th>
                             <th>Unidade</th>
-                            <th>Dip Sipa</th>
-                            <th>Retirada</th>
-                            <th>Valor Contabil Unitario</th>
-                            <th>Valor Contabil Total</th>
-                            <th>Valor Reposição Unitario</th>
-                            <th>Valor Total Reposicao</th>
+                            <th>ISA de Retirada</th>
+                            <th>Data de Retirada</th>
+                            <th>Valor Contábil Unitário</th>
+                            <th>Valor Contábil Total</th>
+                            <th>Valor Contábil Total Atual</th>
+                            <th>Valor Reposição Unitário</th>
+                            <th>Valor Reposição Total</th>
                             <th>Valor Comparação VMA</th>
-                            <th>VMA Unitario</th>
+                            <th>VMA Unitário</th>
                             <th>VMA Total</th>
+                            <th>VMA Percentual do Total</th>
                         </tr>
                     </tfoot>
                     <tbody>
                     {% for lote in object_list %}
                         <tr>
-                            <td><a href="#">Edit</a></td>
-                            <td>{{ lote.lohi_lote }}</td>
-                            <td>{{ lote.lohi_material }}</td>
-                            <td>{{ lote.lohi_tipoAvaliacao }}</td>
-                            <td>{{ lote.lohi_quantidadeOriginal }}</td>
-                            <td>{{ lote.lohi_quantidadeRetiradaDip }}</td>
-                            <td>{{ lote.lohi_quantidadeNaoLocalizada }}</td>
-                            <td>{{ lote.lohi_quantidadeAtual }}</td>
-                            <td>{{ lote.lohi_unidade }}</td>
-                            <td>{{ lote.lohi_dipSipa }}</td>
-                            <td>{{ lote.lohi_retirada }}</td>
-                            <td>{{ lote.lohi_valorContabilUnitario }}</td>
-                            <td>{{ lote.lohi_valorContabilTotal }}</td>
-                            <td>{{ lote.lohi_valorReposicaoUnitario }}</td>
-                            <td>{{ lote.lohi_valorTotalReposicao }}</td>
-                            <td>{{ lote.lohi_valorComparacaoVMA }}</td>
-                            <td>{{ lote.lohi_vmaUnitario }}</td>
-                            <td>{{ lote.lohi_vmaTotal }}</td>
+                            <td><a href="{% url 'lote-det-editar' lote.pk %}">Edit</a></td>
+                            <td>{{ lote.lode_lote }}</td>
+                            <td>{{ lote.lode_material.mate_cod }}</td>
+                            <td>{{ lote.lode_material.mate_descricao }}</td>
+                            <td>{{ lote.lode_material.mate_ncm }}</td>
+                            <td>{{ lote.lode_material.mate_grupoMercadoria }}</td>
+                            <td>{{ lote.lode_centroAtual }}</td>
+                            <td>{{ lote.lode_elementoPep }}</td>
+                            <td>{{ lote.lode_deposito }}</td>
+                            <td>{{ lote.lode_tipoAvaliacao }}</td>
+                            <td>{{ lote.lode_loteNm }}</td>
+                            <td>{{ lote.lode_numeroSerie }}</td>
+                            <td>{{ lote.lode_quantidadeOriginal }}</td>
+                            <td>{{ lote.lode_quantidadeRetiradaDip }}</td>
+                            <td>{{ lote.lode_quantidadeNaoLocalizada }}</td>
+                            <td>{{ lote.lode_quantidadeAtual }}</td>
+                            <td>{{ lote.lode_unidade }}</td>
+                            <td>{{ lote.lode_isaRetirada }}</td>
+                            <td>{{ lote.lode_dataRetirada }}</td>
+                            <td>{{ lote.lode_valorContabilUnitario }}</td>
+                            <td>{{ lote.lode_valorContabilTotal }}</td>
+                            <td>{{ lote.lode_valorContabilTotalAtual }}</td>
+                            <td>{{ lote.lode_valorReposicaoUnitario }}</td>
+                            <td>{{ lote.lode_valorTotalReposicao }}</td>
+                            <td>{{ lote.lode_valorComparacaoVMA }}</td>
+                            <td>{{ lote.lode_vmaUnitario }}</td>
+                            <td>{{ lote.lode_vmaTotal }}</td>
+                            <td>{{ lote.lode_vmaPercentualLote }}%</td>
                         </tr>
                     {% endfor %}
                     </tbody>

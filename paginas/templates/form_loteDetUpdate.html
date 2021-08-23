@@ -1,0 +1,177 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Editar Detalhe do Lote</h1>
+
+    <!-- Collapsable Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">Insira as informações do lote:</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+                <form id='busca-lotes' method="POST">
+                {% csrf_token %}
+    
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="lote">LOTE:</label><br>
+                    {% if historicoDetLista.0.hist_lote %}
+                    {{ historicoDetLista.0.hist_lote }}
+                    {% endif %}
+                    {% if historicoDetLista.0.lode_lote %}
+                    {{ historicoDetLista.0.lode_lote }}
+                    {% endif %}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Material:</label><br>
+                   
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Centro Atual:</label><br>
+                    {{ form.lode_centroAtual }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Elemento PEP:</label><br>
+                    {{ form.lode_elementoPep }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="lote">Depósito:</label><br>
+                    {{ form.lode_deposito }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Tipo de Avaliação:</label><br>
+                    {{ form.lode_tipoAvaliacao }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Lote NM:</label><br>
+                    {{ form.lode_loteNm }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Número de Série:</label><br>
+                    {{ form.lode_numeroSerie }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="lote">Quantidade Original:</label><br>
+                    {{ form.lode_quantidadeOriginal }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Quantidade Retirada DIP:</label><br>
+                    {{ form.lode_quantidadeRetiradaDip }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Quantidade Não Localizada:</label><br>
+                    {{ form.lode_quantidadeNaoLocalizada }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Unidade:</label><br>
+                    {{ form.lode_unidade }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="lote">ISA de Retirada:</label><br>
+                    {{ form.lode_isaRetirada }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Data de Retirada</label><br>
+                    {{ form.lode_dataRetirada }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Valor Contabil Total:</label><br>
+                    {{ form.lode_valorContabilTotal }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Valor Total de Reposição:</label><br>
+                    {{ form.lode_valorTotalReposicao }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="lote">VMA Total:</label><br>
+                    {{ form.lode_vmaTotal }}
+                    </div>
+                </div>
+                
+                <button type="submit" id="busca" class="btn btn-primary">Salvar</button>
+                {% if historicoDetLista.0.hist_lote %}
+                    <a href="{% url 'lotes-det-lista' historicoDetLista.0.hist_lote %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Retornar</a>
+                {% endif %}
+                {% if historicoDetLista.0.lode_lote %}
+                    <a href="{% url 'lotes-det-lista' historicoDetLista.0.lode_lote %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Retornar</a>
+                {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Histórico de alterações do material</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Alteração</th>
+                            <th>Usuário</th>
+                            <th>Lote ou Material</th>
+                            <th>Coluna Editada</th>
+                            <th>Dado Anterior</th>
+                            <th>Dado Novo</th>
+                            <th>Data moficado</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tipo de Alteração</th>
+                            <th>Usuário</th>
+                            <th>Lote ou Material</th>
+                            <th>Coluna Editada</th>
+                            <th>Dado Anterior</th>
+                            <th>Dado Novo</th>
+                            <th>Data moficado</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for hist in historicoDetLista %}
+                        <tr>
+                            <td>{{ hist.hist_tipoAlteracao }}</td>
+                            <td>{{ hist.hist_user }}</td>
+                            <td>{{ hist.hist_material }}</td>
+                            <td>{{ hist.hist_coluna }}</td>
+                            <td>{{ hist.hist_dadoAnterior }}</td>
+                            <td>{{ hist.hist_dadoNovo }}</td>
+                            <td>{{ hist.hist_dataAlteracao}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

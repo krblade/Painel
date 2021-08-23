@@ -1,0 +1,73 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+<!-- Begin Page Content -->
+{% if formBusca %}
+<div id="loader">
+    <center><p><strong>Carregando...</strong></p></center>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
+
+    <!-- Collapsable Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            {% if novoFormLeilao %}
+            <h6 class="m-0 font-weight-bold text-primary">Cadastrar Novo Leilão</h6>
+            {% endif %}
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+                {% if novoFormLeilao %}
+                <form id='upload-leilao' action="{% url 'leilao-upload' %}" method="POST" enctype="multipart/form-data">
+                
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                
+                    {{ novoFormLeilao.non_field_errors }}
+                    {{ novoFormLeilao.frmLeilaoUpload.help_text }}
+                    {{ novoFormLeilao.frmLeilaoUpload.errors }}
+                    <label for="upload">Inserir lotes com upload de Arquivo Excel</label>
+                    <p>{{ novoFormLeilao.frmLeilaoUpload }}</p>
+            
+                    </div>
+                    <div class="form-group col-md-3">
+              
+                    <label for="upload">Digite o nome do Leilão</label>
+                    <p>{{ novoFormLeilao.nome }}</p>
+         
+                    </div>
+                    <div class="form-group col-md-3">
+      
+                    <label for="upload">Insira a data do Leilão</label>
+                    <p>{{ novoFormLeilao.data }}</p>
+      
+                    </div>
+                    <div class="form-group col-md-3">
+                    </div>
+                </div>
+                
+                <button type="submit" id="visualizar" class="btn btn-primary">Inserir Planilha</button>
+                    
+                
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

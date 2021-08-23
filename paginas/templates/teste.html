@@ -8,5 +8,16 @@
     {{ form.as_p }}
     <input value="save" type="submit">
     </form>
+    <table>
+    {% for i in lista %}
+        <tr>
+        {% for b in i %}
+            <td>
+            {{ b }}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
     
 </body>

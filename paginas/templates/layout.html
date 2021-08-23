@@ -21,6 +21,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{% static "css/sb-admin-2.css" %}" rel="stylesheet">
+    <link href="{% static "vendor/tags-input/bootstrap-tagsinput.css" %}" rel="stylesheet">
 
 </head>
 
@@ -60,20 +61,57 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Todos os lotes</span>
+                    <span>Lotes Detalhados</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ano</h6>
-                        <a class="collapse-item" href="buttons.html">2019</a>
-                        <a class="collapse-item" href="{% url 'lotes-lista' %}">2020</a>
+                        <h6 class="collapse-header">Lista</h6>
+                        <!--<a class="collapse-item" href="buttons.html">2019</a>-->
+                        <a class="collapse-item" href="{% url 'lotes-lista' %}">Filtros</a>
                     </div>
                 </div>
             </li>
 
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTres"
+                    aria-expanded="true" aria-controls="collapseTres">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Disputa Aberta</span>
+                </a>
+                <div id="collapseTres" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Ano</h6>
+                        <!--<a class="collapse-item" href="buttons.html">2019</a>-->
+                        <a class="collapse-item" href="#">2019</a>
+                        <a class="collapse-item" href="#">2020</a>
+                        <a class="collapse-item" href="{% url 'disputa-aberta-lista' %}">2021</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseQuatro"
+                    aria-expanded="true" aria-controls="collapseQuatro">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Inserções em Massa </span>
+                </a>
+                <div id="collapseQuatro" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Tipo</h6>
+                        <!--<a class="collapse-item" href="buttons.html">2019</a>-->
+                        <a class="collapse-item" href="{% url 'lotes-upload' %}">Lotes</a>
+                        <a class="collapse-item" href="{% url 'leilao-upload' %}">Leilões</a>
+                        <a class="collapse-item" href="#">Responsáveis</a>
+                    </div>
+                </div>
+            </li>
+
+            
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -82,23 +120,7 @@
                     <span>Acompanhamento</span>
                 </a>
             </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsebUtilities"
-                    aria-expanded="true" aria-controls="collapsebUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Disputa Aberta</span>
-                </a>
-                <div id="collapsebUtilities" class="collapse" aria-labelledby="headingbTwo" data-parent="#accor-dionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ano</h6>
-                        <a class="collapse-item" href="buttons.html">2019</a>
-                        <a class="collapse-item" href="cards.html">2020</a>
-                    </div>
-                </div>
-            </li>
-
+            
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -115,6 +137,30 @@
                     <span>Cronograma</span>
                 </a>
                 
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Gerencial
+            </div>
+        
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseCinco"
+                    aria-expanded="true" aria-controls="collapseCinco">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Demanda Recebida</span>
+                </a>
+                <div id="collapseCinco" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Ano</h6>
+                        <!--<a class="collapse-item" href="buttons.html">2019</a>-->
+                        <a class="collapse-item" href="{% url 'gerencial-lista' %}">2021</a>
+                    </div>
+                </div>
             </li>
 
         </ul>
@@ -298,14 +344,20 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">BP6G</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {% if request.user.is_authenticated %}
+                                    {{ request.user.first_name }}
+                                    {% else %}
+                                    Usuario nao logado 
+                                    {% endif %}                              
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <!--<a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -316,9 +368,9 @@
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a>-->
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -378,15 +430,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Deseja realmente encerrar?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione "Logout" caso voce queira encerrar a sessao.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -405,6 +457,7 @@
 
     <!-- Page level plugins -->
     <script src="{% static "vendor/chart.js/Chart.min.js" %}"></script>
+    <script src="{% static "vendor/tags-input/bootstrap-tagsinput.min.js" %}"></script>
 
     <!-- Page level custom scripts -->
     <script src="{% static "js/demo/chart-area-demo.js" %}"></script>
