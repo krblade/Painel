@@ -21,18 +21,7 @@ from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 
-
 # Create your views here.
-class LotesDetalheView(LoginRequiredMixin, ListView):
-    model = LOTE
-    template_name = 'table_lotesLista.html'
-
-    def get_queryset(self):
-
-        #lote = self.get('buscaLote')
-        #self.object_list = LOTE.objects.filter(lote_lote=lote)
-        self.object_list = LOTE.objects.all()
-        return self.object_list
 
 class DisputaAbertaView(LoginRequiredMixin, ListView):
     model = DISPUTA_ABERTA
@@ -177,13 +166,6 @@ class LoteDetCreateView(LoginRequiredMixin, CreateView):
         form.instance.lode_lote = LOTE.objects.get(lote_lote=self.kwargs['pk'])
         url = super().form_valid(form)
         messages.success(self.request, 'Material inserido com sucesso!')
-
-        # print(lode.lode_lote)
-        #if(lote.lote_gerencia.pk != int(self.request.POST['lote_gerencia'])):
-        #    gravarHistorico('Alteração do Lote', self.request.user, lote.lote_lote,'', 'Gerência', lote.lote_gerencia.pk, self.request.POST['lote_gerencia'])
-        #if(lote.lote_proprietario != self.request.POST['lote_proprietario']):
-        #    gravarHistorico('Alteração do Lote', self.request.user, lote.lote_lote,'', 'Proprietario', lote.lote_proprietario, self.request.POST['lote_proprietario'])
-
         return url
     
     def get_success_url(self):
@@ -312,10 +294,6 @@ def LotesBusca(request):
                 query = Q(lote_lote=0)
                 for a in lote:
                     query.add(Q(lote_lote=a), Q.OR)
-                #    filtros.append(LOTE.objects.filter(lote_lote=a))
-                #lista = LOTE.objects.filter(lote_lote=0)
-                #for b in filtros:
-                #    lista = chain(lista,b)
                 lista = LOTE.objects.filter(query)
             if ano:
                 lista = lista.filter(lote_ano=ano)
@@ -373,15 +351,6 @@ def LotesBusca(request):
                     valorContabil = valorContabil + lode.lode_valorContabilTotal
                     valorVMA = valorVMA + lode.lode_vmaTotal
 
-                    #lode.lode_vmaPercentualLote = round(100* lode.lode_vmaTotal / lotes.lote_vmaLote, 2)
-                    #print(lode.lode_vmaPercentualLote)
-                    #lode.save()
-                
-                #if not(lotes.lote_vmaLote):
-                #lotes.lote_vmaLote = valorVMA
-                #lotes.save()
-                #print(valorVMA)
-
             valorContabil = locale.currency(valorContabil, grouping=True)
             #round(valorContabil, 2)
                 
@@ -405,7 +374,6 @@ def LotesBusca(request):
         })
 
 class formUpload(forms.Form):
-    #upload = forms.FileField(widget=forms.ClearableFileInput(attrs={'class':'form-control form-control-sm'}),label="Upload:")
     frmUpload = forms.FileField(label="Teste")
 
 @login_required
@@ -434,51 +402,33 @@ def LotesUpload(request):
                         numero_lote = ''
                         try: numero_lote = LOTE.objects.get(lote_lote = dadosLinha[2]) 
                         except:
-                            #print(linha)
-                            #print('----------------')
-                            #print(dadosLinha[2])
-                            #print("O lote não existe, criando um novo...")
                             a = 1
 
                         if numero_lote:
-                            #print(' O lote já existe! Inserindo um lote detalhe...')
-                            #inserir_lote-det(i)
                             erro = inserirLoteDetalhe(dadosLinha)
                             if erro:
                                 log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')
-                                #messages.warning(request, 'Erro na linha: '+str(linha+2)+'. '+erro)
-                            # else:
-                            #     log.write('Linha:'+str(linha+2)+' - Lote e Detalhe inseridos\n')
                         else:
                             erro = inserirLote(dadosLinha)
                             if erro:
                                 log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')
-                                #messages.warning(request, 'Erro na linha: '+str(linha+2)+'. '+erro)
-                                #sair de um looping
                             else:
                                 erroB = inserirLoteDetalhe(dadosLinha)
                                 if erroB:
                                     log.write('Somente o lote foi inserido. Erro na linha: '+str(linha+2)+'. '+erroB+'\n')
-                                    #messages.warning(request, 'Erro na linha: '+str(linha+2)+'. '+erroB)
-                                # else:
-                                #     log.write('Linha:'+str(linha+2)+' - Lote e Detalhe inseridos\n')
                     else:
                         log.write('Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!\n')
-                        #messages.warning(request, 'Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!')
 
                 linha+=1
 
             log.close()
-
             return render(request, 'table_lotesLista.html', {
                 'lotes':listaLotes,
                 'formUpload': form
             })
         else:
-            
             upload = request.POST['frmUpload']
             print(upload)
-            print('TESTEEEEEBBBBBBB     TESTEEEEEEEEEEEE')
             lista = None
             return render(request, 'table_lotesLista.html', {
                 'lotes':lista,
@@ -486,7 +436,6 @@ def LotesUpload(request):
             })
     else:
         lista = None
-        print('TESTEEEEECCCCCCCCC     TESTEEEEEEEEEEEE')
         return render(request, 'table_lotesLista.html', {
             'lotes':lista,
             'formUpload':formUpload()
@@ -499,10 +448,6 @@ def inserirLote(i):
 
     if i[0]:
         lote.lote_proprietario = i[0]
-    # else:
-    #     lote.lote_proprietario = 'Petrobras'
-    #     print('O campo Proprietario está vazio, foi inserido Petrobras como Padrão')
-    
     if (inserirGerencia(i[1]) == True):
         lote.lote_gerencia = GERENCIA.objects.get(gere_nome = i[1])
     else: return ('Campo Gerência é obrigatório. Verifique se está vazio ou incorreto!')
@@ -547,16 +492,14 @@ def inserirGerencia(gerenciaCampo):
     if gerenciaCampo:
         nome_gerencia = ''
         try: nome_gerencia = GERENCIA.objects.get(gere_nome = gerenciaCampo) 
-        except: a=0 #print('Gerência não Existe, vou inserir uma nova')
+        except: a=0 
         if nome_gerencia:
-            #print('Já existe a gerência')
             return True
         else:
             gerencia = GERENCIA()
             gerencia.gere_nome = gerenciaCampo
             gerencia.gere_grupo = 0
             gerencia.save()
-            #print('Gerencia nova criada')
             return True
     else:
         return False
@@ -569,7 +512,7 @@ def inserirLoteDetalhe(i):
 
     if (inserirMaterial(i[4], i[5], i[6], i[7]) == True):
         loteDetalhe.lode_material = MATERIAL.objects.get(mate_cod = i[4])
-    else: return ('Campo Material é obrigatório. Verifique se está vazio ou incorreto!') #reinserir l356 vg
+    else: return ('Campo Material é obrigatório. Verifique se está vazio ou incorreto!')
     
     loteDetalhe.lode_centroAtual = i[8]
     loteDetalhe.lode_elementoPep = i[9]
@@ -616,30 +559,11 @@ def inserirLoteDetalhe(i):
         except: return ('Campo Valor Contabil Total deve ter um valor do tipo real')
     else: loteDetalhe.lode_valorContabilTotal = 0
 
-    # COLUNA CALCULADA
-    # if i[24]:
-    #     try:
-    #         loteDetalhe.lode_valorReposicaoUnitario = float(i[24].replace(',','.'))
-    #     except: return ('Campo Valor de Reposição Unitario deve ter um valor do tipo real')
-    # else: loteDetalhe.lode_valorReposicaoUnitario = 0
-
     if i[25]:
         try:
             loteDetalhe.lode_valorTotalReposicao = float(i[25].replace(',','.'))
         except: return ('Campo Valor Total de Reposição deve ter um valor do tipo real')  
     else: loteDetalhe.lode_valorTotalReposicao = 0
-
-    # if i[27]:
-    #     #CALCULADO
-    #     lote.lote_valorComparacaoVMA = float(i[27].replace(',','.'))
-    # else: lote.lote_valorComparacaoVMA = 0
-
-    # CALCULADA VER MODELS
-    # if i[26]:
-    #     try:
-    #         loteDetalhe.lode_vmaUnitario = float(i[26].replace(',','.'))
-    #     except: return ('Campo VMA Unitario deve ter um valor do tipo real')  
-    # else: loteDetalhe.lode_vmaUnitario = 0
 
     if i[27]:
         try:
@@ -661,9 +585,8 @@ def inserirMaterial(material, descr, ncm, gm):
     if material:
         nm_material = ''
         try: nm_material = MATERIAL.objects.get(mate_cod = material) 
-        except: a=1 #print('Material não Existe, vou inserir um novo')
+        except: a=1
         if nm_material:
-            #print('Já existe o material')
             return True
         else:
             mate = MATERIAL()
@@ -672,7 +595,6 @@ def inserirMaterial(material, descr, ncm, gm):
             mate.mate_ncm = ncm
             mate.mate_grupoMercadoria = gm
             mate.save()
-            #print('Material novo criado')
             return True
     else:
         return False
@@ -690,14 +612,11 @@ def LeilaoUpload(request):
         if form.is_valid():
 
             log = open('C:\\Users\\BP6G\\logLeiloesPainelSAM.csv', 'w', newline='', encoding='utf-8')
-            
-            #upload = request.FILES['frmLeilaoUpload'].read().decode('latin-1').splitlines()
             upload = ""
             nome = request.POST['nome']
             data = request.POST['data']
             
-            
-            leilao = LEILAO()  
+            leilao = LEILAO()
             leilao.leil_nome = nome
             leilao.leil_dataResultadoLeilao = datetime.strptime(data, '%d/%m/%Y').date()
             try:
@@ -706,7 +625,6 @@ def LeilaoUpload(request):
                 print('Erro ao salvar o leilao.')
                 print('%s' % (type(e)))
                 return ('Erro ao salvar o leilao')
-            #CRIO um novo leilao e insiro o nome e data na tabela
             
             upload = request.FILES['frmLeilaoUpload'].read().decode('latin-1').splitlines()
             reader = csv.reader(upload, delimiter=';', quotechar='|')
@@ -715,7 +633,6 @@ def LeilaoUpload(request):
             linha = 0
             next(reader)
 
-            #for para ler a planilha
             for dadosLinha in reader:
 
                 #Inserir dados até a linha: 
@@ -730,25 +647,14 @@ def LeilaoUpload(request):
                             a = 1
 
                         if numero_lote:
-                            # Existindo o lote da planilha la no banco
-
-                            # Insere na tabela LOTE os dados do Leilão e atualiza as colunas de tipo de venda
-
-                            # Verifica se o comprador ja existe
-                           
                             if (inserirComprador(dadosLinha[1], dadosLinha[2], dadosLinha[3], dadosLinha[4], dadosLinha[5], dadosLinha[6], dadosLinha[7], dadosLinha[8], dadosLinha[10]) == True):
-                                #disputaabertadirate.dispi_comprador = COMPRADOR.objects.get(comp_cnpj = dadosLinha[1])
                                 a = 1
-                            else: return ('Campo Comprador é obrigatório. Verifique se está vazio ou incorreto!') #reinserir l356 vg
+                            else: return ('Campo Comprador é obrigatório. Verifique se está vazio ou incorreto!')
 
-                            # Se existir, insere na disputa aberta o Numero do Lote, o Num Leilão, o Num do Comprador e os valores
-                            # Se não existir, insere um novo comprador com os dados da planilha, depois insere os mesmos dados acima        
-                            
                             numero_lote.lote_leilao = leilao
                             numero_lote.lote_tipoVenda = "Vendido"
                             numero_lote.save()
 
-                            #FAZER VALIDCAO PARA NAO INSERIR MESMO LOTE 2 vezes
                             disputaAberta = DISPUTA_ABERTA()
                             disputaAberta.diab_lote = numero_lote
                             disputaAberta.diab_comprador = COMPRADOR.objects.get(comp_cnpj = dadosLinha[1])
@@ -758,22 +664,13 @@ def LeilaoUpload(request):
                                 log.write('Erro na linha: '+str(linha+2)+'. O valor do lance não foi inserido. Não é númeral. \n')
 
                             disputaAberta.save()
-                            #print(' O lote já existe! Inserindo um leilao...')
-                            #erro = inserirLeilao(dadosLinha)
-                            #    -> erro = inserirLeilao(dadosLinha)
-                            #    -> ligar leilao ao lote
                             if erro:
-                                # ERRO AO INSERIR O LEILAO
                                 log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')
-                            
                         else: 
                             log.write('Erro na linha: '+str(linha+2)+'. O LOTE NAO FOI ENCONTRADO NO BD \n')
-                            
                     else:
                         log.write('Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!\n')
-
                 linha+=1
-
             log.close()
 
             return render(request, 'form_leilaoNovo.html', {
@@ -801,9 +698,8 @@ def inserirComprador(cnpj, nomeComp, telefoneRes, telefoneCom, celular, cidade, 
     if cnpj:
         comprador = ''
         try: comprador = COMPRADOR.objects.get(comp_cnpj = cnpj) 
-        except: a=1 #print('Material não Existe, vou inserir um novo')
+        except: a=1
         if comprador:
-            #print('Já existe o comprador')
             return True
         else:
             comp = COMPRADOR()
@@ -817,19 +713,10 @@ def inserirComprador(cnpj, nomeComp, telefoneRes, telefoneCom, celular, cidade, 
             comp.comp_endereco = endereco
             comp.comp_email = email
             comp.save()
-            #print('Comprador novo criado')
             return True
     else:
         return False    
         
-    #- Desenvolver visões de listas gerenciais
-    #- Inserção de leilões em massa por csv (Testes Finais)
-    #- Popular tabela de disputa aberta
-    #- Somatório de Valores nas consultas totais (Pronto, apenas ajustar layout)
-    #- Sistema de sessões para usuários 
-    #- Sistema de login com níveis de prioridade
-    #- Limpar código e subir para gitlab petrobras
-    #- Validações das entradas de texto
 
 @login_required
 def ListaGerencial(request):
@@ -877,14 +764,6 @@ def ListaGerencial(request):
         c['valorLeilao'] = round(valorLeilao, 2)
         c['valorSucata'] = round(valorSucata, 2)
         listaFinal.append(c)
-        #print(listaFinal['isaSipa'])
-        #listaFinal['dataSipa'] = c['lote_dataSipa']
-        #print(listaFinal[a].dataSipa)
-        #b=0
-        #for lotes in LOTE.objects.filter(lote_isaSipa = c['lote_isaSipa']):
-        #    b+=1
-        #listaFinal['qtdLotes'] = b  
-        #print(listaFinal[a].qtdLotes)
         a+=1
         valorContabilTotal = valorContabilTotal + valorContTotal
     
@@ -921,10 +800,6 @@ def export(request):
                 query = Q(lote_lote=0)
                 for a in lote:
                     query.add(Q(lote_lote=a), Q.OR)
-                #    filtros.append(LOTE.objects.filter(lote_lote=a))
-                #lista = LOTE.objects.filter(lote_lote=0)
-                #for b in filtros:
-                #    lista = chain(lista,b)
                 lista = LOTE.objects.filter(query)
             if ano:
                 lista = lista.filter(lote_ano=ano)
@@ -985,16 +860,10 @@ def export(request):
     wb = xlwt.Workbook(encoding='utf-8')
     ws = wb.add_sheet('Lotes')
 
-    # Sheet header, first row
     row_num = 0
 
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-
-    #columns = ['Lotes', 'Gerencia', 'Proprietario', 'AL', 'Ano', 
-    #    'Responsavel', 'Alienacao Autorizada?', 'Quantidade de Fotos', 
-    #    'Local Armazenamento', 'ISA Sipa', 'Data Sipa', 'Tipo de Venda',
-    #    'Leilao', 'ISA Envio ARM', 'Data de Envio ARM', 'VMA Total Lote']
 
     columns = ['Lote', 'Gerencia', 'Proprietario', 'AL', 'Ano', 'Responsavel', 'Alienacao Autorizada?', 
             'Quantidade de Fotos', 'Local Armazenamento', 'ISA Sipa', 'Data Sipa', 'Tipo de Venda', 'Leilao', 
@@ -1008,13 +877,7 @@ def export(request):
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
-    # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
-
-    #rows = lista.values_list('lote_lote', 'lote_gerencia__gere_nome', 'lote_proprietario', 
-    #    'lote_al', 'lote_ano', 'lote_responsavel__username', 'lote_alienacaoAutorizada', 
-    #    'lote_quantidadeFoto', 'lote_localArmazenamento', 'lote_isaSipa', 'lote_dataSipa', 
-    #    'lote_tipoVenda', 'lote_leilao__leil_nome', 'lote_isaEnvioArm', 'lote_dataEnvoArm', 'lote_vmaLote')
 
     rows = listaB.values_list('lode_lote', 'lode_lote__lote_gerencia__gere_nome', 'lode_lote__lote_proprietario', 
         'lode_lote__lote_al', 'lode_lote__lote_ano', 'lode_lote__lote_responsavel__username', 
@@ -1036,26 +899,3 @@ def export(request):
 
     wb.save(response)
     return response
-
-
-def inserirLotesCsv(lista):
-    for i in lista:
-        print(i)
-
-
-def teste(request):
-    teste = "TESTE"
-    doc = open(r'C:\Users\Bp6g\Desktop\lotesdet.csv', 'r', newline='')
-    reader = csv.reader(doc, delimiter=';', quotechar='|')
-    print("teste")
-
-    #for i in reader:
-    #    #linha = i[0].split(";")
-    #    for b in i:
-    #        print(b)
-    #    
-    #    print("--------------------------------")
-
-    return render(request, 'teste.html', {
-        "lista" : reader
-    })

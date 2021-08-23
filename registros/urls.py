@@ -1,7 +1,7 @@
 from os import name
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import LoteCreateView, LotesDetView, LoteDetCreateView, LoteDetUpdateView, LotesDetalheView, LoteInternoView, LoteUpdateView, LoteCreateView, LotesUpload, DisputaAbertaView
+from .views import LoteCreateView, LotesDetView, LoteDetCreateView, LoteDetUpdateView, LoteInternoView, LoteUpdateView, LoteCreateView, LotesUpload, DisputaAbertaView
 from . import views
 
 urlpatterns = [
@@ -23,5 +23,4 @@ urlpatterns = [
     path('leilao-upload/', views.LeilaoUpload, name='leilao-upload'),
     path('disputa-aberta-lista/', DisputaAbertaView.as_view(), name='disputa-aberta-lista'),
     path('export/', views.export, name='exportar'),
-    path('testes', views.teste, name='testes')
 ]
