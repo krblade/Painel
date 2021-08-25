@@ -376,56 +376,56 @@ def LotesBusca(request):
 class formUpload(forms.Form):
     frmUpload = forms.FileField(label="Teste")
 
-@login_required
-def LotesUpload(request):
+@login_required  #Aqui eu defino que para acessar essa página é necessário estar logado
+def LotesUpload(request):  #É uma view que solicita por base de uma requisição
 
-    if request.method=="POST":
+    if request.method=="POST":   #Se chegamos nessa view por um formulário com método post
         form = formUpload(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid():   #Validação se o formulário é válido 
 
-            log = open('C:\\Users\\bp6g\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')
+            log = open('C:\\Users\\bp6g\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')   #Aqui eu crio um novo arquivo csv que vai ser onde gravo o log
             
-            upload = request.FILES['frmUpload'].read().decode('latin-1').splitlines()
+            upload = request.FILES['frmUpload'].read().decode('latin-1').splitlines() # Aqui eu faço a leitura do arquivo csv que o usuário upou
             reader = csv.reader(upload, delimiter=';', quotechar='|')
             listaLotes = []
             listaErros = []
             erro = ''
             linha = 0
             next(reader)
-            for dadosLinha in reader:
+            for dadosLinha in reader: #aqui começo a ler o documento que fou upado, um arquivo csv no caso
 
                 #Inserir dados até a linha: 
-                if linha<30000:
-                    print(linha+2)
+                if linha<30000:    # leio somente até 30mil linhas
+                    print(linha+2)  # o contador de  lotes que aparece no terminal
                     #Estrutura de Lotes
                     if(dadosLinha[2]):
                         numero_lote = ''
-                        try: numero_lote = LOTE.objects.get(lote_lote = dadosLinha[2]) 
+                        try: numero_lote = LOTE.objects.get(lote_lote = dadosLinha[2])   # Aqui eu pego o número do lote e vejo no banco de dados se ele já está inserido, se esse lote já existe
                         except:
                             a = 1
 
-                        if numero_lote:
-                            erro = inserirLoteDetalhe(dadosLinha)
+                        if numero_lote: # Se o lote existir:
+                            erro = inserirLoteDetalhe(dadosLinha)  # Ele executa essa função para inserir os materiais
                             if erro:
-                                log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')
-                        else:
-                            erro = inserirLote(dadosLinha)
+                                log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n') # Grava no log em caso de erro na inserção de materiais do lote
+                        else:   # Se o lote não existir
+                            erro = inserirLote(dadosLinha)  # Ele executa essa função para inserir o lote
                             if erro:
-                                log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')
+                                log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')  # Grava no log em caso  de erro
                             else:
-                                erroB = inserirLoteDetalhe(dadosLinha)
+                                erroB = inserirLoteDetalhe(dadosLinha)  # Apoós inserir o lote novo, ele insere os materiais 
                                 if erroB:
-                                    log.write('Somente o lote foi inserido. Erro na linha: '+str(linha+2)+'. '+erroB+'\n')
+                                    log.write('Somente o lote foi inserido. Erro na linha: '+str(linha+2)+'. '+erroB+'\n')  # Caso dê erro nos materiais, ele iinseriu somente o lote e grava esse erro também no log
                     else:
-                        log.write('Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!\n')
+                        log.write('Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!\n')  # E caso o número de lote esteja vazio na planilha, ele grava esse erro no log
 
                 linha+=1
 
-            log.close()
+            log.close()  # Caso tenha terminado fecha o log e salva
             return render(request, 'table_lotesLista.html', {
                 'lotes':listaLotes,
                 'formUpload': form
-            })
+            })   # renderiza o template acima, retornando o formulário anterior
         else:
             upload = request.POST['frmUpload']
             print(upload)
@@ -441,19 +441,19 @@ def LotesUpload(request):
             'formUpload':formUpload()
         })
 
-def inserirLote(i):
-    lote = LOTE()
-    lote.lote_lote = i[2]
-    lote.lote_ano = 2021
+def inserirLote(i):  # Inserir um lote novo - Passando a linha como argumento
+    lote = LOTE()  # Crio o objeto LOTE
+    lote.lote_lote = i[2]  # O número do lote recebe a coluna 2 da planilha
+    lote.lote_ano = 2021  # Estamos inserindo lotes do ano de 2021
 
     if i[0]:
-        lote.lote_proprietario = i[0]
-    if (inserirGerencia(i[1]) == True):
-        lote.lote_gerencia = GERENCIA.objects.get(gere_nome = i[1])
-    else: return ('Campo Gerência é obrigatório. Verifique se está vazio ou incorreto!')
+        lote.lote_proprietario = i[0] # Nessa linha atributo o proprietário do lote
+    if (inserirGerencia(i[1]) == True):  # Aqui eu insiro a gerência ou verifico se ela já existe
+        lote.lote_gerencia = GERENCIA.objects.get(gere_nome = i[1])  # Aqui eu atribuo a chave da tabela gerência ao lote
+    else: return ('Campo Gerência é obrigatório. Verifique se está vazio ou incorreto!') # Se retornar falso no inserirGerencia() ele retonar esse erro e salva no log
     
     if i[3]:
-        lote.lote_al = i[3]
+        lote.lote_al = i[3]  # Atribuo o AL ao lote
     else: return ('Campo AL é obrigatório. Verifique se está vazio ou incorreto!')
 
     if i[19]:
@@ -480,50 +480,50 @@ def inserirLote(i):
     # Leilão foi realizado? - calculado
 
     try:
-        lote.save()
+        lote.save()  # Aqui ele tenta salvar no lote novo criado
     except Exception as e:
-        print('Erro ao salvar o lote.')
+        print('Erro ao salvar o lote.')  # Caso tenha dado erro, ele vai dar essa exceção 
         print('%s' % (type(e)))
-        return ('Erro ao salvar o lote')
+        return ('Erro ao salvar o lote')  # E vai salvar no log a mensagem ao lado
 
 def inserirGerencia(gerenciaCampo):
                    
     #Estrutura da Gerência
     if gerenciaCampo:
         nome_gerencia = ''
-        try: nome_gerencia = GERENCIA.objects.get(gere_nome = gerenciaCampo) 
+        try: nome_gerencia = GERENCIA.objects.get(gere_nome = gerenciaCampo)  # Aqui eu busco se a gerência já existe
         except: a=0 
-        if nome_gerencia:
+        if nome_gerencia: # Se existir, retorno
             return True
-        else:
-            gerencia = GERENCIA()
-            gerencia.gere_nome = gerenciaCampo
-            gerencia.gere_grupo = 0
-            gerencia.save()
+        else:  # Se não existir:
+            gerencia = GERENCIA()  #Crio um novo objeto do tipo GERENCIA
+            gerencia.gere_nome = gerenciaCampo  # Insiro Nome
+            gerencia.gere_grupo = 0 # Insiro o grupo
+            gerencia.save() # E salvo a nova gerencia
             return True
     else:
-        return False
+        return False  # Caso dê algum erro, retorna falso
 
-def inserirLoteDetalhe(i):
+def inserirLoteDetalhe(i): # Função para inserir o material atribuido a um lote
 
     #Estrutura de lote detalhe
-    loteDetalhe = LOTE_DET()
-    loteDetalhe.lode_lote = LOTE.objects.get(lote_lote = i[2])
+    loteDetalhe = LOTE_DET()  # Crio um novo objeto
+    loteDetalhe.lode_lote = LOTE.objects.get(lote_lote = i[2])  # Insiro a chave da lote na tabela LOTE_DET
 
-    if (inserirMaterial(i[4], i[5], i[6], i[7]) == True):
-        loteDetalhe.lode_material = MATERIAL.objects.get(mate_cod = i[4])
-    else: return ('Campo Material é obrigatório. Verifique se está vazio ou incorreto!')
+    if (inserirMaterial(i[4], i[5], i[6], i[7]) == True):  # Inserir um novo material na tabela MATERIAL
+        loteDetalhe.lode_material = MATERIAL.objects.get(mate_cod = i[4])  # Busco o MATERIAL novo inserido ou caso já existisse
+    else: return ('Campo Material é obrigatório. Verifique se está vazio ou incorreto!') # Caso tenha retornado falso a inserção do MATERIAL ele vai salvar essa mensagem no log
     
-    loteDetalhe.lode_centroAtual = i[8]
-    loteDetalhe.lode_elementoPep = i[9]
-    loteDetalhe.lode_deposito = i[10]
+    loteDetalhe.lode_centroAtual = i[8]  # Atribuo o centro do material do lote
+    loteDetalhe.lode_elementoPep = i[9]  # Atribuo o elemento Pep do material do lote
+    loteDetalhe.lode_deposito = i[10]   # etc todos abaixo
     loteDetalhe.lode_tipoAvaliacao = i[11]
     loteDetalhe.lode_loteNm = i[12]
     loteDetalhe.lode_numeroSerie = i[13]
     if i[14]:
         try:
-            loteDetalhe.lode_quantidadeOriginal = float(i[14].replace(',','.'))
-        except: return ('Campo Quantidade Original deve ter um valor do tipo real')  
+            loteDetalhe.lode_quantidadeOriginal = float(i[14].replace(',','.'))  # Aqui por ser um campo numério, monetário, eu troco , por .
+        except: return ('Campo Quantidade Original deve ter um valor do tipo real')   # Todas essas mensagens vão para o log caso tenha um erro em qualquer uma dessas validações
     else: loteDetalhe.lode_quantidadeOriginal = 0
 
     if i[15]:
@@ -572,29 +572,29 @@ def inserirLoteDetalhe(i):
     else: loteDetalhe.lode_vmaTotal = 0
 
     try:
-        loteDetalhe.save()
+        loteDetalhe.save() # Salvo o materia de um lote novo criado
     except Exception as e:
-        print('Erro ao salvar o detalhe do lote.')
+        print('Erro ao salvar o detalhe do lote.')  # Caso tenha erro lanço uma exceção
         print('%s' % (type(e)))
-        return ('Erro ao salvar o detalhe do lote')
+        return ('Erro ao salvar o detalhe do lote')  # E salvo a mensagem no log
 
 
-def inserirMaterial(material, descr, ncm, gm):
+def inserirMaterial(material, descr, ncm, gm): # Função para inserir um novo material ou veririficar se ele já existe
 
     #Estrutura de Material
     if material:
         nm_material = ''
-        try: nm_material = MATERIAL.objects.get(mate_cod = material) 
+        try: nm_material = MATERIAL.objects.get(mate_cod = material)  # Eu busco no banco se já existe o material pelo código dele
         except: a=1
         if nm_material:
-            return True
-        else:
-            mate = MATERIAL()
-            mate.mate_cod = material
-            mate.mate_descricao = descr
+            return True # Se existir eu retorno
+        else: # Se não existir
+            mate = MATERIAL()  # Crio um novo objeto do tipo MATERIAL
+            mate.mate_cod = material  # Insiro co código que é a chave primaria
+            mate.mate_descricao = descr  # Descrição e etc abaixo
             mate.mate_ncm = ncm
             mate.mate_grupoMercadoria = gm
-            mate.save()
+            mate.save()  # Salvo o material
             return True
     else:
         return False
