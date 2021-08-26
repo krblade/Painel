@@ -61,25 +61,28 @@ class LoteInternoView(LoginRequiredMixin, ListView):
         self.object_list = LOTE.objects.all()
         return self.object_list
 
-class LoteUpdateView(LoginRequiredMixin, UpdateView):
-    model = LOTE
-    template_name = 'table_loteUpdate.html'
+class LoteUpdateView(LoginRequiredMixin, UpdateView): # Essa view é uma view já modelada pelo Django, eu passo de parametros ali o requerimento par aque o user esteja logado e o tipo dessa view, no caso uma UpdateView
+    model = LOTE   # O modelo de updateView do django preciso definir o objeto que ela vai utilizar, no caso o objteo LOTE
+    template_name = 'table_loteUpdate.html'    # Defino o template html
     fields = ['lote_gerencia', 'lote_proprietario', 'lote_al', 'lote_ano', 'lote_responsavel', 'lote_alienacaoAutorizada', 'lote_quantidadeFoto', 'lote_localArmazenamento', 'lote_isaSipa', 'lote_dataSipa', 'lote_tipoVenda', 'lote_leilao', 'lote_isaEnvioArm', 'lote_dataEnvoArm']
-    context_object_name = 'historicoLista'
+    # como é uma view de edição, eu preciso definir os campos do objeto que quero permitir que sejam alterados
+    context_object_name = 'historicoLista' # já o context_object_name é uma lista que desejo retornar para a tela
 
     widget= {
         'lote_dataSipa' : forms.DateInput(format='%d-%m-%Y'),
         'lote_al': forms.TextInput(attrs={'class':'form-control form-control-sm'})
-    }
+    }  # nesse widget eu posso desenhar o formulário que eu quero jogar para a tela, serve para atribuir class em css e outros coisas relativas ao layout, quando você estiver trabalhando nas melhorias do layout, vale a pena usar
 
-    def form_valid(self, form):
-        lote = LOTE.objects.get(lote_lote=self.kwargs['pk'])
+    def form_valid(self, form):   # Como a view é uma premodulada do Django, mas eu preciso fazer algumas outras operações, eu uso essa classe para pegar os valores do formulário
+        lote = LOTE.objects.get(lote_lote=self.kwargs['pk'])   # lote recebe o lote que foi passado por argumento na url, no caso a pk
         url = super().form_valid(form)
-        messages.success(self.request, 'Lote atualizado com sucesso!')
+        messages.success(self.request, 'Lote atualizado com sucesso!')   # após validar a alteração, a validação é automática, ele envia essa msg de sucesso
 
-        if(lote.lote_gerencia.pk != int(self.request.POST['lote_gerencia'])):
+        #Abaixo começa a parte de salvar o histórico
+        if(lote.lote_gerencia.pk != int(self.request.POST['lote_gerencia'])):  # Se a gerencia do lote for diferente do que foi colocado no formulario, significa que teve uma alteração na gerência, então precisamos armazenar isso no historico de alterações
             gravarHistorico('Alteração do Lote', self.request.user, lote.lote_lote,'', 'Gerência', lote.lote_gerencia.pk, self.request.POST['lote_gerencia'])
-        if(lote.lote_proprietario != self.request.POST['lote_proprietario']):
+            # esse gravarHistorico faz isso, ela salva na tabela historico, o tipo de alteração, o usuário que fez a alt, o número do lote, nesse momento fica vazio aqui pois é uma alteração no lote somente, o dado anterior e o dado novo alterado.
+        if(lote.lote_proprietario != self.request.POST['lote_proprietario']):  # e o mesmo se refere a todas as alterações que o usuário fez no lote
             gravarHistorico('Alteração do Lote', self.request.user, lote.lote_lote,'', 'Proprietario', lote.lote_proprietario, self.request.POST['lote_proprietario'])
         if(lote.lote_al != self.request.POST['lote_al']):
             gravarHistorico('Alteração do Lote', self.request.user, lote.lote_lote,'', 'AL', lote.lote_al, self.request.POST['lote_al'])
@@ -109,14 +112,14 @@ class LoteUpdateView(LoginRequiredMixin, UpdateView):
                 gravarHistorico('Alteração do Lote', self.request.user, lote.lote_lote,'', 'Data Envio ARM', lote.lote_dataEnvoArm, self.request.POST['lote_dataEnvoArm'])
         return url
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):   # após graver o histórico de alterações, carregamos uma lista para a tela com o histórico de alterações naquele determinado lote
 
         context = super(LoteUpdateView, self).get_context_data(**kwargs)
-        historico = HIST_LOTE.objects.filter(hist_lote=self.kwargs['pk']).filter(hist_material__isnull=True)
-        if historico:
-            context['historicoLista'] = historico
-        else:
-            context['historicoLista'] = LOTE.objects.filter(lote_lote=self.kwargs['pk'])
+        historico = HIST_LOTE.objects.filter(hist_lote=self.kwargs['pk']).filter(hist_material__isnull=True)    # a tabela historico é filtrada de acordo pela chave primaria do lote
+        if historico:   # Se já tiver ocorrido alteração naquele lote
+            context['historicoLista'] = historico     # historicoLista recebe a lista de alterações da tabela historico
+        else:    # caso não
+            context['historicoLista'] = LOTE.objects.filter(lote_lote=self.kwargs['pk'])   # ele retonra a lista de lotes 
         return context
 
 class LoteCreateView(LoginRequiredMixin, CreateView):
@@ -139,20 +142,20 @@ class LoteCreateView(LoginRequiredMixin, CreateView):
         success_url = reverse_lazy('lote-interno', kwargs={'pk': self.pk})
         return url
 
-def gravarHistorico(tipoAlteracao, usuario, lote, material, coluna, anterior, novo):
+def gravarHistorico(tipoAlteracao, usuario, lote, material, coluna, anterior, novo):  # Essa classe que grava as alterações que o user pode fazer tanto no lote quanto no lote_det
     historico = HIST_LOTE()
     historico.hist_tipoAlteracao = tipoAlteracao
     historico.hist_user = usuario
-    if material:
+    if material:   # Se tiver passado o material, significa que foi uma alteração no material do lote, no lote_det
         historico.hist_lote = LOTE.objects.get(lote_lote=lote)
         historico.hist_material = LOTE_DET.objects.get(pk=material)
-    else:
+    else:   # Se não, foi uma alteração no lote 
         historico.hist_lote = LOTE.objects.get(lote_lote=lote)
 
     historico.hist_coluna = coluna
     historico.hist_dadoAnterior = anterior
     historico.hist_dadoNovo = novo
-    historico.save()
+    historico.save()   # Salva os valores de alteração e retorna para o update, seja de lote ou de lote_det
 
 class LoteDetCreateView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
@@ -269,16 +272,16 @@ class novoFormBusca(forms.Form):
     #lote_leilao
     nm = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="NM:", required=False)
 
-@login_required
+@login_required   #Como expliquei antes, isso serve para forçar o login anteriormente
 def LotesBusca(request):
 
-    if request.method=="POST":
+    if request.method=="POST":  # Se chegamos na página a partir de um POST do formulario:
         
         formBuscaLote = novoFormBusca(request.POST)
-        if formBuscaLote.is_valid():
+        if formBuscaLote.is_valid():  # Se o formulario for valido
             listaFinal = []
-            lote = formBuscaLote.cleaned_data["lote"]
-            ano = formBuscaLote.cleaned_data["ano"]
+            lote = formBuscaLote.cleaned_data["lote"]   # lote recebe o valor de lote no formulario
+            ano = formBuscaLote.cleaned_data["ano"]   # e todos os outros recebem seus respectivos valores do formulario
             gerencia = formBuscaLote.cleaned_data["gerencia"]
             proprietario = formBuscaLote.cleaned_data["proprietario"]
             al = formBuscaLote.cleaned_data["al"]
@@ -288,32 +291,32 @@ def LotesBusca(request):
             tipoVenda = formBuscaLote.cleaned_data["tipoVenda"]
             nm = formBuscaLote.cleaned_data["nm"]
 
-            lista = LOTE.objects.all()
-            if lote:
-                lote = lote.split(',')
-                query = Q(lote_lote=0)
-                for a in lote:
-                    query.add(Q(lote_lote=a), Q.OR)
-                lista = LOTE.objects.filter(query)
-            if ano:
-                lista = lista.filter(lote_ano=ano)
-            if gerencia:
-                queryB = Q(lote_gerencia=0)
+            lista = LOTE.objects.all()    # lista recebe uma lista de todos os lotes que estão no banco de dados
+            if lote:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
+                lote = lote.split(',')   # Como podemos pesquisar por vários lotes, separados por (,), precisamos quebrar essa string por (,) para percorrer todos os lotes que ele quer buscar
+                query = Q(lote_lote=0)    # Esse é um instrumento do Django para criar um query com vários parametros e ir juntando tudo em uma só
+                for a in lote:    # Percorrendo a lista de lotes que ele tá buscando
+                    query.add(Q(lote_lote=a), Q.OR)    # Vou adicionando cada um dos lotes na query que criei acima
+                lista = LOTE.objects.filter(query)    # A lista onde eu busquei todos os lotes anteriormente, agora recebe um filtro de somente os lotes que ele pediu para buscar no formulário
+            if ano:   # Se no formulário tinha um valor ano, nesse caso aqui sempre vai ter porque é um select com valores 2019, 2020 e 2021
+                lista = lista.filter(lote_ano=ano)   # Adiciono o filtro do ano à lista geral
+            if gerencia:   # Se houver gerencia preenchido no form...
+                queryB = Q(lote_gerencia=0)   # Como gerencia posso adicionar uma ou mais segurando o btn ctrl do teclado, ele cria uma lista de gerencias tbm que será incluida na query
                 for gere in gerencia:
-                    queryB.add(Q(lote_gerencia=gere.id), Q.OR)
-                lista = lista.filter(queryB)
-            if proprietario:
-                queryC = Q(lote_proprietario="")
+                    queryB.add(Q(lote_gerencia=gere.id), Q.OR)   # Crio essa nova query vai montando a lista de gerencias a ser buscada
+                lista = lista.filter(queryB)   # Adiciono a query à lista final
+            if proprietario:    # Se houver proprietario na busca...
+                queryC = Q(lote_proprietario="")   # Mesmo esquema acima
                 for prop in proprietario:
                     queryC.add(Q(lote_proprietario=prop), Q.OR)
                 lista = lista.filter(queryC)
-            if al:
+            if al:     # Esse do AL é muito similar ao do lote, pois é uma caixa de texto onde pode-se buscar vários separados por (,)
                 al = al.split(',')
                 queryD = Q(lote_al="")
                 for b in al:
                     queryD.add(Q(lote_al__iexact=b), Q.OR)
                 lista = lista.filter(queryD)
-            if responsavel:
+            if responsavel:  # O mesmo serve para os campos abaixo
                 queryE = Q(lote_responsavel=0)
                 for resp in responsavel:
                     queryE.add(Q(lote_responsavel=resp.id), Q.OR)
@@ -333,32 +336,34 @@ def LotesBusca(request):
                 for tipo in tipoVenda:
                     queryH.add(Q(lote_tipoVenda=tipo), Q.OR)
                 lista = lista.filter(queryH)
-            if nm:
-                nm = nm.split(',')
-                for a in nm:
+            if nm:   # Esse do NM está fora da lógica, pq como te falei NM é um atributo de Materiais, e não de lote
+                # Essa busca está aqui para buscarmos pelo NM e conseguirmos saber em qual lote ele está
+                nm = nm.split(',')  # Como é uma caixa de texto com uma lista separada por (,)
+                for a in nm:    # percorremos essa lista
                  
-                    material = MATERIAL.objects.get(mate_cod=a)  
-                    lode = LOTE_DET.objects.get(lode_material=material) 
-                    lista = LOTE.objects.filter(lote_lote = lode.lode_lote)
+                    material = MATERIAL.objects.get(mate_cod=a)  # fazemos uma busca de todos os materiais com os NMs buscados
+                    lode = LOTE_DET.objects.get(lode_material=material)   # fazemos uma busca de todos os lote_det com base nos materiais que foram retornados na busca acima
+                    lista = LOTE.objects.filter(lote_lote = lode.lode_lote)    # fazemos uma busca de todos os lotes com base nos lote_det buscados acima
                     
+                # no caso dessa busca por NM, ela apaga a busca por todos os campos anteriores, ou seja, só retorna a busca dela, pois é uma busca em tabelas diferentes
 
-            valorContabil = 0
-            locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-            for lotes in lista:
-                lodes = LOTE_DET.objects.filter(lode_lote=lotes.lote_lote)
-                valorVMA=0
-                for lode in lodes:
-                    valorContabil = valorContabil + lode.lode_valorContabilTotal
-                    valorVMA = valorVMA + lode.lode_vmaTotal
+            valorContabil = 0   # Aqui eu inicializo a variavel com valor igual a zero
+            locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')    # Defino o local para posteriormente definir a moeda
+            for lotes in lista:   # percorrendo toda a lista de lotes com base na busca que foi realizada
+                lodes = LOTE_DET.objects.filter(lode_lote=lotes.lote_lote)    # para cada lote eu busco na tabela lote_det
+                valorVMA=0   # inicializo a variavel valorVMA
+                for lode in lodes:    # percorro a lista de lote_det retornada
+                    valorContabil = valorContabil + lode.lode_valorContabilTotal  # Pego o valor de cada material e vou somando
+                    valorVMA = valorVMA + lode.lode_vmaTotal   # pego o valor de cada valorVMA e vou somando
 
-            valorContabil = locale.currency(valorContabil, grouping=True)
+            valorContabil = locale.currency(valorContabil, grouping=True)   # Apos fazer o somatório total, eu retorno o valor contabil da busca geral de lotes em formato de moeda em reais para a tela
             #round(valorContabil, 2)
                 
             return render(request, 'table_lotesLista.html', {
                 'lotes':lista,
                 'valorContabil':valorContabil,
                 'formBusca': formBuscaLote,
-                'formBuscaB': formBuscaLote
+                'formBuscaB': formBuscaLote  # Aqui eu renderizo o template table_lotesLista.html, essa variável lotes recebe a lista de lotes que eu trate e o formBusca recebe o mesmo formulário que foi buscado
             })
         else:
             lista = None
@@ -366,11 +371,11 @@ def LotesBusca(request):
                 'lotes':lista,
                 'formBusca': formBuscaLote
             })
-    else:
-        lista = None
-        return render(request, 'table_lotesLista.html', {
+    else:  # Como viemos até essa view sem um metodo post do formulario
+        lista = None   # A lista que vai carregar no template recebe valor nulo
+        return render(request, 'table_lotesLista.html', {   
             'lotes':lista,
-            'formBusca':novoFormBusca()
+            'formBusca':novoFormBusca()     # retornamos a renderização do template table_lotesLista.html, onde lotes vai ser nulo e o formulario que vamos carregar é um novo formulário de buscas
         })
 
 class formUpload(forms.Form):
@@ -776,14 +781,15 @@ def ListaGerencial(request):
             'novoFormLeilao':novoFormLeilao()})
 
 
-def export(request):
+def export(request):   # View para exportar os lotes buscados
 
-    if request.method=="POST":
+    if request.method=="POST":   # Novamente se chegamos aqui por um metodo post
         
         formBuscaLote = novoFormBusca(request.POST)
         if formBuscaLote.is_valid():
             listaFinal = []
-            lote = formBuscaLote.cleaned_data["lote"]
+            lote = formBuscaLote.cleaned_data["lote"]   # eu atribuo a uma variavel cada um dos campos do formulário e tudo nessa view é muito similar a view de busca que falei anteriormente
+            # Como ela é muito similar, eu penso que depois desses testes é possível encapsular tudo isso e colocar uma função só pra tratar dessa busca, que seriviria para ambas as views
             ano = formBuscaLote.cleaned_data["ano"]
             gerencia = formBuscaLote.cleaned_data["gerencia"]
             proprietario = formBuscaLote.cleaned_data["proprietario"]
@@ -849,11 +855,11 @@ def export(request):
 
     listaB = LOTE_DET.objects.all()
     queryM = Q(lode_lote=0)
-    for lotes in lista:
-        queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)
-    listaB = LOTE_DET.objects.filter(queryM)
+    for lotes in lista:    # aqui eu percorro a lista de lotes
+        queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
+    listaB = LOTE_DET.objects.filter(queryM)  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
           
-    response = HttpResponse(content_type='application/ms-excel')
+    response = HttpResponse(content_type='application/ms-excel')   # parametros para criar o arquivo excel
 
     response['Content-Disposition'] = 'attachment; filename="export.xls"'
 
@@ -873,9 +879,10 @@ def export(request):
             'Quantidade Não Localizada', 'Quantidade Atual', 'Unidade', 'ISA de Retirada', 'Data de Retirada', 
             'Valor Contábil Unitário', 'Valor Contábil Total', 'Valor Contábil Total Atual', 'Valor Reposição Unitário',
             'Valor Total Reposição', 'Valor Comparação VMA', 'VMA Unitário', 'VMA Total', 'VMA Percentual do Lote']
+    # primeira linha do excel
 
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
+    for col_num in range(len(columns)):   # percorro a quantidade de colunas definido na primeira linha
+        ws.write(row_num, col_num, columns[col_num], font_style)   # vou escrevendo célula por célula com os atributos ao lado
 
     font_style = xlwt.XFStyle()
 
@@ -892,10 +899,10 @@ def export(request):
         'lode_valorContabilTotalAtual', 'lode_valorReposicaoUnitario', 'lode_valorTotalReposicao', 
         'lode_valorComparacaoVMA', 'lode_vmaUnitario', 'lode_vmaTotal', 'lode_vmaPercentualLote')
 
-    for row in rows:
-        row_num += 1
-        for col_num in range(len(row)):
+    for row in rows:   # percorro a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
+        row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
+        for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
             ws.write(row_num, col_num, row[col_num], font_style)
 
-    wb.save(response)
-    return response
+    wb.save(response)   # Salvo o excel
+    return response    # Retorno
