@@ -23,33 +23,32 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-class DisputaAbertaView(LoginRequiredMixin, ListView):
-    model = DISPUTA_ABERTA
-    template_name = 'table_disputaAbertaLista.html'
+class DisputaAbertaView(LoginRequiredMixin, ListView):    # Essa é a view da lista de Disputa Aberta. É uma view generica do Django, uma listview super simples
+    model = DISPUTA_ABERTA     # Defino o model que ela puxa 
+    template_name = 'table_disputaAbertaLista.html'     # defino o template que ela utiliza
 
-    def get_queryset(self):
+    def get_queryset(self):    # monto a query, isso não seria necessário agora, mas futuramente vai ser, até porque se colocar qualquer filtro, tem que ser aqui
 
-        self.object_list = DISPUTA_ABERTA.objects.all()
-        return self.object_list
+        self.object_list = DISPUTA_ABERTA.objects.all()    # Busco todos os dados de disputa aberta direta
+        return self.object_list     # Retorno a lista para o template
 
-class LotesDetView(LoginRequiredMixin, ListView):
-    model = LOTE_DET
-    template_name = 'table_lotesDetLista.html'
-    context_object_name = 'lote'
+class LotesDetView(LoginRequiredMixin, ListView):     # Essa é a view para visualizar a lista de materiais de um determinado lote
+    # ESSA É MAIS UMA VIEW GENERICA DO PROPRIO DJANGO
+    model = LOTE_DET     # Nela usamos como model a tabela LOTE_DET
+    template_name = 'table_lotesDetLista.html'     # Definimos o respectivo template
+    context_object_name = 'lote'     # Enviamos uma variável que precisaremos para montar os links de edição
     
 
-    def get_queryset(self, **kwargs):
+    def get_queryset(self, **kwargs):    # Nesse caso precisamos utilizar o get_queryset obrigatóriamente, pois não busco todos os dados da tabela e sim dados de acordo com um determinado filtro
 
-        #lote = self.get('buscaLote')
-        #self.object_list = LOTE.objects.filter(lote_lote=lote)
-        self.object_list = LOTE_DET.objects.filter(lode_lote=self.kwargs['pk'])
-        return self.object_list
+        self.object_list = LOTE_DET.objects.filter(lode_lote=self.kwargs['pk'])   # A lista de objetos que vou retornar para o template é uma lista de LOTE_DET onde a coluna lode_lote = ao argumento passado, no caso PK
+        return self.object_list    # Retorno a lista de objetos
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):     # Esse get context serve para enviar algumas variáveis que utilizarei para criar links 
 
         context = super(LotesDetView, self).get_context_data(**kwargs)
         context['lote'] = LOTE.objects.filter(lote_lote=self.kwargs['pk'])
-        return context
+        return context    # Retorno na variável context o número do lote também para o template
 
 class LoteInternoView(LoginRequiredMixin, ListView):
     model = LOTE
@@ -610,34 +609,35 @@ class novoFormLeilao(forms.Form):
     data = forms.DateField(widget=forms.DateTimeInput(attrs={'class':'form-control form-control-sm'}),label="Data do Leilão:", required=False)
 
 @login_required
-def LeilaoUpload(request):
+def LeilaoUpload(request):    # view para inserir um novo leilao e dados da disputa aberta em massa
 
-    if request.method=="POST":
+    if request.method=="POST":      # se o formulario for metodo post
         form = novoFormLeilao(request.POST, request.FILES)
         if form.is_valid():
 
             log = open('C:\\Users\\BP6G\\logLeiloesPainelSAM.csv', 'w', newline='', encoding='utf-8')
             upload = ""
-            nome = request.POST['nome']
-            data = request.POST['data']
+            # AQUI TEMOS A MAIOR DIFERENÇA DA VIEW DE INSERÇÃO EM MASSA
+            nome = request.POST['nome']    # Pego o valor de nome que tiver no formulário
+            data = request.POST['data']    # Pelo a data que estiver no formulário
             
-            leilao = LEILAO()
-            leilao.leil_nome = nome
-            leilao.leil_dataResultadoLeilao = datetime.strptime(data, '%d/%m/%Y').date()
+            leilao = LEILAO()    # Crio um novo objeto do tipo leilão
+            leilao.leil_nome = nome    # Atibuo o nome
+            leilao.leil_dataResultadoLeilao = datetime.strptime(data, '%d/%m/%Y').date()    # Atribuo a data
             try:
-                leilao.save()
+                leilao.save()     # Tento salvar
             except Exception as e:
                 print('Erro ao salvar o leilao.')
                 print('%s' % (type(e)))
                 return ('Erro ao salvar o leilao')
             
-            upload = request.FILES['frmLeilaoUpload'].read().decode('latin-1').splitlines()
+            upload = request.FILES['frmLeilaoUpload'].read().decode('latin-1').splitlines()     # Agora começo a ler o csv que foi upado
             reader = csv.reader(upload, delimiter=';', quotechar='|')
             listaLotes = []
             erro = ''
             linha = 0
             next(reader)
-
+            # TODA ESSA PARTE DE LEITURA DO CSV E PERCORRER O CSV E INSERIR EM NOVOS OBJETOS É IGUAL A PARTE DE LOTES
             for dadosLinha in reader:
 
                 #Inserir dados até a linha: 
@@ -651,24 +651,24 @@ def LeilaoUpload(request):
                         except:
                             a = 1
 
-                        if numero_lote:
-                            if (inserirComprador(dadosLinha[1], dadosLinha[2], dadosLinha[3], dadosLinha[4], dadosLinha[5], dadosLinha[6], dadosLinha[7], dadosLinha[8], dadosLinha[10]) == True):
+                        if numero_lote:      # Caso no campo lote do csv esteja tudo certinho e exista o lote:
+                            if (inserirComprador(dadosLinha[1], dadosLinha[2], dadosLinha[3], dadosLinha[4], dadosLinha[5], dadosLinha[6], dadosLinha[7], dadosLinha[8], dadosLinha[10]) == True):     # Insiro o Comprador e seus dados utilizando a função inserirComprador
                                 a = 1
-                            else: return ('Campo Comprador é obrigatório. Verifique se está vazio ou incorreto!')
+                            else: return ('Campo Comprador é obrigatório. Verifique se está vazio ou incorreto!')    # Se não conseguir dá erro
 
-                            numero_lote.lote_leilao = leilao
-                            numero_lote.lote_tipoVenda = "Vendido"
-                            numero_lote.save()
+                            numero_lote.lote_leilao = leilao      # Caso tenha inserido, ou o coprador já exista, eu insiro na tabela LOTE o leilão que o lote foi leiloado
+                            numero_lote.lote_tipoVenda = "Vendido"      # Mudo na tabela lote o valor de tipoVenda para Vendido
+                            numero_lote.save()      # Salvo as alterações do referido lote
 
-                            disputaAberta = DISPUTA_ABERTA()
-                            disputaAberta.diab_lote = numero_lote
-                            disputaAberta.diab_comprador = COMPRADOR.objects.get(comp_cnpj = dadosLinha[1])
+                            disputaAberta = DISPUTA_ABERTA()      # Crio um novo objeto de disputa aberta
+                            disputaAberta.diab_lote = numero_lote     # Insiro o lote
+                            disputaAberta.diab_comprador = COMPRADOR.objects.get(comp_cnpj = dadosLinha[1])    # Insiro o novo comprador
                             try:
-                                disputaAberta.diab_lanceTotal = float(dadosLinha[9].replace(',','.'))
+                                disputaAberta.diab_lanceTotal = float(dadosLinha[9].replace(',','.'))    # Insiro o lance que foi dado
                             except:
-                                log.write('Erro na linha: '+str(linha+2)+'. O valor do lance não foi inserido. Não é númeral. \n')
+                                log.write('Erro na linha: '+str(linha+2)+'. O valor do lance não foi inserido. Não é númeral. \n')    # Validação do erro no log
 
-                            disputaAberta.save()
+                            disputaAberta.save()     # Salvo a nova disputa aberta
                             if erro:
                                 log.write('Erro na linha: '+str(linha+2)+'. '+erro+'\n')
                         else: 
@@ -676,7 +676,7 @@ def LeilaoUpload(request):
                     else:
                         log.write('Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!\n')
                 linha+=1
-            log.close()
+            log.close()     # Fecho o log
 
             return render(request, 'form_leilaoNovo.html', {
                 'lotes':listaLotes,
@@ -695,18 +695,18 @@ def LeilaoUpload(request):
         return render(request, 'form_leilaoNovo.html', {
             'lotes':lista,
             'novoFormLeilao':novoFormLeilao()
-        })
+        })    # Rederizo para a tela de acordo com cada um dos casos
 
-def inserirComprador(cnpj, nomeComp, telefoneRes, telefoneCom, celular, cidade, estado, endereco, email):
+def inserirComprador(cnpj, nomeComp, telefoneRes, telefoneCom, celular, cidade, estado, endereco, email):     # Essa é a função de apoio para inserir o comprador
 
-    #Estrutura de Material
+    # Somente insiro os valores de acordo com os atributos do model de Comprador, o cnpj é a chave primária, sem ela não insere, ou se ela já existir ele retonar true para a view
     if cnpj:
         comprador = ''
         try: comprador = COMPRADOR.objects.get(comp_cnpj = cnpj) 
         except: a=1
         if comprador:
-            return True
-        else:
+            return True    # Se o comprador já existir retorna true
+        else:     # Se não, cria um novo comprador
             comp = COMPRADOR()
             comp.comp_cnpj = cnpj
             comp.comp_nomeComprador = nomeComp
@@ -724,61 +724,63 @@ def inserirComprador(cnpj, nomeComp, telefoneRes, telefoneCom, celular, cidade, 
         
 
 @login_required
-def ListaGerencial(request):
+def ListaGerencial(request):     # Essa view apresenta a tabela dos dados no formato gerencial conforme solicitado pelo Tiago
 
-    listaGerencial = []
+    listaGerencial = []     # Crio uma nova lista gerencial
     a = 0
-    lista = LOTE.objects.filter(lote_ano=2021).values("lote_isaSipa", "lote_dataSipa")
-    [listaGerencial.append(i) for i in lista if not listaGerencial.count(i)]
+    lista = LOTE.objects.filter(lote_ano=2021).values("lote_isaSipa", "lote_dataSipa")      # Nessa lista eu busco todos os valores da tabela LOTES, do ano de 2021, mas somente as colunas lote_sipa e lote_data_sipa
+    [listaGerencial.append(i) for i in lista if not listaGerencial.count(i)]     # Aqui inicio a criação da lista gerencial, onde pego somente os ISA Sipas sem repetir, formando uma lista somente de ISA SIPAS
     listaFinal = []
-    valorContabilTotal = 0
-    for c in listaGerencial:
-        qtdLotes=0
-        qtdLeilao=0
-        qtdSucatas=0
-        qtdVendidos=0
-        valorContTotal=0
-        valorLeilao=0
-        valorSucata=0
-        for lotes in LOTE.objects.filter(lote_isaSipa = c['lote_isaSipa']):
-            gerencia = lotes.lote_gerencia
-            proprietario = lotes.lote_proprietario
+    valorContabilTotal = 0     # Esse valor contabil é somente para apresentar na parte de cima da tabela
+    for c in listaGerencial:      # Agora começo a montar a lista final a ser enviada para o template
+        if (c['lote_isaSipa'].find(" ")==-1):      # Selecionar somente ISA SIPAS que não possuem espaço vazio " "
+            # Inicialização de variáveis que compõem a tabela, essas variaveis não são atributos de colunas e sim somatórios de valores, somatórios de contadores etc, são informações novas com base nas informações armazenadas no banco
+            qtdLotes=0       # Quantidade de lotes para cada ISA
+            qtdLeilao=0    # Quantidade de lotes que foram a leilão para cada ISA
+            qtdSucatas=0    # Quantidade de lotes sucateados para cada ISA
+            qtdVendidos=0    # Quantidade de lotes que foram vendidos
+            valorContTotal=0    # Somatório de valor contábil de todos os lotes de acordo com cada ISA
+            valorLeilao=0      # Somatório de valor que foi a leilão para cada ISA
+            valorSucata=0     # Somatório de valor que foi sucateado para cada ISA
+            for lotes in LOTE.objects.filter(lote_isaSipa__icontains = c['lote_isaSipa']):    # Buscar dentro da Tabela LOTES, na coluna lote_isaSipa, que contenha o valor da minha lista de ISA SIPAS
+                gerencia = lotes.lote_gerencia     # Nessa lista nova eu adiciono a gerência desse ISA SIPA
+                proprietario = lotes.lote_proprietario   # Adiciono tambem o proprietario desse ISA SPIA
 
-            lodes = LOTE_DET.objects.filter(lode_lote=lotes.lote_lote)
-            valorCont=0
-            for lode in lodes:
-                valorCont = valorCont + lode.lode_valorContabilTotal
-                valorContTotal = valorContTotal + valorCont
+                lodes = LOTE_DET.objects.filter(lode_lote=lotes.lote_lote)    # Seleciono todos os materiais desse lote
+                valorCont=0
+                for lode in lodes:    # Percorro a lista de materiais do determinado lote
+                    valorCont = valorCont + lode.lode_valorContabilTotal    # Vou somando o valor contábil do referido lote
+                    valorContTotal = valorContTotal + valorCont     # Vou somando o valor contábil do lote ao valor total do ISA SIPA
 
-            if(lotes.lote_leilao):
-                qtdLeilao+=1
-                valorLeilao = valorLeilao + valorCont
-            if(lotes.lote_tipoVenda == 'Sucateamento'):
-                qtdSucatas+=1
-                valorSucata = valorSucata + valorCont
-            if(lotes.lote_tipoVenda == 'Vendido'):
-                qtdVendidos+=1
-            qtdLotes+=1
-        c['qtdLotes'] = qtdLotes
-        c['gerencia'] = gerencia
-        c['proprietario'] = proprietario
-        c['qtdLeilao'] = qtdLeilao
-        c['qtdSucatas'] = qtdSucatas
-        c['qtdVendidos'] = qtdVendidos
-        c['valorCont'] = round(valorContTotal, 2)
-        c['valorLeilao'] = round(valorLeilao, 2)
-        c['valorSucata'] = round(valorSucata, 2)
-        listaFinal.append(c)
-        a+=1
-        valorContabilTotal = valorContabilTotal + valorContTotal
+                if(lotes.lote_leilao):    # Se o lote foi a leilão
+                    qtdLeilao+=1    # Adiciono mais 1 ao contador de lotes em leilão
+                    valorLeilao = valorLeilao + valorCont     # O valor que foi a leilão recebe o valor contabil do lote
+                if(lotes.lote_tipoVenda == 'Sucateamento'):     # Se o lote foi sucateado
+                    qtdSucatas+=1    # Adciono mais 1 ao contador de lotes sucateados
+                    valorSucata = valorSucata + valorCont     # Valor que foi sucateado recebe o valor contabil do lote
+                if(lotes.lote_tipoVenda == 'Vendido'):     # Se o lote foi vendido
+                    qtdVendidos+=1    # Adiciono mais 1 ao contador de lotes vendidos
+                qtdLotes+=1    # Contador geral de lotes recebe mais 1
+            c['qtdLotes'] = qtdLotes     # lista final recebe a quantidade de lotes
+            c['gerencia'] = gerencia     # lista final recebe a gerencia do ISA SIPA
+            c['proprietario'] = proprietario     # lista final recebe o proprietario
+            c['qtdLeilao'] = qtdLeilao      # lista final recebe a quantidade de lotes que foi a leilão
+            c['qtdSucatas'] = qtdSucatas     # lista final recebe a quantidade de lotes sucateados
+            c['qtdVendidos'] = qtdVendidos     # lista final recebe a quantidade de lotes vendidos
+            c['valorCont'] = round(valorContTotal, 2)     # lista final recebe o valor contabil total do isa sipa
+            c['valorLeilao'] = round(valorLeilao, 2)     # lista final recebe o valor total dos lotes que foram a leilão
+            c['valorSucata'] = round(valorSucata, 2)      # lista final recebe o valor total de lotes sucateados
+            listaFinal.append(c)     # Adiciono esses dados à listaFinal
+            a+=1
+            valorContabilTotal = valorContabilTotal + valorContTotal     # Fecho o valor contabil total que demonstro em cima da tabela
     
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-    valorContabilTotal = locale.currency(valorContabilTotal, grouping=True)
+    valorContabilTotal = locale.currency(valorContabilTotal, grouping=True)    # Apresento como valor monetário
 
     return render(request, 'table_gerencial.html', {
             'lista':listaFinal,
             'valorTotal':valorContabilTotal,
-            'novoFormLeilao':novoFormLeilao()})
+            'novoFormLeilao':novoFormLeilao()})    # Carrego para o template a variavel lista, que contem a nossa listaFinal com todos os atributos que enviamos. Carrego para o template o valorContabil e carrego um novo form que não está sendo utilizado por enquanto. O template é o table_gerencial
 
 
 def export(request):   # View para exportar os lotes buscados
