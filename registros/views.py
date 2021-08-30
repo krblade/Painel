@@ -21,6 +21,9 @@ from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 
+
+# TESTEEEEEEEE GITTTT 
+
 # Create your views here.
 
 class DisputaAbertaView(LoginRequiredMixin, ListView):    # Essa é a view da lista de Disputa Aberta. É uma view generica do Django, uma listview super simples
