@@ -162,16 +162,14 @@ class COMPRADOR(models.Model):
 class DISPUTA_ABERTA(models.Model):
     diab_lote = models.ForeignKey(LOTE, on_delete=models.CASCADE)
     diab_comprador = models.ForeignKey(COMPRADOR, on_delete=models.SET_NULL, null=True)   # Ja temos as infos abaixo na tabela comprador
-    diab_comunicadoVendaEnviado = models.CharField(max_length=50, null=True)
-    diab_valorVendaLanceTotal = models.FloatField(null=True)
-    diab_valorVendaSab = models.FloatField(null=True)
-    diab_prazoPagamento = models.FloatField(null=True)
-    diab_dataPagamento = models.DateField(null=True)
-    diab_valorPago = models.FloatField(null=True)
-    diab_email = models.CharField(max_length=50, null=True)     # RETIRAR
-    diab_telefone = models.CharField(max_length=50, null=True)    # RETIRAR
-    diab_lanceUnitario = models.FloatField(null=True)
-    diab_lanceTotal = models.FloatField(null=True)
+    diab_comunicadoVendaEnviado = models.CharField(max_length=50, null=True, blank=True)
+    diab_valorVendaLanceTotal = models.FloatField(null=True, blank=True)
+    diab_valorVendaSab = models.FloatField(null=True, blank=True)
+    diab_prazoPagamento = models.FloatField(null=True, blank=True)
+    diab_dataPagamento = models.DateField(null=True, blank=True)
+    diab_valorPago = models.FloatField(null=True, blank=True)
+    diab_lanceUnitario = models.FloatField(null=True, blank=True)
+    diab_lanceTotal = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.diab_lote} : {self.diab_comprador}"

@@ -360,6 +360,18 @@ def LotesBusca(request):
 
             valorContabil = locale.currency(valorContabil, grouping=True)   # Apos fazer o somatório total, eu retorno o valor contabil da busca geral de lotes em formato de moeda em reais para a tela
             #round(valorContabil, 2)
+#211100002
+
+            #listao = [211590016, 211590028, 211590036, 211590108, 211690011, 211690021, 211690024, 211690029, 211690037, 211690045, 211690050, 211690052, 211690055, 211690057, 211690067, 211690068, 211690070, 211690078, 211690079, 211690088]
+
+
+            #for l in listao:
+            #    print(l)
+            #    lt = LOTE.objects.get(lote_lote=l)
+            #    lt.lote_leilao = LEILAO.objects.get(leil_nome="SUPERBID 97799- SUB 0001-2021")
+            #    lt.lote_tipoVenda = "Sucateamento"
+            #    lt.save() 
+            
                 
             return render(request, 'table_lotesLista.html', {
                 'lotes':lista,
