@@ -21,9 +21,7 @@ from django.http import HttpResponse
 from itertools import chain
 
 from django.contrib.auth.decorators import login_required
-From andre.contrib
-From andre.contrib
-#####novog
+# tirando erro
 # TESTEEEEEEEE GITTTT 
 
 # Create your views here.
