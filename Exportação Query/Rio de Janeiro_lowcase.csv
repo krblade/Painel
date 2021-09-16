@@ -1,0 +1,537 @@
+lote_lote,lote_proprietario,lote_al,lote_ano,lote_alienacaoAutorizada,lote_quantidadeFoto,lote_localArmazenamento,lote_isaSipa,lote_dataSipa,lote_tipoVenda,lote_isaEnvioArm,lote_dataEnvoArm,lote_gerencia_id,lote_leilao_id,lote_responsavel_id,lote_vmaLote
+190002-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,16,,,
+190009-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+190227-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+190227-B,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+190227-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+190263-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+190585-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+190618-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+190627-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+190772-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+190915-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+190994-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+191185-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191405-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+190015.1-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+190175.1-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+190200.1-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+190203-ES-A,,AL-19,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,23,,,
+190826.1-ES-B,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+194210-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,12,,,
+194506-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+194066-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+194506.2-C,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,17,,,
+194513-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+192060-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+191727-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191714-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191675-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191714-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191675-B,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+194091.2-C,,AL-02,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,11,,,
+191675-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+194583-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191727-B,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+194697-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+194678-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+194091-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191727-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191675.2-C,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,11,,,
+191756-B,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,11,,,
+193420-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+194699-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+191727.2-C,,AL-02,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,11,,,
+191989-RIO-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+193516-RIO-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+193844-RIO-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+194413-RIO-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+194451-RIO-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+194380-ES-C,,AL-64,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191833-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+194400-ES-C,,AL-25,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191889-ES-C,,AL-51,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191486-ES-B,,AL-13,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191486.2-ES-B,,AL-13,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,23,,,
+192340-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192299-ES-C,,AL-64,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191494-ES-B,,AL-03,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,23,,,
+191515-ES-B,,AL-64,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192472-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192343-ES-B,,AL-03,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,23,,,
+192343-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192813-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191521-ES-B,,AL-18,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,23,,,
+191985-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191725-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192112-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191990-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193461-ES-C,,AL-51,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192105-ES-C,,AL-11,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192137-ES-C,,AL-11,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193542-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192534-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192510-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193111-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192587-ES-C,,AL-64,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193248-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192785-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192873-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192748-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192821-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193700-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192838-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193292-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192643-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193799-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+194376-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193230-ES-C,,AL-23,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192386-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+191696-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193141-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+194398-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192874-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193685-ES-C,,AL-51,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193540-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193442-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192156-ES-B,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193242-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192972-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193611-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193258-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193289-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+192664-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193668-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193558-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193077-ES-C,,AL-64,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+194274-ES-C,,AL-64,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193917-ES-C,,AL-26,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193573-ES-C,,AL-03,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+193732-ES-C,,AL-18,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+194151-ES-C,,AL-11,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,23,,,
+195496-A,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+198150-A1,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+198240-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198243-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198240-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198288-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198260-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198299-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198269-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198266-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198278-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198279-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+198261-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,20,,,
+199235-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199337-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198997-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199022-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198782-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199310-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198450-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198956-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199218-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199301-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198776-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199403-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199432-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199338-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198873-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198890-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198903-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198394-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198403-A1,,AL-02,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+199367-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199347-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199291-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198401-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+199072-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+199388-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198859-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198717-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198812-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198572-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198840-C,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198658-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198794-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198946-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198768-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198683-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198391-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198701-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198858-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198612-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198450-A1,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198660-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198463-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198612-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198457-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198784-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198718-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198598-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+198401-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198660-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+198620-A1,,AL-01,2019,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,24,,,
+199087-C,,AL-01,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,24,,,
+190000-A,,AL-02,2019,Autorizada,0,Rio de Janeiro - RJ,,,,,,26,,,
+200003,,AL-02,2020,Autorizada,3,Rio de Janeiro - RJ,,,,,,10,,,154963.1088
+200015,,AL-02,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,10,,,268000.4009
+200004,,AL-01,2020,Autorizada,3,Rio de Janeiro - RJ,,,,,,30,,,35659.2304
+200032,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,19110.4857
+200042,,AL-02,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,17,,,130669.1001
+200048,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,6264.621
+200024,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,10,,,364884.3104
+200046,,AL-01,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,30,,,11665.0202
+200040,,AL-01,2020,Autorizada,4,Rio de Janeiro - RJ,,,,,,10,,,28015.3994
+200110,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,5140.8467
+200153,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1638.1654
+200163,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,11,,,78664.2371
+200188,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,2867.6164
+200193,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1017.9739
+200218,,AL-01,2020,Não Autorizado,1,Rio de Janeiro - RJ,,,,,,30,,,34580.2813
+200118,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,11,,,1463878.0831
+200208,,AL-01,2020,Autorizada,4,Rio de Janeiro - RJ,,,,,,11,,,6361.0374
+200247,,AL-01,2020,Não Autorizado,1,Rio de Janeiro - RJ,,,,,,10,,,57492.4298
+200145,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,11,,,3603218.9341
+200268,,AL-02,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,28,,,13489.9587
+200198,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,2959.321
+200273,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1775.5926
+200323,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,23974.8226
+200345,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,17,,,524.43
+200248,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,897.2211
+200352,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,17136.0
+200380,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,526.9386
+200399,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,440.0738
+200316,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1238.6375
+200425,,AL-02,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,17,,,2662.6182
+200322,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,3192.1189
+200262,,AL-01,2020,Autorizada,3,Rio de Janeiro - RJ,,,,,,30,,,2861.3306
+200494,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,6095.7428
+200506,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,505.3161
+200332,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,849.526
+200320,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,727.312
+200228,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,31,,,5036.3535
+200349,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1051.1342
+200143,,AL-01,2020,Autorizada,4,Rio de Janeiro - RJ,,,,,,30,,,13142.6827
+200564,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,1233.894
+200565,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,363.2748
+200498,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,102.4769
+200530,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,30,,,15844.0481
+200455,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,3058.6179
+200367,,AL-02,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,11,,,83775.4268
+200553,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,7773.8405
+200611,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,878.827
+200674,,AL-55,2020,Autorizada,4,Rio de Janeiro - RJ,,,,,,10,,,2062.751678
+200600,,AL-02,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,11,,,77542.7611
+200219,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,31,,,5518.0319
+200612,,AL-01,2020,Autorizada,3,Rio de Janeiro - RJ,,,,,,30,,,447.9636
+200549,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,371.8506
+200361,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,31,,,2572.4084
+200497,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,730.8381
+200431,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,362655.276522
+200072,,AL-01,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,11,,,184978.8617
+200461,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,374.3977
+200491,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,1261.0025
+200527,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,474.7171
+200622,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,770.6118
+200644,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,28,,,257.358
+200688,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,138.1224
+200665,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,98.986
+200519,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,957.4207
+200705,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,105.2517
+200650,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1738.1472
+200738,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,916.536068
+200558,,AL-02,2020,Autorizada,5,Rio de Janeiro - RJ,,,,,,31,,,13536.0506268
+200745,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,263.991
+200752,,AL-02,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,28,,,469.364
+200753,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,388.2069
+200755,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,151.902
+200756,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,28,,,105.0113
+200772,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,211.0991
+200775,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1313.9894
+200776,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,1732.7127
+200389,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,1212.5779
+200786,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,1416.93
+200808,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,44.1807
+200601,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,333.726
+200810,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,550.392
+200814,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,31,,,199899.9522
+200689,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,128.8575
+200296,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,5624.1592
+200761,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,17668.9727
+200760,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,7952.821
+200866,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,130.6755
+200873,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,1139.9221
+200875,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,198.9787
+200229,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,11,,,12084.5933
+200914,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,116.2817
+200926,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,163.2288
+200736,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,239.1346
+200939,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,28,,,101.21
+200940,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,28,,,9.8396
+200763,,AL-01,2020,Não Autorizado,4,Rio de Janeiro - RJ,,,,,,11,,,47013.0311
+200957,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,16.4484
+200959,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,268.8
+200963,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,41.6052
+200894,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,131.4987
+200938,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,56.6352
+201001,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,3.85
+201036,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,1.7754
+200954,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,15.968
+201058,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,2.9555
+201077,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,21.051
+200235,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,11,,,1994.7208
+200137,,AL-02,2020,Não Autorizado,2,Rio de Janeiro - RJ,,,,,,28,,,3150392.4723
+200299,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,11,,,5046.6487
+200823,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,29,,,460.36
+200362,,AL-01,2020,Não Autorizado,3,Rio de Janeiro - RJ,,,,,,11,,,23516.6471
+200863,,AL-02,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,11,,,398.6502
+200982,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,54.258
+201074,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,31,,,4378.4586
+201110,,AL-02,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,30,,,0.0
+200909,,AL-02,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,101.2264
+200998,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,264.262
+200680,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,11,,,6454.336
+200439,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,2092.3
+200405,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,453.7485
+200191,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,11,,,1359.9292
+201132,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,31,,,77524.4438
+201135,,AL-02,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,1288.9632
+201170,,AL-02,2020,Não Autorizado,1,Rio de Janeiro - RJ,,,,,,11,,,55.02
+200856,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,45.0528
+200812,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,697.77
+200442,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,380.0
+201154,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,1323.9678
+201146,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,31,,,3654.4133
+200921,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,169.554
+200393,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1693.2056
+200224,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,1038.4208
+201181,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,11,,,10931.9448
+201172,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,561.2723
+203706,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,3803.286036
+203707,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,17,,,0.0
+203708,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,17,,,406058.019672
+203709,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,38175.578292
+203710,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,17,,,10547.5915439
+203711,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,13187.685796
+203649,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,830.4054254
+203650,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,7.727373689
+203651,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,0.047488267
+203652,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,12.479500024
+203653,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,331.7292377
+203654,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1265.52434902
+203655,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,169.49013446
+203656,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,28.59789223
+203657,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,72865.055299
+203658,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,187.436369
+203659,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,592.443581449
+203660,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,95.349275953
+203661,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,35.276832788
+203662,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,206.639089122
+203663,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,15.43632341
+203664,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,25.59998939
+203665,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1851.507118
+203666,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,70718.27498
+203667,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,12.35626541
+203668,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1172.135469664
+203669,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1249.6551289
+203670,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,557.99753102
+203671,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1158.110935
+203672,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1.808866697
+203673,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,474.4567191
+203674,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,296.6574074
+203675,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,10.35314808
+203676,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,85.21544601
+203677,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,23.54947846
+203678,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,464.7892834
+203679,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,19.87269551
+203680,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,7.722033634
+203681,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,3.901720395
+203682,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,20.29958457
+203683,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,20.392301674
+203684,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,1403.966707122
+203685,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,32.39963231
+203686,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,6.341690301
+203687,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,808.955126704
+203688,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,7.766019855
+203689,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,467.5029084
+203690,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,20.56607989
+203691,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,27.222093483
+203692,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,7.147683521
+203693,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,356.38152
+203694,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,2493.395581
+203695,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,27.38271958
+203696,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,832.025971426
+203698,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,478.852251
+204269,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204270,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204271,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204281,,AL-01,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,30,,,
+204282,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204283,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204284,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204285,,AL-02,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,
+204286,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204287,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204288,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,
+204289,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204290,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204291,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204292,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204293,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,30,,,
+204294,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204295,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204296,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204297,,AL-02,2020,Autorizada,3,Rio de Janeiro - RJ,,,,,,30,,,
+204298,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204299,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,
+204300,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204301,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204302,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204303,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,30,,,
+204304,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204305,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204306,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204307,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204308,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204309,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,30,,,
+204310,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204311,,AL-02,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,32,,,
+204312,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204313,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204314,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204315,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204316,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204317,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204318,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204319,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204320,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204321,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204322,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204323,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204324,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204325,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204326,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204327,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204328,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204329,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204330,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204331,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204332,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204333,,AL-02,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204334,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204335,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204336,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204337,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204338,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204339,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204340,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204341,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204342,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204343,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204344,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204345,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204346,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204347,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204348,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+204349,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,32,,,
+204350,,AL-01,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,32,,,
+204351,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,32,,,
+205010,,AL-02,2020,Autorizada,4,Rio de Janeiro - RJ,,,,,,17,,,
+205011,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+205012,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+206111,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+208749,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208750,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208751,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208752,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208753,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208754,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208755,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208756,,AL-01,2020,Autorizada,1,Rio de Janeiro - RJ,,,,,,27,,,
+208757,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208758,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208759,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+208765,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,17,,,
+208766,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+206112,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+206113,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+206114,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+206115,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,11,,,
+206116,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+206117,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+206118,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+206119,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,11,,,
+206120,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+206121,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+208767,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208768,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208769,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208770,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208771,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208772,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208773,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208774,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,10,,,
+208775,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+300001,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,34,,,
+209480,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+209779,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+209780,,AL-02,2020,Autorizada,2,Rio de Janeiro - RJ,,,,,,17,,,
+209781,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+209782,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+209474,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,11,,,
+SEGUP,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,17,,,
+211713,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211714,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211715,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211716,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211717,,AL-02,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211718,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211719,,AL-02,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,27,,,
+211720,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211721,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211722,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211723,,AL-02,2020,Não Autorizado,0,Rio de Janeiro - RJ,,,,,,27,,,
+211724,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211725,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+211726,,AL-01,2020,Autorizada,0,Rio de Janeiro - RJ,,,,,,27,,,
+C200411,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0041036,2021-07-07,,,,35,,,51759.44
+C200412,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0041036,2021-07-07,,,,35,,,290865.38
+C200413,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0041036,2021-07-07,,,,35,,,13007.06
+C200414,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0041036,2021-07-07,,,,35,,,147888.7
+C200415,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0041036,2021-07-07,Vendido,,,35,9,4,10228.52
+C200381,Parceria,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PGEA/PGEST/CDE 0058/2020,2020-12-17,Vendido,,,36,15,,114351.5974
+C200387,Parceria,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PGEA/PGEST/CDE 0058/2020,2020-12-17,Vendido,,,36,15,,50441.45987
+214010001,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010002,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010003,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010004,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010005,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010006,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010007,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010008,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010009,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010010,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010011,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010012,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010013,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010014,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010015,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010016,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010017,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010018,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010019,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010020,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010021,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010022,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214010023,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214010024,Consorcio,AL-02,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020001,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020002,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020003,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020004,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020005,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
+214020006,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020007,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020008,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,,,,38,,,
+214020009,Consorcio,AL-01,2021,Autorizada,0,Rio de Janeiro - RJ,PBR-2021-0047072,2021-08-24,Sucateamento,,,38,,,
