@@ -310,7 +310,7 @@ def LotesBusca(request):
                     queryB.add(Q(lote_gerencia=gere.id), Q.OR)   # Crio essa nova query vai montando a lista de gerencias a ser buscada
                 lista = lista.filter(queryB)   # Adiciono a query à lista final
             if proprietario:    # Se houver proprietario na busca...
-                queryC = Q(lote_proprietario="")   # Mesmo esquema acima
+                queryC = Q(lote_proprietario="a")   # o "a" é o pararetro padrão da busca.
                 for prop in proprietario:
                     queryC.add(Q(lote_proprietario=prop), Q.OR)
                 lista = lista.filter(queryC)
@@ -939,3 +939,5 @@ def export(request):   # View para exportar os lotes buscados
     wb.save(response)   # Salvo o excel
               
     return response    # Retorno
+
+    
