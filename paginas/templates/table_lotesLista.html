@@ -35,15 +35,21 @@
             <h6 class="m-0 font-weight-bold text-primary">Faça a busca do arquivo e depois insira os lotes salvando</h6>
             {% endif %}
         </a>
-        <!-- Card Content - Collapse -->
+        <!-- Parte onde insere os Leilões  somente usuario do Grupo pode visualiza insersões -->
         <div class="collapse show" id="collapseCardExample">
             <div class="card-body">
                 {% if formBusca %}
                 <form id='busca-lotes' action="{% url 'lotes-lista' %}" method="POST">
                 {% endif %}
                 {% if formUpload %}
-                <form id='upload-lotes' action="{% url 'lotes-upload' %}" method="POST" enctype="multipart/form-data">
-                {% endif %}
+                  {% if request.user|has_group:"Insercao" %} 
+                   <form id='upload-lotes' action="{% url 'lotes-upload' %}" method="POST" enctype="multipart/form-data">
+                    {% else %}
+                    <div class="alert alert-danger" role="alert">
+                      Você não tem permissão!
+                    </div>
+                    {% endif %}
+                   {% endif %}
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-3">
@@ -59,10 +65,7 @@
                     {{ formUpload.frmUpload.errors }}
                     <label for="upload">Inserir lotes com upload de Arquivo Excel</label>
                     <p>{{ formUpload.frmUpload }}</p>
-                   {% else %}
-                      <div class="alert alert-danger" role="alert">
-                        Você não tem permissão!
-                      </div>
+                   
                      {% endif %} 
                 {% endif %}
                     </div>
