@@ -1,5 +1,5 @@
 {% extends 'layout.html'%}
-
+{% load user_tags %}
 {% block content %}
 <!-- Begin Page Content -->
 {% if formBusca %}
@@ -26,10 +26,11 @@
             <h6 class="m-0 font-weight-bold text-primary">Cadastrar Novo Leilão</h6>
             {% endif %}
         </a>
-        <!-- Card Content - Collapse -->
+        <!-- Parte da Pagina para inserir Leilão via planila -->
         <div class="collapse show" id="collapseCardExample">
             <div class="card-body">
                 {% if novoFormLeilao %}
+                {% if request.user|has_group:"Insercao" %} <!-- Somente quem estiver no grupo Inserção pode fazer upload de planhilha csv-->
                 <form id='upload-leilao' action="{% url 'leilao-upload' %}" method="POST" enctype="multipart/form-data">
                 
                 {% csrf_token %}
@@ -63,7 +64,13 @@
                     
                 
                 </form>
+                {% else %}
+                <div class="alert alert-danger" role="alert">
+                    <h2>Você não tem permissão</h2>
+                  </div>  
+                <!-- Caso o usuário logado não pertença ao grupo Insersão-->
                 {% endif %}
+             {% endif %}
             </div>
         </div>
     </div>

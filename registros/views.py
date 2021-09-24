@@ -1,6 +1,5 @@
 from typing import List
 from django.core.checks.messages import ERROR
-from django.db import connection
 from django.forms.widgets import RadioSelect
 from django.shortcuts import render
 from django.views.generic import ListView, UpdateView
@@ -21,7 +20,8 @@ from django.http import HttpResponse
 from itertools import chain
 
 from django.contrib.auth.decorators import login_required
-# tirando erro
+
+
 # TESTEEEEEEEE GITTTT 
 
 # Create your views here.
@@ -271,9 +271,8 @@ class novoFormBusca(forms.Form):
     localArmazenamento = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=ARMAZEM, required=False)
     TIPOVENDA = (('Sucateamento','Sucateamento'), ('Vendido', 'Vendido'), ('', ''))
     tipoVenda = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=TIPOVENDA, required=False)
-    #lote_leilao
     nm = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="NM:", required=False)
-    sipasst = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="SIPA:", required=False)
+    isasipa = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="SIPA:", required=False)
 
 @login_required   #Como expliquei antes, isso serve para forçar o login anteriormente
 def LotesBusca(request):
@@ -293,7 +292,7 @@ def LotesBusca(request):
             localArmazenamento = formBuscaLote.cleaned_data["localArmazenamento"]
             tipoVenda = formBuscaLote.cleaned_data["tipoVenda"]
             nm = formBuscaLote.cleaned_data["nm"]
-            sipasst = formBuscaLote.cleaned_data["sipasst"]
+            isasipa= formBuscaLote.cleaned_data["isasipa"]
 
             lista = LOTE.objects.all()    # lista recebe uma lista de todos os lotes que estão no banco de dados
             if lote:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
@@ -310,7 +309,7 @@ def LotesBusca(request):
                     queryB.add(Q(lote_gerencia=gere.id), Q.OR)   # Crio essa nova query vai montando a lista de gerencias a ser buscada
                 lista = lista.filter(queryB)   # Adiciono a query à lista final
             if proprietario:    # Se houver proprietario na busca...
-                queryC = Q(lote_proprietario="a")   # o "a" é o pararetro padrão da busca.
+                queryC = Q(lote_proprietario="")   # Mesmo esquema acima
                 for prop in proprietario:
                     queryC.add(Q(lote_proprietario=prop), Q.OR)
                 lista = lista.filter(queryC)
@@ -341,13 +340,13 @@ def LotesBusca(request):
                     queryH.add(Q(lote_tipoVenda=tipo), Q.OR)
                 lista = lista.filter(queryH)
             
-            if sipasst:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
-                sipasst = sipasst.split(',')   # Como podemos pesquisar por vários lotes, separados por (,), precisamos quebrar essa string por (,) para percorrer todos os lotes que ele quer buscar
-                queryI = Q(lote_isaSipa="a")    # Esse é um instrumento do Django para criar um query com vários parametros e ir juntando tudo em uma só
-                for sip in sipasst:    # Percorrendo a lista de lotes que ele tá buscando
-                    queryI.add(Q(lote_isaSipa__iexact=sip), Q.OR)    # Vou adicionando cada um dos lotes na query que criei acima
-                lista = lista.filter(queryI)  
-
+            if isasipa:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
+                isasipa = isasipa.split(',')   # Como podemos pesquisar por vários lotes, separados por (,), precisamos quebrar essa string por (,) para percorrer todos os lotes que ele quer buscar
+                queryI = Q(lote_isaSipa="a")    # 
+                for sip in isasipa:    # Percorrendo a lista de lotes que ele tá buscando
+                    queryI.add(Q(lote_isaSipa=sip), Q.OR)    
+                lista = lista.filter(queryI) 
+                
 
             if nm:   # Esse do NM está fora da lógica, pq como te falei NM é um atributo de Materiais, e não de lote
                 # Essa busca está aqui para buscarmos pelo NM e conseguirmos saber em qual lote ele está
@@ -413,7 +412,7 @@ def LotesUpload(request):  #É uma view que solicita por base de uma requisiçã
         form = formUpload(request.POST, request.FILES)
         if form.is_valid():   #Validação se o formulário é válido 
 
-            log = open('C:\\Users\\bp6g\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')   #Aqui eu crio um novo arquivo csv que vai ser onde gravo o log
+            log = open('C:\\Users\\D1GQ\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')   #Aqui eu crio um novo arquivo csv que vai ser onde gravo o log
             
             upload = request.FILES['frmUpload'].read().decode('latin-1').splitlines() # Aqui eu faço a leitura do arquivo csv que o usuário upou
             reader = csv.reader(upload, delimiter=';', quotechar='|')
@@ -641,7 +640,7 @@ def LeilaoUpload(request):    # view para inserir um novo leilao e dados da disp
         form = novoFormLeilao(request.POST, request.FILES)
         if form.is_valid():
 
-            log = open('C:\\Users\\BP6G\\logLeiloesPainelSAM.csv', 'w', newline='', encoding='utf-8')
+            log = open('C:\\Users\\D1GQ\\logLeiloesPainelSAM.csv', 'w', newline='', encoding='utf-8')
             upload = ""
             # AQUI TEMOS A MAIOR DIFERENÇA DA VIEW DE INSERÇÃO EM MASSA
             nome = request.POST['nome']    # Pego o valor de nome que tiver no formulário
@@ -808,7 +807,7 @@ def ListaGerencial(request):     # Essa view apresenta a tabela dos dados no for
             'valorTotal':valorContabilTotal,
             'novoFormLeilao':novoFormLeilao()})    # Carrego para o template a variavel lista, que contem a nossa listaFinal com todos os atributos que enviamos. Carrego para o template o valorContabil e carrego um novo form que não está sendo utilizado por enquanto. O template é o table_gerencial
 
-#--------------------------------------------------------------------------------------------------
+
 def export(request):   # View para exportar os lotes buscados
 
     if request.method=="POST":   # Novamente se chegamos aqui por um metodo post
@@ -883,17 +882,14 @@ def export(request):   # View para exportar os lotes buscados
 
     listaB = LOTE_DET.objects.all()
     queryM = Q(lode_lote=0)
-                  
-
     for lotes in lista:    # aqui eu percorro a lista de lotes
         queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
-   
     listaB = LOTE_DET.objects.filter(queryM)  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
-    
+          
     response = HttpResponse(content_type='application/ms-excel')   # parametros para criar o arquivo excel
-  
+
     response['Content-Disposition'] = 'attachment; filename="export.xls"'
-   
+
     wb = xlwt.Workbook(encoding='utf-8')
     ws = wb.add_sheet('Lotes')
 
@@ -912,9 +908,9 @@ def export(request):   # View para exportar os lotes buscados
             'Valor Total Reposição', 'Valor Comparação VMA', 'VMA Unitário', 'VMA Total', 'VMA Percentual do Lote']
     # primeira linha do excel
 
-    for col_num in range (len(columns)):   # percorro a quantidade de colunas definido na primeira linha
+    for col_num in range(len(columns)):   # percorro a quantidade de colunas definido na primeira linha
         ws.write(row_num, col_num, columns[col_num], font_style)   # vou escrevendo célula por célula com os atributos ao lado
-                        
+
     font_style = xlwt.XFStyle()
 
     rows = listaB.values_list('lode_lote', 'lode_lote__lote_gerencia__gere_nome', 'lode_lote__lote_proprietario', 
@@ -929,15 +925,11 @@ def export(request):   # View para exportar os lotes buscados
         'lode_isaRetirada', 'lode_dataRetirada', 'lode_valorContabilUnitario', 'lode_valorContabilTotal', 
         'lode_valorContabilTotalAtual', 'lode_valorReposicaoUnitario', 'lode_valorTotalReposicao', 
         'lode_valorComparacaoVMA', 'lode_vmaUnitario', 'lode_vmaTotal', 'lode_vmaPercentualLote')
-    
+
     for row in rows:   # percorro a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
         row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
-  
-    for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
-             ws.write(row_num, col_num, row[col_num], font_style)  
- 
-    wb.save(response)   # Salvo o excel
-              
-    return response    # Retorno
+        for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
+            ws.write(row_num, col_num, row[col_num], font_style)
 
-    
+    wb.save(response)   # Salvo o excel
+    return response    # Retorno

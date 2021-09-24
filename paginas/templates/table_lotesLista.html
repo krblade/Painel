@@ -1,5 +1,6 @@
 {% extends 'layout.html'%}
-
+{% load user_tags %}
+{% load static %}
 {% block content %}
 <!-- Begin Page Content -->
 {% if formBusca %}
@@ -30,6 +31,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Selecionar os campos abaixo para fazer uma busca detalhada</h6>
             {% endif %}
             {% if formUpload %}
+
             <h6 class="m-0 font-weight-bold text-primary">Faça a busca do arquivo e depois insira os lotes salvando</h6>
             {% endif %}
         </a>
@@ -47,15 +49,21 @@
                     <div class="form-group col-md-3">
                 {% if formBusca %}
                     {{ formBusca.lote.errors }}
-                    <label for="lote">Busca por Lote</label>
+                    <label for="lote">Busca por Lote</label><br>
                     {{ formBusca.lote }}
                 {% endif %}
                 {% if formUpload %}
+                 {% if request.user|has_group:"Insercao" %}
                     {{ formUpload.non_field_errors }}
                     {{ formUpload.frmUpload.help_text }}
                     {{ formUpload.frmUpload.errors }}
                     <label for="upload">Inserir lotes com upload de Arquivo Excel</label>
                     <p>{{ formUpload.frmUpload }}</p>
+                   {% else %}
+                      <div class="alert alert-danger" role="alert">
+                        Você não tem permissão!
+                      </div>
+                     {% endif %} 
                 {% endif %}
                     </div>
                     <div class="form-group col-md-3">
@@ -65,8 +73,10 @@
                     <p>{{ formBusca.ano }}</p>
                 {% endif %}
                 {% if formUpload %}
+                {% if request.user|has_group:"Insercao" %}
                     <label for="upload">Fazer Download de arquivo padrão</label>
                     <p><a href="https://petrobrasbr-my.sharepoint.com/:x:/g/personal/marcelo-ferreira_stefanini_petrobras_com_br/ESpPVUBpJTVPioR_40VWTkYBRKOfiYa5OtJmdgcNhHBWvw?e=3pkOUj" target="_ blank">Arquivo</a></p>
+                 {% endif %}
                 {% endif %}
                     </div>
                     <div class="form-group col-md-3">
@@ -88,7 +98,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                     {{ formBusca.al.errors }}
-                    <label for="lote">Busca por AL</label>
+                    <label for="lote">Busca por AL</label> <br>
                     {{ formBusca.al }}
                     </div>
                     <div class="form-group col-md-3">
@@ -116,14 +126,14 @@
                
                     <div class="form-group col-md-3">
                     {{ formBusca.nm.errors }}
-                    <label for="nm">Busca por NM</label>
+                    <label for="nm">Busca por NM</label><br>
                     {{ formBusca.nm }}
                     </div>
                     
                     <div class="form-group col-md-3">
-                        {{ formBusca.sipasst.errors }}
-                        <label for="SIPA">Busca por SIPA</label>
-                        {{ formBusca.sipasst }}
+                        {{ formBusca.isasipa.errors }}
+                        <label for="SIPA">Busca por Isa-Sipa</label><br>
+                        {{ formBusca.isasipa }}
                         </div>
 
                 </div>
@@ -134,14 +144,18 @@
                 {% if formBusca %}
                 <button type="submit" id="busca" class="btn btn-primary">Buscar</button>
                 <button type="reset" id="limpar" class="btn btn-primary">Limpar</button>
-                <a href="{% url 'lote-novo' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Novo Lote</a>
-                <a href="{% url 'lotes-upload' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Inserir Lotes em CSV</a>
+                    {% if request.user|has_group:"Insercao" %}
+                        <a href="{% url 'lote-novo' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-download fa-sm text-white-50"></i> Novo Lote</a>
+                        <a href="{% url 'lotes-upload' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-download fa-sm text-white-50"></i> Inserir Lotes em CSV</a>
+                      {% endif %}
+               
                 {% endif %}
                 {% if formUpload %}
-                <button type="submit" id="visualizar" class="btn btn-primary">Inserir Planilha</button>
-                    
+                  {% if request.user|has_group:"Insercao" %}
+                    <button type="submit" id="visualizar" class="btn btn-primary">Inserir Planilha</button>
+                  {% endif %}  
                 {% endif %}
                 </form>
                 
@@ -167,7 +181,7 @@
                 </form>
             {% endif %}
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="white-space: nowrap;">
                     <thead>
                         <tr>
                             <th>Editar</th>
@@ -179,7 +193,7 @@
                             <th>Ano</th>
                             <th>Responsável</th>
                             <th>Alienação Autorizada?</th>
-                            <th>Quantidade de Fotos</th>
+                            <th>Qtd Fotos</th>
                             <th>Local Armazenamento</th>
                             <th>ISA Sipa</th>
                             <th>Data Sipa</th>
@@ -201,7 +215,7 @@
                             <th>Ano</th>
                             <th>Responsável</th>
                             <th>Alienação Autorizada?</th>
-                            <th>Quantidade de Fotos</th>
+                            <th>Qtd Fotos</th>
                             <th>Local Armazenamento</th>
                             <th>ISA Sipa</th>
                             <th>Data Sipa</th>
