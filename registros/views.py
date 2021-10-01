@@ -1,4 +1,6 @@
 from typing import List
+from django.db.models.query_utils import select_related_descend
+from django.views import generic
 from django.core.checks.messages import ERROR
 from django.forms.widgets import RadioSelect
 from django.shortcuts import render
@@ -8,6 +10,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.views.generic.edit import CreateView
 from datetime import date, datetime
+from pandas.core.indexes.base import Index
 from .models import DISPUTA_ABERTA, GERENCIA, LEILAO, LOTE, LOTE_DET, MATERIAL, TESTES, HIST_LOTE, COMPRADOR
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -18,23 +21,26 @@ import xdrlib
 from django.contrib import messages
 from django.http import HttpResponse
 from itertools import chain
-
+from django.contrib.auth.forms import UserCreationForm #importando o Formulario de Criação de usuario do Django
 from django.contrib.auth.decorators import login_required
+import pandas as pd
+from itertools import chain
 
-
-# TESTEEEEEEEE GITTTT 
 
 # Create your views here.
 
 class DisputaAbertaView(LoginRequiredMixin, ListView):    # Essa é a view da lista de Disputa Aberta. É uma view generica do Django, uma listview super simples
     model = DISPUTA_ABERTA     # Defino o model que ela puxa 
     template_name = 'table_disputaAbertaLista.html'     # defino o template que ela utiliza
+    
 
     def get_queryset(self):    # monto a query, isso não seria necessário agora, mas futuramente vai ser, até porque se colocar qualquer filtro, tem que ser aqui
 
         self.object_list = DISPUTA_ABERTA.objects.all()    # Busco todos os dados de disputa aberta direta
+       
         return self.object_list     # Retorno a lista para o template
-
+        
+      
 class LotesDetView(LoginRequiredMixin, ListView):     # Essa é a view para visualizar a lista de materiais de um determinado lote
     # ESSA É MAIS UMA VIEW GENERICA DO PROPRIO DJANGO
     model = LOTE_DET     # Nela usamos como model a tabela LOTE_DET
@@ -53,7 +59,7 @@ class LotesDetView(LoginRequiredMixin, ListView):     # Essa é a view para visu
         context['lote'] = LOTE.objects.filter(lote_lote=self.kwargs['pk'])
         return context    # Retorno na variável context o número do lote também para o template
 
-class LoteInternoView(LoginRequiredMixin, ListView):
+class LoteInternoView(LoginRequiredMixin, ListView):# Essa view retornar LOTE.objects para 'table_loteDetalhe.html'
     model = LOTE
     template_name = 'table_loteDetalhe.html'
 
@@ -256,7 +262,8 @@ class LoteDetUpdateView(LoginRequiredMixin, UpdateView):
             context['historicoDetLista'] = LOTE_DET.objects.filter(pk=self.kwargs['pk'])
         return context
 
-class novoFormBusca(forms.Form):
+class novoFormBusca(forms.Form): #Classe que cria os parametros para Busca de Lote
+  
     lote = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="Lote:", required=False)
     ANO = ((2019, 2019), (2020, 2020), (2021, 2021))
     ano = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control form-control-sm'}),choices=ANO, required=False)
@@ -273,7 +280,7 @@ class novoFormBusca(forms.Form):
     tipoVenda = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=TIPOVENDA, required=False)
     nm = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="NM:", required=False)
     isasipa = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="SIPA:", required=False)
-
+    #isasipa = forms.ModelMultipleChoiceField(queryset=lista_leilao, required=False, widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}))
 @login_required   #Como expliquei antes, isso serve para forçar o login anteriormente
 def LotesBusca(request):
 
@@ -294,7 +301,8 @@ def LotesBusca(request):
             nm = formBuscaLote.cleaned_data["nm"]
             isasipa= formBuscaLote.cleaned_data["isasipa"]
 
-            lista = LOTE.objects.all()    # lista recebe uma lista de todos os lotes que estão no banco de dados
+   
+            lista = LOTE.objects.select_related('lote_gerencia','lote_responsavel', 'lote_leilao').select_related('lote_leilao')    # lista recebe uma lista de todos os lotes que estão no banco de dados
             if lote:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
                 lote = lote.split(',')   # Como podemos pesquisar por vários lotes, separados por (,), precisamos quebrar essa string por (,) para percorrer todos os lotes que ele quer buscar
                 query = Q(lote_lote=0)    # Esse é um instrumento do Django para criar um query com vários parametros e ir juntando tudo em uma só
@@ -370,18 +378,7 @@ def LotesBusca(request):
 
             valorContabil = locale.currency(valorContabil, grouping=True)   # Apos fazer o somatório total, eu retorno o valor contabil da busca geral de lotes em formato de moeda em reais para a tela
             #round(valorContabil, 2)
-#211100002
 
-            #listao = [211590016, 211590028, 211590036, 211590108, 211690011, 211690021, 211690024, 211690029, 211690037, 211690045, 211690050, 211690052, 211690055, 211690057, 211690067, 211690068, 211690070, 211690078, 211690079, 211690088]
-
-
-            #for l in listao:
-            #    print(l)
-            #    lt = LOTE.objects.get(lote_lote=l)
-            #    lt.lote_leilao = LEILAO.objects.get(leil_nome="SUPERBID 97799- SUB 0001-2021")
-            #    lt.lote_tipoVenda = "Sucateamento"
-            #    lt.save() 
-            
                 
             return render(request, 'table_lotesLista.html', {
                 'lotes':lista,
@@ -722,6 +719,11 @@ def LeilaoUpload(request):    # view para inserir um novo leilao e dados da disp
             'novoFormLeilao':novoFormLeilao()
         })    # Rederizo para a tela de acordo com cada um dos casos
 
+
+############################é aqui o que tem que fazer
+
+
+
 def inserirComprador(cnpj, nomeComp, telefoneRes, telefoneCom, celular, cidade, estado, endereco, email):     # Essa é a função de apoio para inserir o comprador
 
     # Somente insiro os valores de acordo com os atributos do model de Comprador, o cnpj é a chave primária, sem ela não insere, ou se ela já existir ele retonar true para a view
@@ -827,7 +829,7 @@ def export(request):   # View para exportar os lotes buscados
             tipoVenda = formBuscaLote.cleaned_data["tipoVenda"]
             nm = formBuscaLote.cleaned_data["nm"]
 
-            lista = LOTE.objects.all()
+            lista =  LOTE.objects.select_related('lote_gerencia','lote_responsavel','lote_leilao')
             if lote:
                 lote = lote.split(',')
                 query = Q(lote_lote=0)
@@ -875,17 +877,14 @@ def export(request):   # View para exportar os lotes buscados
             if nm:
                 nm = nm.split(',')
                 for a in nm:
-                 
-                    material = MATERIAL.objects.get(mate_cod=a)  
-                    lode = LOTE_DET.objects.get(lode_material=material) 
-                    lista = LOTE.objects.filter(lote_lote = lode.lode_lote)
+                 listaB = LOTE_DET.objects.select_related('lode_lote','lote_material')
 
-    listaB = LOTE_DET.objects.all()
     queryM = Q(lode_lote=0)
     for lotes in lista:    # aqui eu percorro a lista de lotes
-        queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
+     queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
     listaB = LOTE_DET.objects.filter(queryM)  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
-          
+    
+     
     response = HttpResponse(content_type='application/ms-excel')   # parametros para criar o arquivo excel
 
     response['Content-Disposition'] = 'attachment; filename="export.xls"'
@@ -930,6 +929,66 @@ def export(request):   # View para exportar os lotes buscados
         row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
         for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
             ws.write(row_num, col_num, row[col_num], font_style)
+ 
 
     wb.save(response)   # Salvo o excel
     return response    # Retorno
+
+
+
+
+##################TESTE##################################
+@login_required  #Aqui eu defino que para acessar essa página é necessário estar logado
+def CadastrarUsuario(request):  #É uma view que solicita por base de uma requisição
+
+  
+        return render(request, 'cadastro.html', {
+       
+          
+         
+        })
+
+      
+
+  
+def export_disputa(request):   # Minha View para exportar disputa aberta
+
+    if request.method=="POST":  
+     
+     response = HttpResponse(content_type='application/ms-excel')   # parametros para criar o arquivo excel
+
+     response['Content-Disposition'] = 'attachment; filename="exportDisputa.xls"'
+
+     wb = xlwt.Workbook(encoding='utf-8')
+     ws = wb.add_sheet('Disputa Aberta')
+
+     row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = [
+        #'Lote','CNPJ', 'Comprador','Nome','Cidade',
+    #'Estado','Telefone','Email','ComunicadoVenda', 'Enviado',
+    #'ValorVenda','Lance Total','Valor Venda' ,'SAB'	,'Prazo para Pagamento'	,
+    #'Data do Pagamento','Valor Pago','Lance Total','Leilão','Data do Leilão' 
+     ]
+    for col_num in range(len(columns)):   # percorro a quantidade de colunas definido na primeira linha
+        ws.write(row_num, col_num, columns[col_num], font_style) 
+    font_style = xlwt.XFStyle()
+
+    listaw = DISPUTA_ABERTA.objects.select_related('diab_lote','diab_comprador')  
+    queryZ= Q(diab_lote=0)
+    for lot in listaw:    # aqui eu percorro a lista de lotes
+     queryZ.add(Q(lode_lote=lot.diab_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
+    listaw = LOTE_DET.objects.filter(queryZ) 
+    
+    rows = listaw.values_list('lote_isaSipa')
+   
+    for row in rows:   # percorro  a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
+        row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
+        for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
+            ws.write(row_num, col_num, row[col_num], font_style)
+     
+    wb.save(response)   # Salvo o excel
+    return response    # Retorno
+  

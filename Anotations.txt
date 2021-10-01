@@ -1,0 +1,8 @@
+ 
+ 
+{% if request.user|has_group:"Insercao" %} 
+ {% else %}
+           <div class="alert alert-danger" role="alert">
+            Você não tem permissão!
+           </div>   
+           {% endif %}  

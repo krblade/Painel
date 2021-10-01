@@ -232,7 +232,15 @@
                     <tbody>
                     {% for lote in lotes %}
                         <tr>
-                            <td><a href="{% url 'lote-interno' lote.lote_lote %}">Edit</a></td>
+                            
+                            <td>
+                               
+                                <a href="{% url 'lote-interno' lote.lote_lote %}">Editar</a>
+                              
+                            </td>
+                            
+                             
+                             
                             <td><a href="{% url 'lotes-det-lista' lote.lote_lote %}">Det</a></td>
                             <td>{{ lote.lote_lote }}</td>
                             <td>{{ lote.lote_gerencia }}</td>

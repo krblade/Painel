@@ -1,5 +1,6 @@
 {% extends 'layout.html'%}
-
+{% load user_tags %}
+{% load static %}
 {% block content %}
 
 <!-- Begin Page Content -->
@@ -15,6 +16,7 @@
             role="button" aria-expanded="true" aria-controls="collapseCardExample">
             <h6 class="m-0 font-weight-bold text-primary">Dados do lote selecionado:</h6>
         </a>
+     {% if request.user|has_group:"Insercao" %} 
         <!-- Card Content - Collapse -->
         <div class="collapse show" id="collapseCardExample">
             <div class="card-body">
@@ -115,6 +117,11 @@
                 </form>
             </div>
         </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+                      Você não tem permissão!
+                    </div>
+                    {% endif %}
     </div>
 
     <!-- DataTales Example -->

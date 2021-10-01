@@ -1,5 +1,6 @@
 {% extends 'layout.html'%}
-
+{% load user_tags %}
+{% load static %}
 {% block content %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -14,8 +15,10 @@
             role="button" aria-expanded="true" aria-controls="collapseCardExample">
             <h6 class="m-0 font-weight-bold text-primary">Insira as informações do lote:</h6>
         </a>
-        <!-- Card Content - Collapse -->
+        <!-- INSERÇÃO -->
         <div class="collapse show" id="collapseCardExample">
+          
+
             <div class="card-body">
                 <form id='busca-lotes' method="POST">
                 {% csrf_token %}
@@ -119,6 +122,7 @@
                 {% endif %}
                 </form>
             </div>
+           
         </div>
     </div>
 

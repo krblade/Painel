@@ -51,7 +51,7 @@ class LOTE(models.Model):
     lote_alienacaoAutorizada = models.CharField(max_length=50, choices=AUTORIZADA, null=False)
     lote_quantidadeFoto = models.BigIntegerField(null=True, blank=True)
     lote_localArmazenamento = models.CharField(max_length=50, null=True, blank=True)
-    lote_isaSipa = models.CharField(max_length=50, null=True, blank=True)
+    lote_isaSipa = models.CharField( max_length=50, null=True, blank=True)
     lote_dataSipa = models.DateField(null=True, blank=True)
     lote_tipoVenda = models.CharField(choices=TIPOVENDA, max_length=50, null=True, blank=True)
     lote_leilao = models.ForeignKey(LEILAO, on_delete=models.SET_NULL, null=True, blank=True)

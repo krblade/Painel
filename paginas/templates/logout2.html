@@ -1,0 +1,113 @@
+{% extends 'layout.html'%}
+{% load user_tags %}
+{% load static %}
+{% block content %}
+    <!-- Begin Page Content -->
+
+
+
+    <div id="cont" class="container-fluid">
+        <div class="container-fluid">
+
+           <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Administração</h1>
+   
+          <!-- Collapsable Card Example -->
+                <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                    aria-expanded="true" aria-controls="collapseCardExample">
+
+                    <h6 class="m-0 font-weight-bold text-primary">Gerenciar usuários</h6>
+
+
+                    </a>
+                  
+                           <!-- Parte onde insere os Leilões  somente usuario do Grupo pode visualiza insersões -->
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <div id="content" class="">
+
+
+                        <!--Testes daqui para baixo -->
+                                    <div class="results">
+                                        <table id="result_list"> <thead>
+                                                <tr>
+
+                                                    <th scope="col" class="action-checkbox-column">
+
+                                                        <div class="text"><span><input type="checkbox" id="action-toggle"></span>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </th>
+                                                    <th scope="col" class="sortable column-username sorted ascending">
+
+
+                                                        <div class="sortoptions">
+                                                            <a class="sortremove" href="?o=" title="Remover da ordenação"></a>
+
+                                                            <a href="?o=-1" class="toggle ascending" title="Alternar ordenção"></a>
+                                                        </div>
+
+
+                                                      
+                                            </thead>
+                                            <tbody>
+
+
+                                                <tr>
+                                                    <td class="action-checkbox"><input type="checkbox" name="_selected_action"
+                                                            value="" class="action-select"></td>
+                                                    <th class="field-username"><a
+                                                            href="/admin/auth/user/change/">Cadastrar/Alterar Usuário</a></th>
+                                                    <td class="field-email"></td>                          
+                                                    <td class="field-is_staff"><img src="/static/admin/img/icon-no.svg" alt="False">
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td class="action-checkbox"><input type="checkbox" name="_selected_action"
+                                                            value="" class="action-select"></td>
+                                                    <th class="field-username"><a
+                                                            href="/admin/auth/user/change/">Cadastrar/Alterar Grupo</a></th>
+                                                  
+                                                </tr>
+
+
+                                              
+
+
+                                                <tr>
+                                                    
+                                                </tr>
+
+
+                                                <tr>
+                                                   
+                                                </tr>
+
+
+                                                <tr>
+                                                    
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                        <!--Testes daqui para baixo -->
+                        <!-- DataTales Example -->
+
+                        <!-- /.container-fluid -->
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+               
+               
+     </div>
+                {% endblock %}

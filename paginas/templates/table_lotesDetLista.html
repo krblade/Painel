@@ -1,4 +1,6 @@
 {% extends 'layout.html'%}
+{% load static %}
+{% load user_tags %}
 
 {% block content %}
 <!-- Begin Page Content -->
@@ -12,11 +14,13 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Detalhes do Lote</h6>
         </div>
+      
         <div class="card-body">
             {% if lote.0.lote_lote %}
+     
             <a href="{% url 'lote-det-novo' lote.0.lote_lote  %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Novo Detalhe do Lote</a>
-
+           
             <a href="{% url 'lote-interno' lote.0.lote_lote %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Retornar</a>
             {% endif %}
@@ -89,7 +93,13 @@
                     <tbody>
                     {% for lote in object_list %}
                         <tr>
-                            <td><a href="{% url 'lote-det-editar' lote.pk %}">Edit</a></td>
+                            <td>
+                             <!-- INSERSÇÃO-->
+                                <a href="{% url 'lote-det-editar' lote.pk %}">Edit</a>
+                               
+                                  
+                            </td>
+                            
                             <td>{{ lote.lode_lote }}</td>
                             <td>{{ lote.lode_material.mate_cod }}</td>
                             <td>{{ lote.lode_material.mate_descricao }}</td>

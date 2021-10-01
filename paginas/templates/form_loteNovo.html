@@ -1,5 +1,6 @@
 {% extends 'layout.html'%}
-
+{% load user_tags %}
+{% load static %}
 {% block content %}
 
 <!-- Begin Page Content -->
@@ -16,6 +17,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Insira as informações do lote:</h6>
         </a>
         <!-- Card Content - Collapse -->
+      
+      {% if request.user|has_group:"Insercao" %} 
         <div class="collapse show" id="collapseCardExample">
             <div class="card-body">
                 <form id='busca-lotes' method="POST">
@@ -58,7 +61,8 @@
                     </div>
                 </div>
 
-                <div class="form-row"> 
+                {% load user_tags %}
+                {% load static %}       <div class="form-row"> 
                     
                     <div class="form-group col-md-3">
                     <label for="lote">Local de Armazenamento:</label><br>
@@ -101,6 +105,11 @@
                 </form>
             </div>
         </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+         Você não tem permissão!
+        </div>   
+        {% endif %}  
     </div>
 
 </div>

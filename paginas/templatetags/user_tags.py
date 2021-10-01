@@ -12,3 +12,4 @@ def has_group(user, group_name):
 
     else:
         return False
+        

@@ -1,5 +1,6 @@
 {% extends 'layout.html'%}
-
+{% load user_tags %}
+{% load static %}
 {% block content %}
 
 <!-- Begin Page Content -->
@@ -9,14 +10,17 @@
     <h1 class="h3 mb-2 text-gray-800">Atualizar Lote</h1>
 
     <!-- Collapsable Card Example -->
+   
     <div class="card shadow mb-4">
+       
         <!-- Card Header - Accordion -->
         <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
             role="button" aria-expanded="true" aria-controls="collapseCardExample">
             <h6 class="m-0 font-weight-bold text-primary">Dados do lote selecionado:</h6>
         </a>
-        <!-- Card Content - Collapse -->
+        <!--INSERÇÃO -->
         <div class="collapse show" id="collapseCardExample">
+          
             <div class="card-body">
                 <form id='busca-lotes' method="POST">
                 {% csrf_token %}
@@ -120,6 +124,7 @@
                 
                 </form>
             </div>
+     
         </div>
     </div>
 
