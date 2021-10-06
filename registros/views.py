@@ -1,5 +1,6 @@
 from typing import List
 from django.db.models.query_utils import select_related_descend
+from django.db import connection, reset_queries
 from django.views import generic
 from django.core.checks.messages import ERROR
 from django.forms.widgets import RadioSelect
@@ -10,6 +11,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.views.generic.edit import CreateView
 from datetime import date, datetime
+from pandas.core import indexing
 from pandas.core.indexes.base import Index
 from .models import DISPUTA_ABERTA, GERENCIA, LEILAO, LOTE, LOTE_DET, MATERIAL, TESTES, HIST_LOTE, COMPRADOR
 from django.db.models import Q
@@ -25,8 +27,8 @@ from django.contrib.auth.forms import UserCreationForm #importando o Formulario 
 from django.contrib.auth.decorators import login_required
 import pandas as pd
 from itertools import chain
-
-
+import time
+import numpy as np
 # Create your views here.
 
 class DisputaAbertaView(LoginRequiredMixin, ListView):    # Essa é a view da lista de Disputa Aberta. É uma view generica do Django, uma listview super simples
@@ -35,9 +37,14 @@ class DisputaAbertaView(LoginRequiredMixin, ListView):    # Essa é a view da li
     
 
     def get_queryset(self):    # monto a query, isso não seria necessário agora, mas futuramente vai ser, até porque se colocar qualquer filtro, tem que ser aqui
-
+        start_time = time.time()
         self.object_list = DISPUTA_ABERTA.objects.all()    # Busco todos os dados de disputa aberta direta
-       
+        
+        end_time=time.time()
+        duration=(end_time - start_time)
+        print(f'Executou um total de {len(connection.queries)}Queries')
+        print(f'Tempo de Execuçao {round(duration, 3)}Segundos')
+        reset_queries()
         return self.object_list     # Retorno a lista para o template
         
       
@@ -302,7 +309,7 @@ def LotesBusca(request):
             isasipa= formBuscaLote.cleaned_data["isasipa"]
 
    
-            lista = LOTE.objects.select_related('lote_gerencia','lote_responsavel', 'lote_leilao').select_related('lote_leilao')    # lista recebe uma lista de todos os lotes que estão no banco de dados
+            lista = LOTE.objects.select_related('lote_gerencia','lote_responsavel', 'lote_leilao')   # lista recebe uma lista de todos os lotes que estão no banco de dados
             if lote:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
                 lote = lote.split(',')   # Como podemos pesquisar por vários lotes, separados por (,), precisamos quebrar essa string por (,) para percorrer todos os lotes que ele quer buscar
                 query = Q(lote_lote=0)    # Esse é um instrumento do Django para criar um query com vários parametros e ir juntando tudo em uma só
@@ -363,7 +370,7 @@ def LotesBusca(request):
                  
                     material = MATERIAL.objects.get(mate_cod=a)  # fazemos uma busca de todos os materiais com os NMs buscados
                     lode = LOTE_DET.objects.get(lode_material=material)   # fazemos uma busca de todos os lote_det com base nos materiais que foram retornados na busca acima
-                    lista = LOTE.objects.filter(lote_lote = lode.lode_lote)    # fazemos uma busca de todos os lotes com base nos lote_det buscados acima
+                    lista = LOTE.objects.filter(lote_lote = lode.lode_lote)   # fazemos uma busca de todos os lotes com base nos lote_det buscados acima
                     
                 # no caso dessa busca por NM, ela apaga a busca por todos os campos anteriores, ou seja, só retorna a busca dela, pois é uma busca em tabelas diferentes
 
@@ -813,7 +820,7 @@ def ListaGerencial(request):     # Essa view apresenta a tabela dos dados no for
 def export(request):   # View para exportar os lotes buscados
 
     if request.method=="POST":   # Novamente se chegamos aqui por um metodo post
-        
+        start_time = time.time() 
         formBuscaLote = novoFormBusca(request.POST)
         if formBuscaLote.is_valid():
             listaFinal = []
@@ -877,13 +884,27 @@ def export(request):   # View para exportar os lotes buscados
             if nm:
                 nm = nm.split(',')
                 for a in nm:
-                 listaB = LOTE_DET.objects.select_related('lode_lote','lote_material')
+                 listaB = LOTE_DET.objects.select_related('lode_lote','lode_material')
 
-    queryM = Q(lode_lote=0)
-    for lotes in lista:    # aqui eu percorro a lista de lotes
-     queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
-    listaB = LOTE_DET.objects.filter(queryM)  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
+    # queryM = Q(lode_lote=0)
+    # for lotes in lista:    # aqui eu percorro a lista de lotes
+    #  queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
     
+    # listaB = LOTE_DET.objects.filter(queryM)  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
+    #
+    listaB =LOTE_DET.objects.all()
+   
+    for lotes  in lista:
+        listaB.lode_lote = lotes.lote_lote
+   
+  
+    print (listaB.query)
+
+    end_time=time.time()
+    duration=(end_time - start_time)
+    print(f'Executou um total de {len(connection.queries)}Queries')
+    print(f'Tempo de Execuçao {round(duration, 3)}Segundos')
+    reset_queries()
      
     response = HttpResponse(content_type='application/ms-excel')   # parametros para criar o arquivo excel
 
@@ -924,16 +945,21 @@ def export(request):   # View para exportar os lotes buscados
         'lode_isaRetirada', 'lode_dataRetirada', 'lode_valorContabilUnitario', 'lode_valorContabilTotal', 
         'lode_valorContabilTotalAtual', 'lode_valorReposicaoUnitario', 'lode_valorTotalReposicao', 
         'lode_valorComparacaoVMA', 'lode_vmaUnitario', 'lode_vmaTotal', 'lode_vmaPercentualLote')
-
+    
     for row in rows:   # percorro a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
         row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
         for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
             ws.write(row_num, col_num, row[col_num], font_style)
  
+    
 
     wb.save(response)   # Salvo o excel
-    return response    # Retorno
+   
 
+    
+
+    return response    # Retorno
+    
 
 
 
@@ -967,28 +993,92 @@ def export_disputa(request):   # Minha View para exportar disputa aberta
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
     columns = [
-        #'Lote','CNPJ', 'Comprador','Nome','Cidade',
-    #'Estado','Telefone','Email','ComunicadoVenda', 'Enviado',
-    #'ValorVenda','Lance Total','Valor Venda' ,'SAB'	,'Prazo para Pagamento'	,
-    #'Data do Pagamento','Valor Pago','Lance Total','Leilão','Data do Leilão' 
+                'Lote',
+                'CNPJ Comprador',
+                'Nome','Cidade',
+                'Estado',
+                'Telefone',
+                'Email',
+                'ComunicadoVenda Enviado',
+                'ValorVenda Lance Total',
+                'Valor Venda SAB',
+                'Prazo para Pagamento',
+                'Data do Pagamento',
+                'Valor Pago',
+                'Lance Total',
+                'Leilão',
+                'Data do Leilão' 
      ]
     for col_num in range(len(columns)):   # percorro a quantidade de colunas definido na primeira linha
         ws.write(row_num, col_num, columns[col_num], font_style) 
     font_style = xlwt.XFStyle()
 
-    listaw = DISPUTA_ABERTA.objects.select_related('diab_lote','diab_comprador')  
-    queryZ= Q(diab_lote=0)
-    for lot in listaw:    # aqui eu percorro a lista de lotes
-     queryZ.add(Q(lode_lote=lot.diab_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
-    listaw = LOTE_DET.objects.filter(queryZ) 
-    
-    rows = listaw.values_list('lote_isaSipa')
+    start_time = time.time()
+ 
+    #################################################################################################
+    ############ metedo de exportação A - cria muitos parametros na query
+    # queryX= Q(lote_lote=0)
+    # lista2 = DISPUTA_ABERTA.objects.select_related('diab_lote','diab_comprador')  
+    # for lotes in lista2:   
+    #           queryX.add(Q(lote_lote=lotes.diab_lote), Q.OR) 
+    # listaq = LOTE.objects.filter(queryX).order_by('lote_lote')[:10]
+    disp =DISPUTA_ABERTA.objects.select_related('diab_lote','diab_comprador').order_by('diab_lote')
+    lot= LOTE.objects.select_related('lote_leilao')
+    for p  in lot:
+       disp.diab_lote = p.lote_lote
+
    
+    print (disp.query)
+
+    end_time=time.time()
+    duration=(end_time - start_time)
+    print(f'Executou um total de {len(connection.queries)}Queries')
+    print(f'Tempo de Execuçao {round(duration, 3)}Segundos')
+    
+    
+    rows = disp.values_list( #'disputa_aberta__diab_lote',
+                                   'diab_lote',
+    #                             'disputa_aberta__diab_comprador__comp_cnpj',
+                                   'diab_comprador__comp_cnpj',
+    #                             'disputa_aberta__diab_comprador__comp_nomeComprador',
+                                    'diab_comprador__comp_nomeComprador',
+    #                             'disputa_aberta__diab_comprador__comp_cidade',
+                                    'diab_comprador__comp_cidade',
+    #                             'disputa_aberta__diab_comprador__comp_estado',
+                                   'diab_comprador__comp_estado',
+    #                             'disputa_aberta__diab_comprador__comp_telefoneComercial',
+                                   'diab_comprador__comp_telefoneComercial',
+    #                             'disputa_aberta__diab_comprador__comp_email',
+                                    'diab_comprador__comp_email',
+    #                             'disputa_aberta__diab_comunicadoVendaEnviado',
+                                   'diab_comunicadoVendaEnviado',
+    #                             'disputa_aberta__diab_valorVendaLanceTotal',
+                                   'diab_valorVendaLanceTotal',
+    #                             'disputa_aberta__diab_valorVendaSab',
+                                   'diab_valorVendaSab',
+    #                             'disputa_aberta__diab_prazoPagamento',
+                                   'diab_prazoPagamento',
+    #                             'disputa_aberta__diab_dataPagamento',
+                                   'diab_dataPagamento',
+    #                             'disputa_aberta__diab_valorPago',
+                                   'diab_valorPago',
+    #                             'disputa_aberta__diab_lanceTotal',
+                                   'diab_lanceTotal',
+    #                             'lote_leilao__leil_nome',
+                                   'diab_lote__lote_leilao__leil_nome',
+    #                             'lote_leilao__leil_dataResultadoLeilao',
+                                   'diab_lote__lote_leilao__leil_dataResultadoLeilao'
+                                  
+                                  
+                                )
+
+
     for row in rows:   # percorro  a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
         row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
         for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
-            ws.write(row_num, col_num, row[col_num], font_style)
+                   ws.write(row_num, col_num, row[col_num], font_style)
      
     wb.save(response)   # Salvo o excel
+    reset_queries()
     return response    # Retorno
   

@@ -6,3 +6,49 @@
             Você não tem permissão!
            </div>   
            {% endif %}  
+
+
+
+            queryX= Q(comp_nomeComprador=0)
+    
+    lista2= DISPUTA_ABERTA.objects.select_related('diab_comprador','diab_lote')  
+    for lotes in lista2:   
+            queryX.add(Q(comp_nomeComprador=lotes.diab_comprador), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det     
+    
+    listaq = COMPRADOR.objects.filter(queryX) 
+    
+    
+
+
+    print (listaq.query)
+
+    end_time=time.time()
+    duration=(end_time - start_time)
+    print(f'Executou um total de {len(connection.queries)}Queries')
+    print(f'Tempo de Execuçao {round(duration, 3)}Segundos')
+    
+    
+    rows = listaq.values_list( 'disputa_aberta__diab_lote',
+                                'comp_cnpj','comp_nomeComprador','comp_cidade','comp_estado',
+                                'comp_telefoneComercial',
+                                'comp_email',
+                                'disputa_aberta__diab_comunicadoVendaEnviado',
+                                'disputa_aberta__diab_valorVendaLanceTotal',
+                                'disputa_aberta__diab_valorVendaSab',
+                                'disputa_aberta__diab_prazoPagamento',
+                                'disputa_aberta__diab_dataPagamento',
+                                'disputa_aberta__diab_valorPago',
+                                'disputa_aberta__diab_lanceTotal'
+                             
+                                
+                                )
+
+
+    for row in rows:   # percorro  a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
+        row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
+        for col_num in range(len(row)):   # vou gravando celula por celula cada linha da listaB
+                   ws.write(row_num, col_num, row[col_num], font_style)
+     
+    wb.save(response)   # Salvo o excel
+    return response    # Retorno
+  
