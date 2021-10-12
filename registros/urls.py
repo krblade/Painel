@@ -1,8 +1,11 @@
 from django.contrib import admin
+from django.urls import path, include
+from .views import *
 from os import name
 from django.urls import path
 from django.contrib.auth.forms import UserCreationForm as create_user
 from django.contrib.auth import views as auth_views
+
 from .views import LoteCreateView, LotesDetView, LoteDetCreateView, LoteDetUpdateView, LoteInternoView, LoteUpdateView, LoteCreateView, LotesUpload, DisputaAbertaView
 from . import views
 
@@ -34,4 +37,6 @@ urlpatterns = [
     path('disputa-aberta-lista/', DisputaAbertaView.as_view(), name='disputa-aberta-lista'),
     path('export/', views.export, name='exportar'),
     path('exportdip/', views.export_disputa, name='exportardisp'),
-]
+    path('alterar_senha/', alterar_senha, name='alterar_senha'),
+    path('alterar_perfil/', alterar_perfil, name='alterar_perfil'),
+]  

@@ -1,5 +1,8 @@
 from typing import List
 from django.db.models.query_utils import select_related_descend
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import redirect
+from django.contrib.auth import update_session_auth_hash
 from django.db import connection, reset_queries
 from django.views import generic
 from django.core.checks.messages import ERROR
@@ -8,6 +11,10 @@ from django.shortcuts import render
 from django.views.generic import ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib import admin
+from django.contrib.auth.models import Group
+from django.urls import path, include
+from .views import *
 from django import forms
 from django.views.generic.edit import CreateView
 from datetime import date, datetime
@@ -29,7 +36,12 @@ import pandas as pd
 from itertools import chain
 import time
 import numpy as np
+
 # Create your views here.
+
+
+
+
 
 class DisputaAbertaView(LoginRequiredMixin, ListView):    # Essa é a view da lista de Disputa Aberta. É uma view generica do Django, uma listview super simples
     model = DISPUTA_ABERTA     # Defino o model que ela puxa 
@@ -727,7 +739,6 @@ def LeilaoUpload(request):    # view para inserir um novo leilao e dados da disp
         })    # Rederizo para a tela de acordo com cada um dos casos
 
 
-############################é aqui o que tem que fazer
 
 
 
@@ -933,18 +944,50 @@ def export(request):   # View para exportar os lotes buscados
 
     font_style = xlwt.XFStyle()
 
-    rows = listaB.values_list('lode_lote', 'lode_lote__lote_gerencia__gere_nome', 'lode_lote__lote_proprietario', 
-        'lode_lote__lote_al', 'lode_lote__lote_ano', 'lode_lote__lote_responsavel__username', 
-        'lode_lote__lote_alienacaoAutorizada', 'lode_lote__lote_quantidadeFoto', 'lode_lote__lote_localArmazenamento', 
-        'lode_lote__lote_isaSipa', 'lode_lote__lote_dataSipa', 'lode_lote__lote_tipoVenda', 
-        'lode_lote__lote_leilao__leil_nome', 'lode_lote__lote_isaEnvioArm', 'lode_lote__lote_dataEnvoArm', 
-        'lode_lote__lote_vmaLote', 'lode_material__mate_cod', 'lode_material__mate_descricao', 
-        'lode_material__mate_ncm', 'lode_material__mate_grupoMercadoria', 'lode_centroAtual', 'lode_elementoPep', 
-        'lode_deposito', 'lode_tipoAvaliacao', 'lode_loteNm', 'lode_numeroSerie', 'lode_quantidadeOriginal', 
-        'lode_quantidadeRetiradaDip', 'lode_quantidadeNaoLocalizada', 'lode_quantidadeAtual', 'lode_unidade', 
-        'lode_isaRetirada', 'lode_dataRetirada', 'lode_valorContabilUnitario', 'lode_valorContabilTotal', 
-        'lode_valorContabilTotalAtual', 'lode_valorReposicaoUnitario', 'lode_valorTotalReposicao', 
-        'lode_valorComparacaoVMA', 'lode_vmaUnitario', 'lode_vmaTotal', 'lode_vmaPercentualLote')
+    rows = listaB.values_list(
+                                'lode_lote', 
+                                'lode_lote__lote_gerencia__gere_nome', 
+                                'lode_lote__lote_proprietario', 
+                                'lode_lote__lote_al', 
+                                'lode_lote__lote_ano', 
+                                'lode_lote__lote_responsavel__username', 
+                                'lode_lote__lote_alienacaoAutorizada', 
+                                'lode_lote__lote_quantidadeFoto', 
+                                'lode_lote__lote_localArmazenamento', 
+                                'lode_lote__lote_isaSipa', 
+                                'lode_lote__lote_dataSipa', 
+                                'lode_lote__lote_tipoVenda', 
+                                'lode_lote__lote_leilao__leil_nome', 
+                                'lode_lote__lote_isaEnvioArm',
+                                'lode_lote__lote_dataEnvoArm', 
+                                'lode_lote__lote_vmaLote', 
+                                'lode_material__mate_cod', 
+                                'lode_material__mate_descricao', 
+                                'lode_material__mate_ncm', 
+                                'lode_material__mate_grupoMercadoria', 
+                                'lode_centroAtual', 
+                                'lode_elementoPep', 
+                                'lode_deposito', 
+                                'lode_tipoAvaliacao', 
+                                'lode_loteNm', 
+                                'lode_numeroSerie', 
+                                'lode_quantidadeOriginal', 
+                                'lode_quantidadeRetiradaDip', 
+                                'lode_quantidadeNaoLocalizada', 
+                                'lode_quantidadeAtual', 
+                                'lode_unidade', 
+                                'lode_isaRetirada', 
+                                'lode_dataRetirada', 
+                                'lode_valorContabilUnitario', 
+                                'lode_valorContabilTotal', 
+                                'lode_valorContabilTotalAtual', 
+                                'lode_valorReposicaoUnitario', 
+                                'lode_valorTotalReposicao', 
+                                'lode_valorComparacaoVMA', 
+                                'lode_vmaUnitario', 
+                                'lode_vmaTotal', 
+                                'lode_vmaPercentualLote'
+        )
     
     for row in rows:   # percorro a quantidade de linhas que tem a listaB que é a nossa lista geral, com base nos argumentos definidos acima
         row_num += 1   # pulo uma linha porque a primeira já é nosso titulo das colunas
@@ -963,9 +1006,10 @@ def export(request):   # View para exportar os lotes buscados
 
 
 
-##################TESTE##################################
-@login_required  #Aqui eu defino que para acessar essa página é necessário estar logado
-def CadastrarUsuario(request):  #É uma view que solicita por base de uma requisição
+####################################################################################
+########### PAGINA NOVA PARA USO FUTURO   
+@login_required  
+def CadastrarUsuario(request): 
 
   
         return render(request, 'cadastro.html', {
@@ -977,11 +1021,11 @@ def CadastrarUsuario(request):  #É uma view que solicita por base de uma requis
       
 
   
-def export_disputa(request):   # Minha View para exportar disputa aberta
+def export_disputa(request):   #VIEW PARA EXPORTAR DISPUTA ABERTA
 
     if request.method=="POST":  
      
-     response = HttpResponse(content_type='application/ms-excel')   # parametros para criar o arquivo excel
+     response = HttpResponse(content_type='application/ms-excel')# parametros para criar o arquivo excel
 
      response['Content-Disposition'] = 'attachment; filename="exportDisputa.xls"'
 
@@ -990,25 +1034,26 @@ def export_disputa(request):   # Minha View para exportar disputa aberta
 
      row_num = 0
 
-    font_style = xlwt.XFStyle()
-    font_style.font.bold = True
-    columns = [
-                'Lote',
-                'CNPJ Comprador',
-                'Nome','Cidade',
-                'Estado',
-                'Telefone',
-                'Email',
-                'ComunicadoVenda Enviado',
-                'ValorVenda Lance Total',
-                'Valor Venda SAB',
-                'Prazo para Pagamento',
-                'Data do Pagamento',
-                'Valor Pago',
-                'Lance Total',
-                'Leilão',
-                'Data do Leilão' 
-     ]
+     font_style = xlwt.XFStyle()
+     font_style.font.bold = True
+     columns = [
+                                    'Lote',
+                                    'CNPJ Comprador',
+                                    'Nome',
+                                    'Cidade',
+                                    'Estado',
+                                    'Telefone',
+                                    'Email',
+                                    'ComunicadoVenda Enviado',
+                                    'ValorVenda Lance Total',
+                                    'Valor Venda SAB',
+                                    'Prazo para Pagamento',
+                                    'Data do Pagamento',
+                                    'Valor Pago',
+                                    'Lance Total',
+                                    'Leilão',
+                                    'Data do Leilão' 
+                    ]
     for col_num in range(len(columns)):   # percorro a quantidade de colunas definido na primeira linha
         ws.write(row_num, col_num, columns[col_num], font_style) 
     font_style = xlwt.XFStyle()
@@ -1016,7 +1061,7 @@ def export_disputa(request):   # Minha View para exportar disputa aberta
     start_time = time.time()
  
     #################################################################################################
-    ############ metedo de exportação A - cria muitos parametros na query
+    ############ metedo de exportação A - cria muitos parametros na query SERÁ USADO FUTURAMENTE
     # queryX= Q(lote_lote=0)
     # lista2 = DISPUTA_ABERTA.objects.select_related('diab_lote','diab_comprador')  
     # for lotes in lista2:   
@@ -1041,15 +1086,15 @@ def export_disputa(request):   # Minha View para exportar disputa aberta
     #                             'disputa_aberta__diab_comprador__comp_cnpj',
                                    'diab_comprador__comp_cnpj',
     #                             'disputa_aberta__diab_comprador__comp_nomeComprador',
-                                    'diab_comprador__comp_nomeComprador',
+                                   'diab_comprador__comp_nomeComprador',
     #                             'disputa_aberta__diab_comprador__comp_cidade',
-                                    'diab_comprador__comp_cidade',
+                                   'diab_comprador__comp_cidade',
     #                             'disputa_aberta__diab_comprador__comp_estado',
                                    'diab_comprador__comp_estado',
     #                             'disputa_aberta__diab_comprador__comp_telefoneComercial',
                                    'diab_comprador__comp_telefoneComercial',
     #                             'disputa_aberta__diab_comprador__comp_email',
-                                    'diab_comprador__comp_email',
+                                   'diab_comprador__comp_email',
     #                             'disputa_aberta__diab_comunicadoVendaEnviado',
                                    'diab_comunicadoVendaEnviado',
     #                             'disputa_aberta__diab_valorVendaLanceTotal',
@@ -1081,4 +1126,28 @@ def export_disputa(request):   # Minha View para exportar disputa aberta
     wb.save(response)   # Salvo o excel
     reset_queries()
     return response    # Retorno
-  
+ ################################################################################## 
+
+@login_required
+def alterar_senha(request):
+    
+    if request.method == "POST":
+        form_senha = PasswordChangeForm(request.user, request.POST)
+        if form_senha.is_valid():
+            user = form_senha.save()
+            update_session_auth_hash(request, user)
+            return redirect('alterar_perfil')
+    else:
+        form_senha = PasswordChangeForm(request.user)
+   
+
+
+    return render(request,'alterar_senha.html',{'form_senha': form_senha}
+    )
+
+@login_required
+def alterar_perfil(request):
+    
+   
+    return render(request,'alterar_senha.html',{}
+    )

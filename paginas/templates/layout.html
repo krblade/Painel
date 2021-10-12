@@ -352,8 +352,11 @@
                                     {% if request.user.is_authenticated %} 
                                     <h6 class="m-0 font-weight-bold text-primary">
                                         Bem Vindo :
-                                        {{ request.user.first_name }}  
+                                      
                                   
+                                        {{ request.user.first_name }}  
+                                        
+
                                         <img class="img-profile rounded-circle"
                                         src={% static "img/undraw_profile.svg" %}>
                                     </h6>
@@ -370,7 +373,7 @@
                             {% if request.user.is_authenticated %} 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{% url 'alterar_perfil' %}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>

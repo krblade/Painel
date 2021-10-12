@@ -53,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
 
 MIDDLEWARE_CLASSES = (
@@ -166,4 +168,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'inicio'
 LOGIN_URL = 'inicio'
-LOGOUT_REDIRECT_URL = 'cadastrar-usuario'
+LOGOUT_REDIRECT_URL = 'inicio'
+
+SESSION_EXPIRE_SECONDS = 36
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+#SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 1
+SESSION_TIMEOUT_REDIRECT = 'inicio'
