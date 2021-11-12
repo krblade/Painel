@@ -78,7 +78,7 @@
                 {% if formUpload %}
                 {% if request.user|has_group:"Insercao" %}
                     <label for="upload">Fazer Download de arquivo padrão</label>
-                    <p><a href="https://petrobrasbr-my.sharepoint.com/:x:/g/personal/marcelo-ferreira_stefanini_petrobras_com_br/ESpPVUBpJTVPioR_40VWTkYBRKOfiYa5OtJmdgcNhHBWvw?e=3pkOUj" target="_ blank">Arquivo</a></p>
+                    <p><a href= "{% static "arquivos/Modelo_insercao_de_Lotes.csv" %}" >Arquivo</a></p>
                  {% endif %}
                 {% endif %}
                     </div>
@@ -126,19 +126,27 @@
                     <label for="tipoVenda">Busca por Tipo de Venda</label>
                     {{ formBusca.tipoVenda }}
                     </div>
-               
-                    <div class="form-group col-md-3">
+                    
+                    <div class="form-group col-md-4" >
+                            
+                        {{ formBusca.leilao.errors }}
+                        <label for="lote">Busca por Leilao</label>
+                        <p>{{ formBusca.leilao}}</p>
+                   
+                        </div> 
+                    <div class="form-group col-md-2">
                     {{ formBusca.nm.errors }}
                     <label for="nm">Busca por NM</label><br>
                     {{ formBusca.nm }}
                     </div>
                     
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         {{ formBusca.isasipa.errors }}
                         <label for="SIPA">Busca por Isa-Sipa</label><br>
                         {{ formBusca.isasipa }}
                         </div>
-
+                    
+                       
                 </div>
                 {% endif %}
                 

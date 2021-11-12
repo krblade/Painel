@@ -4,6 +4,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect
 from django.contrib.auth import update_session_auth_hash
 from django.db import connection, reset_queries
+from django.contrib import messages
 from django.views import generic
 from django.core.checks.messages import ERROR
 from django.forms.widgets import RadioSelect
@@ -94,10 +95,11 @@ class LoteUpdateView(LoginRequiredMixin, UpdateView): # Essa view é uma view j�
     fields = ['lote_gerencia', 'lote_proprietario', 'lote_al', 'lote_ano', 'lote_responsavel', 'lote_alienacaoAutorizada', 'lote_quantidadeFoto', 'lote_localArmazenamento', 'lote_isaSipa', 'lote_dataSipa', 'lote_tipoVenda', 'lote_leilao', 'lote_isaEnvioArm', 'lote_dataEnvoArm']
     # como é uma view de edição, eu preciso definir os campos do objeto que quero permitir que sejam alterados
     context_object_name = 'historicoLista' # já o context_object_name é uma lista que desejo retornar para a tela
-
+## editando aqui
     widget= {
         'lote_dataSipa' : forms.DateInput(format='%d-%m-%Y'),
-        'lote_al': forms.TextInput(attrs={'class':'form-control form-control-sm'})
+        'lote_al': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+        'tipoVenda' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=False)
     }  # nesse widget eu posso desenhar o formulário que eu quero jogar para a tela, serve para atribuir class em css e outros coisas relativas ao layout, quando você estiver trabalhando nas melhorias do layout, vale a pena usar
 
     def form_valid(self, form):   # Como a view é uma premodulada do Django, mas eu preciso fazer algumas outras operações, eu uso essa classe para pegar os valores do formulário
@@ -295,10 +297,11 @@ class novoFormBusca(forms.Form): #Classe que cria os parametros para Busca de Lo
     alienacaoAutorizada = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=AUTORIZADA, required=False)
     ARMAZEM = (('Macaé - RJ', 'Macaé - RJ'), ('Rio de Janeiro - RJ', 'Rio de Janeiro - RJ'), ('Cubatão - SP','Cubatão - SP'))#Aqui é definido a escolha
     localArmazenamento = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=ARMAZEM, required=False)
-    TIPOVENDA = (('Sucateamento','Sucateamento'), ('Vendido', 'Vendido'), ('', ''))
+    TIPOVENDA = (('Sucateamento','Sucateamento'), ('Vendido', 'Vendido'),('Leilão', 'Leilao'), ('', ''))
     tipoVenda = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=TIPOVENDA, required=False)
     nm = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="NM:", required=False)
     isasipa = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm', 'data-role':'tagsinput'}),label="SIPA:", required=False)
+    leilao = forms.ModelMultipleChoiceField(queryset=LEILAO.objects.prefetch_related(), required=False, widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}))
     #isasipa = forms.ModelMultipleChoiceField(queryset=lista_leilao, required=False, widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}))
 @login_required   #Como expliquei antes, isso serve para forçar o login anteriormente
 def LotesBusca(request):
@@ -319,7 +322,7 @@ def LotesBusca(request):
             tipoVenda = formBuscaLote.cleaned_data["tipoVenda"]
             nm = formBuscaLote.cleaned_data["nm"]
             isasipa= formBuscaLote.cleaned_data["isasipa"]
-
+            leilao= formBuscaLote.cleaned_data["leilao"]
    
             lista = LOTE.objects.select_related('lote_gerencia','lote_responsavel', 'lote_leilao')   # lista recebe uma lista de todos os lotes que estão no banco de dados
             if lote:  # Se o lote não está vazio, ele utilizou o formulario o campo lote pra fazer uma busca
@@ -373,7 +376,13 @@ def LotesBusca(request):
                 for sip in isasipa:    # Percorrendo a lista de lotes que ele tá buscando
                     queryI.add(Q(lote_isaSipa=sip), Q.OR)    
                 lista = lista.filter(queryI) 
-                
+            
+            if leilao:   
+                queryJ = Q(lote_leilao=0)   # Como gerencia posso adicionar uma ou mais segurando o btn ctrl do teclado, ele cria uma lista de gerencias tbm que será incluida na query
+                for leil in leilao:
+                    queryJ.add(Q(lote_leilao = leil.id ), Q.OR)   
+                lista = lista.filter(queryJ) 
+               
 
             if nm:   # Esse do NM está fora da lógica, pq como te falei NM é um atributo de Materiais, e não de lote
                 # Essa busca está aqui para buscarmos pelo NM e conseguirmos saber em qual lote ele está
@@ -428,7 +437,7 @@ def LotesUpload(request):  #É uma view que solicita por base de uma requisiçã
         form = formUpload(request.POST, request.FILES)
         if form.is_valid():   #Validação se o formulário é válido 
 
-            log = open('C:\\Users\\D1GQ\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')   #Aqui eu crio um novo arquivo csv que vai ser onde gravo o log
+            log = open('E:\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')   #Aqui eu crio um novo arquivo csv que vai ser onde gravo o log
             
             upload = request.FILES['frmUpload'].read().decode('latin-1').splitlines() # Aqui eu faço a leitura do arquivo csv que o usuário upou
             reader = csv.reader(upload, delimiter=';', quotechar='|')
@@ -463,7 +472,7 @@ def LotesUpload(request):  #É uma view que solicita por base de uma requisiçã
                                     log.write('Somente o lote foi inserido. Erro na linha: '+str(linha+2)+'. '+erroB+'\n')  # Caso dê erro nos materiais, ele iinseriu somente o lote e grava esse erro também no log
                     else:
                         log.write('Erro na linha: '+str(linha+2)+'. Campo lote é obrigatório. Verifique se está vazio ou incorreto!\n')  # E caso o número de lote esteja vazio na planilha, ele grava esse erro no log
-
+                        return render(request,'table_lotesLista')
                 linha+=1
 
             log.close()  # Caso tenha terminado fecha o log e salva
@@ -656,7 +665,7 @@ def LeilaoUpload(request):    # view para inserir um novo leilao e dados da disp
         form = novoFormLeilao(request.POST, request.FILES)
         if form.is_valid():
 
-            log = open('C:\\Users\\D1GQ\\logLeiloesPainelSAM.csv', 'w', newline='', encoding='utf-8')
+            log = open('E:\\logLeiloesPainelSAM.csv', 'w', newline='', encoding='utf-8')
             upload = ""
             # AQUI TEMOS A MAIOR DIFERENÇA DA VIEW DE INSERÇÃO EM MASSA
             nome = request.POST['nome']    # Pego o valor de nome que tiver no formulário
@@ -897,19 +906,28 @@ def export(request):   # View para exportar os lotes buscados
                 for a in nm:
                  listaB = LOTE_DET.objects.select_related('lode_lote','lode_material')
 
-    # queryM = Q(lode_lote=0)
-    # for lotes in lista:    # aqui eu percorro a lista de lotes
-    #  queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
-    
-    # listaB = LOTE_DET.objects.filter(queryM)  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
+    queryM = Q(lode_lote=0)
+    for lotes in lista:    # aqui eu percorro a lista de lotes
+      queryM.add(Q(lode_lote=lotes.lote_lote), Q.OR)    # aqui eu vou fazendo uma query de busca de cada um dos materiais de cada lote, na tabela lote_det
+    listaB = LOTE_DET.objects.filter(queryM).select_related('lode_lote','lode_material')  # E finalmente monto uma lista completa com lotes, materiais dos lotes e todos os atributos
     #
-    listaB =LOTE_DET.objects.all()
+    # listaB =LOTE_DET.objects.all()
    
-    for lotes  in lista:
-        listaB.lode_lote = lotes.lote_lote
+    # for lotes  in lista:
+    #     listaB.lode_lote = lotes.lote_lote
+    
+    listaC = listaB
+    for lotes in listaC:  
+                lista.lote_lote = lotes.lode_lote 
+                   
+    
+                  
+    print (listaC.query)
    
-  
-    print (listaB.query)
+    # disp =DISPUTA_ABERTA.objects.select_related('diab_lote','diab_comprador').order_by('diab_lote')
+    # lot= LOTE.objects.select_related('lote_leilao')
+    # for p  in lot:
+    #    disp.diab_lote = p.lote_lote
 
     end_time=time.time()
     duration=(end_time - start_time)
@@ -943,8 +961,8 @@ def export(request):   # View para exportar os lotes buscados
         ws.write(row_num, col_num, columns[col_num], font_style)   # vou escrevendo célula por célula com os atributos ao lado
 
     font_style = xlwt.XFStyle()
-
-    rows = listaB.values_list(
+    
+    rows = listaC.values_list(
                                 'lode_lote', 
                                 'lode_lote__lote_gerencia__gere_nome', 
                                 'lode_lote__lote_proprietario', 
@@ -1136,6 +1154,7 @@ def alterar_senha(request):
         if form_senha.is_valid():
             user = form_senha.save()
             update_session_auth_hash(request, user)
+            messages.success(request,'Senha alterada com sucesso!!')
             return redirect('alterar_perfil')
     else:
         form_senha = PasswordChangeForm(request.user)
@@ -1151,3 +1170,161 @@ def alterar_perfil(request):
    
     return render(request,'alterar_senha.html',{}
     )
+
+##############################################################################
+###################RESPONSAVEL UPLOAD
+
+class novoFormResponsavel(forms.Form):
+    frmResponsavelUpload = forms.FileField(label="Teste")
+
+@login_required  #Aqui eu defino que para acessar essa página é necessário estar logado
+def responsavelUpload(request):  #É uma view que solicita por base de uma requisição
+
+    if request.method=="POST":   #Se chegamos nessa view por um formulário com método post
+        form = novoFormResponsavel(request.POST, request.FILES)
+        if form.is_valid():   #Validação se o formulário é válido 
+
+            log = open('C:\\Logs\\logPainelSAM.csv', 'w', newline='', encoding='utf-8')   #Aqui eu crio um novo arquivo csv que vai ser onde gravo o log
+            
+            upload = request.FILES['frmResponsavelUpload'].read().decode('latin-1').splitlines() # Aqui eu faço a leitura do arquivo csv que o usuário upou
+            
+           
+            
+            ## PRIMEIRA PASSADA PARA VERIFICAR SE EXISTEM ERROS NO CSV
+            reader = csv.reader(upload, delimiter=';', quotechar='|')
+            listaLotes = []
+            listaErros = []
+            erro = ''
+            linha = 0
+            next(reader)
+            for dadosLinha in reader: #aqui começo a ler o documento que foi upado, um arquivo csv no caso
+                
+                #Inserir dados até a linha: 
+                if linha<30000:    # leio somente até 30mil linhas
+                    print(linha+2)  # o contador de  lotes que aparece no terminal
+                    #Estrutura de Lotes
+                   
+                    if(dadosLinha[0]):
+                        numero_lote = ''
+                        usuario_id= 0
+                        try: numero_lote = LOTE.objects.get(lote_lote = dadosLinha[0])   # Aqui eu pego o número do lote e vejo no banco de dados se ele já está inserido, se esse lote já existe
+                        except:
+                            a = 1
+                        try: usuario_id = User.objects.get(id = dadosLinha[1])
+                        except:
+                            a = 1
+                       
+                        if numero_lote: # Se o lote existir:
+                                  if  usuario_id:  # roda somente se usuario e usuario existir
+                                      anterior = numero_lote.lote_responsavel
+                                      numero_lote.lote_responsavel_id = dadosLinha[1]
+                                      
+                                    
+                                      
+                                      
+                                      
+                                  else: 
+                                       log.write('Erro na linha: '+str(linha+2) +
+                                          '. Responsável inexistente\n')
+                                       print('Erro na linha : ['+str(linha+2)+'] Responsável Inexistente\n')   
+                                       context ={'mensagem2':'Erro na linha = ['+str(linha+2)+'] Responsável Inexistente, Verifique se o código do Responsável está vazio ou incorreto!' }
+                                       return render(request,'form_responsavel.html',context)
+                        else:   # Se o lote não existir
+                                log.write('Erro na linha: '+str(linha+2)+'. Lote Inexistente\n')  # Grava no log em caso  de erro
+                                print('Erro na linha : '+str(linha+2)+'.Lote Inexistente, Verifique se o código está vazio ou incorreto\n')
+                                context ={'mensagem3':'Erro na linha : '+str(linha+2)+' Lote Inexistente, Verifique se o codigo está vazio ou incorreto!' }
+                                return render(request,'form_responsavel.html',context)
+                                # Apoós inserir o lote novo, ele insere os materiais 
+                             
+                    else:
+                        log.write('Erro na linha: '+str(linha+2)+'. Campo lote VAZIO é obrigatório. Verifique se está vazio ou incorreto!\n')  # E caso o número de lote esteja vazio na planilha, ele grava esse erro no log
+                        print('Erro na linha : '+str(linha+2)+'.Campo lote é obrigtório')
+                        context ={'mensagem3':'Erro na linha : '+str(linha+2)+'.Vazio Campo lote é obrigtório, Verifique se está vazio ou incorreto!'}
+                        return render(request,'form_responsavel.html',context)
+
+                        
+                linha+=1
+            # CASO NÃO EXISTAM ERROS, RELIZA A SEGUNDA LEITURA GRAVANDO NO BANCO    
+            reader = csv.reader(upload, delimiter=';', quotechar='|')
+            listaLotes = []
+            listaErros = []
+            erro = ''
+            linha = 0
+            next(reader)
+            for dadosLinha in reader: #aqui começo a ler o documento que foi upado, um arquivo csv no caso
+                
+                #Inserir dados até a linha: 
+                if linha<30000:    # leio somente até 30mil linhas
+                    print(linha+2)  # o contador de  lotes que aparece no terminal
+                    #Estrutura de Lotes
+                   
+                    if(dadosLinha[0]):
+                        numero_lote = ''
+                        usuario_id= 0
+                        try: numero_lote = LOTE.objects.get(lote_lote = dadosLinha[0])   # Aqui eu pego o número do lote e vejo no banco de dados se ele já está inserido, se esse lote já existe
+                        except:
+                            a = 1
+                        try: usuario_id = User.objects.get(id = dadosLinha[1])
+                        except:
+                            a = 1
+                       
+                        if numero_lote: # Se o lote existir:
+                                  if  usuario_id:  # roda somente se usuario e usuario existir
+                                      anterior = numero_lote.lote_responsavel
+                                      numero_lote.lote_responsavel_id = dadosLinha[1]
+                                      gravarHistorico('Alteração do Lote', request.user, numero_lote.lote_lote,'', 'Responsável', anterior, numero_lote.lote_responsavel,) 
+                                    
+                                      numero_lote.save()
+                                      
+                                      
+                                  else: 
+                                       log.write('Erro na linha: '+str(linha+2) +
+                                          '. Responsável inexistente\n')
+                                       print('Erro na linha : ['+str(linha+2)+'] Responsável Inexistente\n')   
+                                       context ={'mensagem2':'Erro na linha = ['+str(linha+2)+'] Responsável Inexistente, Verifique se o código do Responsável está vazio ou incorreto!' }
+                                       return render(request,'form_responsavel.html',context)
+                        else:   # Se o lote não existir
+                                log.write('Erro na linha: '+str(linha+2)+'. Lote Inexistente\n')  # Grava no log em caso  de erro
+                                print('Erro na linha : '+str(linha+2)+'.Lote Inexistente, Verifique se o código está vazio ou incorreto\n')
+                                context ={'mensagem3':'Erro na linha : '+str(linha+2)+' Lote Inexistente, Verifique se o codigo está vazio ou incorreto!' }
+                                return render(request,'form_responsavel.html',context)
+                                # Apoós inserir o lote novo, ele insere os materiais 
+                             
+                    else:
+                        log.write('Erro na linha: '+str(linha+2)+'. Campo lote VAZIO é obrigatório. Verifique se está vazio ou incorreto!\n')  # E caso o número de lote esteja vazio na planilha, ele grava esse erro no log
+                        print('Erro na linha : '+str(linha+2)+'.Campo lote é obrigtório')
+                        context ={'mensagem3':'Erro na linha : '+str(linha+2)+'.Vazio Campo lote é obrigtório, Verifique se está vazio ou incorreto!'}
+                        return render(request,'form_responsavel.html',context)
+
+                        
+                linha+=1
+            log.close()  # Caso tenha terminado fecha o log e salva
+            context1 ={'sucesso':'Responsáveis atribuídos em  : '+str(linha+0)+' Lotes, com sucesso!'}
+            messages.success(request,'Concluído !!')
+            return render(request, 'form_responsavel.html',context1)   # renderiza o template acima, retornando o formulário anterior
+        else:
+            upload = request.POST['frmResponsavelUpload']
+            print(upload)
+            lista = None
+            return render(request, 'form_responsavel.html', {
+                'lotes':lista,
+                'novoFormResponsavel': form
+            })
+    else:
+        lista = None
+      
+        return render(request, 'form_responsavel.html', {
+            'lotes':lista,
+            'novoFormResponsavel':novoFormResponsavel()
+
+        })
+
+
+
+@login_required
+def logs_erro(request):
+    context ={
+        'mensagem1':'Lote inexistente'
+    }
+   
+    return render(request,'errors/table_logs.html',context)
