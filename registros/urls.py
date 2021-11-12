@@ -10,20 +10,17 @@ from .views import LoteCreateView, LotesDetView, LoteDetCreateView, LoteDetUpdat
 from . import views
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(
-            template_name='index.html'
-        ), name='inicio'),
-    path('', auth_views.LoginView.as_view(
-            template_name='index.html'
-        ), name='inicio'),
-
-   
-   
- 
-  
-    
-
+    path('login/', auth_views.LoginView.as_view(template_name='index.html'), name='inicio'),
+    path('', auth_views.LoginView.as_view(template_name='index.html'), name='inicio'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name='contas/reset_password.html'), name='reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='contas/reset_password_sent.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='contas/reset_password_form.html'), name='password_reset_confirm'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='contas/reset_password_done.html'), name='password_reset_complete'),
+
+
+
     path('lotes-lista/', views.LotesBusca, name='lotes-lista'),
     path('gerencial-lista/', views.ListaGerencial, name='gerencial-lista'),
     path('lotes-det-lista/<str:pk>', LotesDetView.as_view(), name='lotes-det-lista'),
@@ -39,4 +36,7 @@ urlpatterns = [
     path('exportdip/', views.export_disputa, name='exportardisp'),
     path('alterar_senha/', alterar_senha, name='alterar_senha'),
     path('alterar_perfil/', alterar_perfil, name='alterar_perfil'),
+    path('responsavel-upload', responsavelUpload, name='responsavel-upload'),
+    path('logs_tabela', logs_erro, name='logs_tabela'),
+
 ]  

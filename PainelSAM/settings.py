@@ -145,11 +145,10 @@ LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
+USE_TZ = False
 USE_I18N = True
-
 USE_L10N = True
 
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -170,7 +169,15 @@ LOGIN_REDIRECT_URL = 'inicio'
 LOGIN_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'inicio'
 
-SESSION_EXPIRE_SECONDS = 36
+SESSION_EXPIRE_SECONDS = 36000
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 #SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 1
 SESSION_TIMEOUT_REDIRECT = 'inicio'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT =  587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER ='admsistemasam@gmail.com'
+EMAIL_HOST_PASSWORD ='fabiana21' 
+

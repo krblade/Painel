@@ -34,6 +34,7 @@ class LOTE(models.Model):
     TIPOVENDA = (
         ('Sucateamento','Sucateamento'),
         ('Vendido', 'Vendido'),
+         ('Leilao', 'Leilão'),
         ('', '')
     )
     ANO = (

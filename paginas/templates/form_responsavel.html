@@ -1,0 +1,125 @@
+{% extends 'layout.html'%}
+{% load user_tags %}
+{% block content %}
+<!-- Begin Page Content -->
+{% if formBusca %}
+<div id="loader">
+    <center><p><strong>Carregando...</strong></p></center>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
+
+    <!-- Collapsable Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            {% if novoFormResponsavel %}
+            <h6 class="m-0 font-weight-bold text-primary">Cadastrar Novo Leilão</h6>
+            {% endif %}
+        </a>
+        <!-- Parte da Pagina para inserir Leilão via planila -->
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+              
+                {% if contagem %}
+                <div class="alert alert-primary" role="alert" >
+                <p>{{contagem}}</p> 
+                
+                </div>  
+                {% endif %}
+               {% if sucesso %}
+               <div class="alert alert-primary" role="alert" >
+               <p>{{sucesso}}</p> 
+               
+               </div> 
+               {% endif %}
+               {% if mensagem1 %}
+               <div class="alert alert-danger" role="alert" >
+                <h2>Atenção! Um erro foi encontrado</h2>
+                <h3>A leitura foi interrompida,nenhuma informação foi alterada, corrija o erro encontrado e tente novamente:</h3>
+                <p>{{mensagem1}}</p> 
+               </div>
+               {% endif %}
+               {% if mensagem2 %}
+               <div class="alert alert-danger" role="alert" >
+                <h2>Atenção! Um erro foi encontrado</h2>
+                <h3>A leitura foi interrompida,nenhuma informação foi alterada, corrija o erro encontrado e tente novamente:</h3>
+                <p>{{mensagem2}}</p> 
+               </div>
+               {% endif %}
+               {% if mensagem3 %}
+               <div class="alert alert-danger" role="alert" >
+                <h2>Atenção! Um erro foi encontrado</h2>
+                <h3>A leitura foi interrompida,nenhuma informação foi alterada, corrija o erro encontrado e tente novamente:</h3>    
+               <P>{{mensagem3}}</P>
+               </div>  
+               {% endif %}
+               
+               {% if not novoFormResponsavel %}
+               <div>
+                <a href="{% url 'responsavel-upload' %}" class="btn btn-light btn-icon-split">
+                    <span class="icon text-gray-600">
+                        <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span class="text">Voltar</span>
+                </a>
+                 <a href="C:\Logs\logPainelSAM.csv" download >Baixe o log</a>
+               </div>
+               {% endif %}
+                {% if novoFormResponsavel %}
+                {% if request.user|has_group:"Insercao" %} <!-- Somente quem estiver no grupo Inserção pode fazer upload de planhilha csv-->
+             <form id='upload-responsavel' action="{% url 'responsavel-upload' %}" method="POST" enctype="multipart/form-data">
+                
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                
+                    {{ novoFormResponsavel.non_field_errors }}
+                    {{ novoFormResponsavel.rmResponsavelUpload.help_text }}
+                    {{ novoFormResponsavel.rmResponsavelUpload.errors }}
+                    <label for="upload">Inserir lotes com upload de Arquivo Excel</label>
+                    <p>{{ novoFormResponsavel.frmResponsavelUpload }}</p>
+            
+                    </div>
+                    <div class="form-group col-md-3">
+              
+               
+         
+                    </div>
+                    <div class="form-group col-md-3">
+      
+                    
+      
+                    </div>
+                    <div class="form-group col-md-3">
+                    </div>
+                </div>
+                
+                <button type="submit" id="visualizar" class="btn btn-primary">Inserir Planilha</button>
+                    
+                
+             </form>
+                
+                {% else %}
+                <div class="alert alert-danger" role="alert" >
+                    Você não tem permissão!
+                  </div>
+                <!-- Caso o usuário logado não pertença ao grupo Insersão-->
+                {% endif %}
+             {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

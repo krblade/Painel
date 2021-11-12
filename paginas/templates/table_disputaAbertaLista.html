@@ -26,6 +26,7 @@
                     <thead>
                         <tr>
                             <th>Lote</th>
+                            <th>Resposável</th>
                             <th>CNPJ Comprador</th>
                             <th>Nome</th>
                             <th>Cidade</th>
@@ -46,6 +47,7 @@
                     <tfoot>
                         <tr>
                             <th>Lote</th>
+                            <th>Resposável</th>
                             <th>CNPJ Comprador</th>
                             <th>Nome</th>
                             <th>Cidade</th>
@@ -67,6 +69,7 @@
                     {% for lote in object_list %}
                         <tr>
                             <td>{{ lote.diab_lote.lote_lote }}</td>
+                            <td>{{ lote.diab_lote.lote_responsavel }}</td>
                             <td>{{ lote.diab_comprador.comp_cnpj }}</td>
                             <td>{{ lote.diab_comprador.comp_nomeComprador }}</td>
                             <td>{{ lote.diab_comprador.comp_cidade }}</td>
