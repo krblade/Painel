@@ -1,0 +1,134 @@
+{% extends 'layout.html'%}
+{% load user_tags %}
+{% load static %}
+{% block content %}
+
+<div id="loader">
+    <center><p><strong>Carregando...</strong></p></center>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="cont" class="container-fluid">
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
+
+        <!-- Collapsable Card Example -->
+        <div class="card shadow" style="white-space: nowrap;">
+            <!-- Card Header - Accordion -->
+            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                role="button" aria-expanded="true" aria-controls="collapseCardExample" style="white-space: nowrap;">
+            
+                <h6 class="m-0 font-weight-bold text-primary">Selecionar os campos abaixo para fazer uma busca detalhada</h6>
+
+            </a>
+            <!-- Parte onde insere os Leilões  somente usuario do Grupo pode visualiza insersões -->
+            <div class="collapse show" id="collapseCardExample">
+               
+                <div class="card-body" style="white-space: nowrap;" >
+                
+                    <div class="table-responsive" >
+                        
+                        <table class="table table-noborder" id="dataTable" cellspacing="0" style="white-space: nowrap; text-align: center;" >
+                            <thead >
+                             {% for buckets in lista_bucket %}
+                             
+                             
+                                   <th ><div class="shadow-sm p-2 mb-1 bg-white rounded" style="width: 250px"> <h8>  {{buckets.bucket_descricao}} </h8> <span aria-hidden="true">&times;</span> </div></th>
+
+                            
+                             
+                             {% endfor %}
+                            </thead>
+                            <tfoot>
+                                {% for buckets in lista_bucket %}
+                             <th >{{buckets.bucket_descricao}} 
+                                  
+                             </th>
+                             {% endfor %}
+                            </tfoot>
+                            <tbody>
+                              
+                                {% for buckets in lista_bucket %}
+                             
+                                   
+                                <th>
+                                
+                                 {% for tarefas in lista_tarefa %}
+                                  {% if buckets.id == tarefas.tarefa_id_id %}
+                                  <div class="shadow-sm p-3 mb-5 bg-light rounded">
+                                  <ul class="list-group">  
+                                        <li class="list-group-item list-group-item-warning">Id da tarefa: {{tarefas.id}}</li>
+                                    <li class="list-group-item list-group-item-success"></li>
+                                     {% if tarefas.tarefa_prioridade == 'Importante'%}
+                                      <li class="list-group-item list-group-item-danger">Prioridade: {{tarefas.tarefa_prioridade}}</li> 
+                                      {% else %}
+                                      <li class="list-group-item list-group-item-primary">Prioridade: {{tarefas.tarefa_prioridade}}</li> 
+                                     
+                                      {% endif %}
+                                        
+                                        <li class="list-group-item list-group-item-warning">{{tarefas.tarefa_progresso}}</li>
+                                        <li class="list-group-item list-group-item-danger">{{tarefas.tarefa_datacriacao}}</li>
+                                        <li class="list-group-item list-group-item-danger">{{tarefas.tarefa_responsavel_cod}}</li>
+                                        <li class="list-group-item list-group-item-warning">Editar</li><br>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal{{tarefas.id}}">
+                                        Editar Tarefa
+                                      </button>
+                                          
+                                      <div class="modal fade" id="Modal{{tarefas.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">Codigo da tarefa: {{tarefas.id}}</h5>
+                                             
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{tarefas.tarefa_datacriacao}}</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">{{tarefas.tarefa_responsavel_cod}}</h5>
+                                                ...
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                              <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                    </ul> 
+                                    </div>
+                                     {% endif %}
+                                 {% endfor%}  
+                                
+                                </th>
+
+
+                          
+                                {% endfor %}
+                                  
+                          
+                            </tbody>
+                        </table>
+                    </div>
+                
+                  
+                </div>
+            </div>
+        </div>
+    
+
+    </div>
+<!-- /.container-fluid -->
+</div>
+{% endblock %}

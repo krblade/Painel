@@ -1,5 +1,5 @@
 from django.contrib import admin
-from registros.models import LOTE, GERENCIA, LEILAO, COMPRADOR, DISPUTA_ABERTA, MATERIAL, LOTE_DET, HIST_LOTE
+from registros.models import ACOMP_COMENTARIOS, ACOMP_BUCKET, ACOMP_TAREFA, LOTE, GERENCIA, LEILAO, COMPRADOR, DISPUTA_ABERTA, MATERIAL, LOTE_DET, HIST_LOTE
 
 # Register your models here.
 admin.site.register(LOTE)
@@ -10,3 +10,6 @@ admin.site.register(LEILAO)
 admin.site.register(COMPRADOR)
 admin.site.register(DISPUTA_ABERTA)
 admin.site.register(HIST_LOTE)
+admin.site.register(ACOMP_COMENTARIOS)
+admin.site.register(ACOMP_BUCKET)
+admin.site.register(ACOMP_TAREFA)

@@ -198,3 +198,64 @@ class HIST_LOTE(models.Model):
 
     def __str__(self):
         return self.hist_tipoAlteracao
+
+
+
+
+class ACOMP_BUCKET(models.Model):
+  
+  
+    bucket_descricao = models.CharField(max_length=500, null=False)
+    bucket_criador = models.ForeignKey(User, on_delete=models.CASCADE)
+    bucket_datacriacao = models.DateTimeField(auto_now_add=True)
+ 
+   
+
+ 
+
+    def __str__(self):
+        return self.bucket_descricao    
+
+
+    
+class ACOMP_TAREFA(models.Model):
+    PRIORIDADE = (
+        ('Urgente', 'Urgente'), 
+        ('Importante', 'Importante'),
+        ('Média', 'Média'),
+        ('Baixa', 'Baixa')
+    )
+    PROGRESSO =(
+     ('Não iniciada','Não iniciada'),
+     ('Em Andamento','Em Andamento'),
+     ('Concluída','Concluída'),
+
+
+    )
+
+    tarefa_nome = models.CharField(max_length=100, null=False)
+    tarefa_anotacoes = models.CharField(max_length=500, null=False)
+    tarefa_id = models.ForeignKey(ACOMP_BUCKET, on_delete=models.CASCADE)
+    tarefa_responsavel_cod = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    tarefa_Criador = models.IntegerField(null=False)
+    tarefa_datacriacao = models.DateTimeField(auto_now_add=True)
+    #tarefa_dtinicio = models.DateTimeField(editable=False)
+    #tarefa_dtconclusao = models.DateTimeField(editable=False)
+    tarefa_prioridade = models.CharField(max_length=25, choices=PRIORIDADE,default='Importante')
+    tarefa_progresso = models.CharField(max_length=25, choices=PROGRESSO,default='Não iniciada')
+    
+    
+
+    def __str__(self):
+        return f"{self.tarefa_nome} : {self.tarefa_progresso}"    
+
+class ACOMP_COMENTARIOS(models.Model):
+     
+     coment_tarefa_id = models.ForeignKey(ACOMP_TAREFA, on_delete=models.CASCADE)
+     coment_descricao = models.CharField(max_length=500, null=True)
+     coment_criador = models.ForeignKey(User, on_delete=models.CASCADE)
+     coment_datacriacao = models.DateTimeField(auto_now_add=True)
+     
+   
+     def __str__(self):
+        return self.coment_descricao

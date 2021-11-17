@@ -38,5 +38,6 @@ urlpatterns = [
     path('alterar_perfil/', alterar_perfil, name='alterar_perfil'),
     path('responsavel-upload', responsavelUpload, name='responsavel-upload'),
     path('logs_tabela', logs_erro, name='logs_tabela'),
+    path('acompanhamento', acompanhamento, name='acompanhamento'),
 
 ]  

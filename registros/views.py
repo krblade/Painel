@@ -21,7 +21,7 @@ from django.views.generic.edit import CreateView
 from datetime import date, datetime
 from pandas.core import indexing
 from pandas.core.indexes.base import Index
-from .models import DISPUTA_ABERTA, GERENCIA, LEILAO, LOTE, LOTE_DET, MATERIAL, TESTES, HIST_LOTE, COMPRADOR
+from .models import DISPUTA_ABERTA, GERENCIA, LEILAO, LOTE, LOTE_DET, MATERIAL, TESTES, HIST_LOTE, COMPRADOR, ACOMP_COMENTARIOS, ACOMP_TAREFA , ACOMP_BUCKET
 from django.db.models import Q
 from django.urls import reverse_lazy
 import csv
@@ -1328,3 +1328,22 @@ def logs_erro(request):
     }
    
     return render(request,'errors/table_logs.html',context)
+
+@login_required
+def acompanhamento(request):
+    responsavel = User.objects.all()
+    lista_bucket =  ACOMP_BUCKET.objects.all()
+    lista_tarefa = ACOMP_TAREFA.objects.select_related('tarefa_responsavel_cod','tarefa_id')
+    for p in lista_tarefa:
+       lista_bucket.id = p.tarefa_id 
+       responsavel.id = p.tarefa_responsavel_cod
+    return render(request,'table_acompanhamento.html',
+    {'lista_bucket': lista_bucket,
+      'lista_tarefa': lista_tarefa,
+      'responsavel': responsavel
+    })
+
+class AdicionarTarefa(forms.ModelForm):
+    class Meta:
+            model = ACOMP_TAREFA
+            fields ={'tarefa_anotacoes', 'tarefa_prioridade'}
