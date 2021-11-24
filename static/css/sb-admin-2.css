@@ -1846,7 +1846,7 @@ tr.highlight {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #d1d3e2;
-  border-radius: 0.35rem;
+  border-radius: 0.0rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -3471,7 +3471,7 @@ input[type="button"].btn-block {
   color: #6e707e;
   text-align: center;
   white-space: nowrap;
-  background-color: #eaecf4;
+  background-color: #283468;
   border: 1px solid #d1d3e2;
   border-radius: 0.35rem;
 }

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import locale
+
+locale.setlocale(locale.LC_ALL,'pt_BR.UTF-8')
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true" 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PainelSAM.settings')
 
@@ -34,6 +37,7 @@ ALLOWED_HOSTS = ['10.163.152.165', '127.0.0.1', 'localhost', 'mi00311557']
 # Application definition
 
 INSTALLED_APPS = [
+  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +47,9 @@ INSTALLED_APPS = [
     'paginas',
     'registros',
     'django_extensions',
+    'ckeditor',
+    'ckeditor_uploader'
+    
 ]
 
 MIDDLEWARE = [
@@ -155,6 +162,9 @@ USE_L10N = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL ='/media/'
+MEDIA_ROOT = 'media/'
+CKEDITOR_UPLOAD_PATH = ('uploads/')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -166,8 +176,8 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'inicio'
-LOGIN_URL = 'inicio'
-LOGOUT_REDIRECT_URL = 'inicio'
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
 
 SESSION_EXPIRE_SECONDS = 36000
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True

@@ -3,6 +3,8 @@ from django.db.models.fields import DateField
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 # Create your models here.
@@ -232,19 +234,22 @@ class ACOMP_TAREFA(models.Model):
 
 
     )
-
+    tarefa_lote= models.ForeignKey(LOTE, on_delete=models.SET_NULL, null=True) 
     tarefa_nome = models.CharField(max_length=100, null=False)
-    tarefa_anotacoes = models.CharField(max_length=500, null=False)
-    tarefa_id = models.ForeignKey(ACOMP_BUCKET, on_delete=models.CASCADE)
+    tarefa_anotacoes = RichTextUploadingField(blank=True)
+    tarefa_id = models.ForeignKey(ACOMP_BUCKET, on_delete=models.SET_NULL, null=True, blank=True)
     tarefa_responsavel_cod = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     tarefa_Criador = models.IntegerField(null=False)
     tarefa_datacriacao = models.DateTimeField(auto_now_add=True)
-    #tarefa_dtinicio = models.DateTimeField(editable=False)
-    #tarefa_dtconclusao = models.DateTimeField(editable=False)
+    tarefa_dtalteracao = models.DateTimeField(null=True)
+    tarefa_dtinicio = models.DateField(null=True)
+    tarefa_dtconclusao = models.DateField(null=True)
     tarefa_prioridade = models.CharField(max_length=25, choices=PRIORIDADE,default='Importante')
     tarefa_progresso = models.CharField(max_length=25, choices=PROGRESSO,default='Não iniciada')
+    tarefa_atrasado= models.BooleanField(default=False)
     
-    
+    def get_absolute_url(self):
+       return reverse("tarefas_editar", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.tarefa_nome} : {self.tarefa_progresso}"    
@@ -259,3 +264,52 @@ class ACOMP_COMENTARIOS(models.Model):
    
      def __str__(self):
         return self.coment_descricao
+
+
+class Postagem(models.Model):
+     categoria = models.ForeignKey(ACOMP_TAREFA, on_delete=models.CASCADE)
+     title= models.CharField(max_length=255)
+     sumary= RichTextField(blank=True)
+     body= RichTextUploadingField(blank=True)
+     author= models.ForeignKey(User, on_delete=models.PROTECT)
+     created_at=models.DateTimeField(auto_now_add=True)
+    
+     def __str__(self):
+        return self.title
+  
+class rotulo(models.Model):
+     CORES=(
+     
+     ('Vermelho Vivo ','Vermelho Vivo'),
+     ('Vermelho Claro','Vermelho Claro'),
+     ('Rosa claro','Rosa claro'),
+     ('Amarelo','Amarelo'),
+     ('Bronze','Bronze'),
+     ('Laranja','Laranja'),
+     ('Pêssego','Pêssego'),
+     ('Margarida','Margarida'),
+     ('Verde','Verde'),
+     ('Verde Claro','Verde Claro'),
+     ('Verde Lima','Verde Lima'),
+     ('Verde Azulado','Verde Azulado'),
+     ('Verde Escuro','Verde Escuro'),
+     ('Azul','Azul'),
+     ('Azul Claro','Claro'),
+     ('Azul Piscina','Azul Piscina'),
+     ('Roxo','Roxo'),
+     ('Lavanda','Lavanda'),
+     ('Ameixa','Ameixa'),
+     ('Cinza','Cinza'),
+     ('Cinza Claro','Cinza Claro'),
+     ('Cinza Escuro','Cinza Escuro'),
+     ('Marrom','Marrom'),
+
+    )
+     tarefa=models.ForeignKey(ACOMP_TAREFA, on_delete=models.CASCADE)
+     descricao= models.CharField(max_length=255)
+     cor= models.CharField(max_length=255,choices=CORES, null=True)
+     
+    
+     def __str__(self):
+        return self.descricao
+  

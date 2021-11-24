@@ -89,11 +89,11 @@
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
+  background: #f5f5f5; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #f5f5f5, #cddac6);
+  background: -moz-linear-gradient(right, #f5f5f5, #d4ddcf);
+  background: -o-linear-gradient(right, #f5f5f5, #cbd1c8);
+  background: linear-gradient(to left, #f5f5f5, #b9c0b5);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      

@@ -1,7 +1,8 @@
 {% load static %}
 {% load user_tags %}
+{% load money %} 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
 
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="icon" href="{% static "img/R.png" %}" >
     <title>Painel SAM</title>
 
     <!-- Custom fonts for this template-->
@@ -22,7 +23,7 @@
     <!-- Custom styles for this template-->
     <link href="{% static "css/sb-admin-2.css" %}" rel="stylesheet">
     <link href="{% static "css/meu.css" %}" rel="stylesheet">
-  
+    <link href="{% static "admin/css/widgets.css" %}" rel="stylesheet">
     <link href="{% static "vendor/tags-input/bootstrap-tagsinput.css" %}" rel="stylesheet">
 
 </head>
@@ -189,6 +190,55 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                     
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cadastrar
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Lote</a>
+                            <a class="dropdown-item" href="#">Leilao</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Cliente/Transportador</a>
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Relatório
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="#">Lote</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'leilao-upload' %}">Leilao</a>
+                            
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Cliente/Transportador</a>
+                            </div>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Tarefas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="#">Lote</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'leilao-upload' %}">Leilao</a>
+                            
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Cliente/Transportador</a>
+                            </div>
+                          </li>
+                        <li class="nav-item">
+                          <a class="nav-link disabled" href="#">Sobre</a>
+                        </li>
+                      </ul>
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -196,18 +246,7 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                   
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -220,7 +259,8 @@
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
+                                
+                            aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
@@ -235,6 +275,8 @@
                                 </form>
                             </div>
                         </li>
+                        
+                        
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -257,7 +299,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
+                                     
                                         <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>

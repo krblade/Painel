@@ -5,13 +5,14 @@ from os import name
 from django.urls import path
 from django.contrib.auth.forms import UserCreationForm as create_user
 from django.contrib.auth import views as auth_views
-
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import LoteCreateView, LotesDetView, LoteDetCreateView, LoteDetUpdateView, LoteInternoView, LoteUpdateView, LoteCreateView, LotesUpload, DisputaAbertaView
 from . import views
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(template_name='index.html'), name='inicio'),
-    path('', auth_views.LoginView.as_view(template_name='index.html'), name='inicio'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='contas/reset_password.html'), name='reset_password'),
@@ -39,5 +40,9 @@ urlpatterns = [
     path('responsavel-upload', responsavelUpload, name='responsavel-upload'),
     path('logs_tabela', logs_erro, name='logs_tabela'),
     path('acompanhamento', acompanhamento, name='acompanhamento'),
-
-]  
+    path('tarefas', buscaTarefas, name='tarefas'),
+    path('tarefas-editar/<str:pk>/', updateTarefas.as_view(), name='tarefas_editar'),
+    path('tarefa-nova', LoteCreateView.as_view(), name='tarefa-nova'),
+    path('post', Post, name='post'),
+    path('inicio', inicio, name='inicio'),
+] 

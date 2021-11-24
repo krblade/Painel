@@ -1,7 +1,7 @@
 from typing import List
 from django.db.models.query_utils import select_related_descend
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.db import connection, reset_queries
 from django.contrib import messages
@@ -21,7 +21,7 @@ from django.views.generic.edit import CreateView
 from datetime import date, datetime
 from pandas.core import indexing
 from pandas.core.indexes.base import Index
-from .models import DISPUTA_ABERTA, GERENCIA, LEILAO, LOTE, LOTE_DET, MATERIAL, TESTES, HIST_LOTE, COMPRADOR, ACOMP_COMENTARIOS, ACOMP_TAREFA , ACOMP_BUCKET
+from .models import DISPUTA_ABERTA, GERENCIA,Postagem ,rotulo, LEILAO, LOTE, LOTE_DET, MATERIAL, TESTES, HIST_LOTE, COMPRADOR, ACOMP_COMENTARIOS, ACOMP_TAREFA , ACOMP_BUCKET
 from django.db.models import Q
 from django.urls import reverse_lazy
 import csv
@@ -37,7 +37,8 @@ import pandas as pd
 from itertools import chain
 import time
 import numpy as np
-
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 # Create your views here.
 
 
@@ -331,8 +332,10 @@ def LotesBusca(request):
                 for a in lote:    # Percorrendo a lista de lotes que ele tá buscando
                     query.add(Q(lote_lote=a), Q.OR)    # Vou adicionando cada um dos lotes na query que criei acima
                 lista = LOTE.objects.filter(query)    # A lista onde eu busquei todos os lotes anteriormente, agora recebe um filtro de somente os lotes que ele pediu para buscar no formulário
+            
             if ano:   # Se no formulário tinha um valor ano, nesse caso aqui sempre vai ter porque é um select com valores 2019, 2020 e 2021
                 lista = lista.filter(lote_ano=ano)   # Adiciono o filtro do ano à lista geral
+           
             if gerencia:   # Se houver gerencia preenchido no form...
                 queryB = Q(lote_gerencia=0)   # Como gerencia posso adicionar uma ou mais segurando o btn ctrl do teclado, ele cria uma lista de gerencias tbm que será incluida na query
                 for gere in gerencia:
@@ -1283,12 +1286,12 @@ def responsavelUpload(request):  #É uma view que solicita por base de uma requi
                                        print('Erro na linha : ['+str(linha+2)+'] Responsável Inexistente\n')   
                                        context ={'mensagem2':'Erro na linha = ['+str(linha+2)+'] Responsável Inexistente, Verifique se o código do Responsável está vazio ou incorreto!' }
                                        return render(request,'form_responsavel.html',context)
-                        else:   # Se o lote não existir
+                        else:   
                                 log.write('Erro na linha: '+str(linha+2)+'. Lote Inexistente\n')  # Grava no log em caso  de erro
                                 print('Erro na linha : '+str(linha+2)+'.Lote Inexistente, Verifique se o código está vazio ou incorreto\n')
                                 context ={'mensagem3':'Erro na linha : '+str(linha+2)+' Lote Inexistente, Verifique se o codigo está vazio ou incorreto!' }
                                 return render(request,'form_responsavel.html',context)
-                                # Apoós inserir o lote novo, ele insere os materiais 
+                               
                              
                     else:
                         log.write('Erro na linha: '+str(linha+2)+'. Campo lote VAZIO é obrigatório. Verifique se está vazio ou incorreto!\n')  # E caso o número de lote esteja vazio na planilha, ele grava esse erro no log
@@ -1328,22 +1331,189 @@ def logs_erro(request):
     }
    
     return render(request,'errors/table_logs.html',context)
-
+##################################################################################################
+##### ACOMPANHAMENTO DAS TAREFAS
 @login_required
 def acompanhamento(request):
     responsavel = User.objects.all()
     lista_bucket =  ACOMP_BUCKET.objects.all()
+  
     lista_tarefa = ACOMP_TAREFA.objects.select_related('tarefa_responsavel_cod','tarefa_id')
     for p in lista_tarefa:
        lista_bucket.id = p.tarefa_id 
        responsavel.id = p.tarefa_responsavel_cod
+
+    post = Postagem.objects.all() 
+    for p in  post:
+       lista_tarefa.id = p.categoria
+
     return render(request,'table_acompanhamento.html',
     {'lista_bucket': lista_bucket,
       'lista_tarefa': lista_tarefa,
-      'responsavel': responsavel
+      'responsavel': responsavel,
+      'post': post
     })
 
 class AdicionarTarefa(forms.ModelForm):
     class Meta:
             model = ACOMP_TAREFA
             fields ={'tarefa_anotacoes', 'tarefa_prioridade'}
+
+
+class FormBuscaTarefa(forms.Form): #Classe que cria os parametros para Busca de Lote
+
+    responsavel = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False, widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}))
+    choicesProgresso = ( ('Não iniciada','Não iniciada'),('Em Andamento','Em Andamento'),('Concluída','Concluída'),)
+    progresso = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=choicesProgresso, required=False)
+    choicesPrioridade= ( ('Urgente', 'Urgente'),('Importante', 'Importante'),('Média', 'Média'),('Baixa', 'Baixa'))#Aqui é definido a escolha
+    prioridade = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),choices=choicesPrioridade, required=False)
+    bucket = forms.ModelMultipleChoiceField(queryset=ACOMP_BUCKET.objects.all(), required=False, widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}))
+    #isasipa = forms.ModelMultipleChoiceField(queryset=lista_leilao, required=False, widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}))
+@login_required   #Como expliquei antes, isso serve para forçar o login anteriormente
+def buscaTarefas(request):
+
+    if request.method=="POST":  # Se chegamos na página a partir de um POST do formulario:
+        
+        novoFormBuscaTarefas = FormBuscaTarefa(request.POST)
+        if novoFormBuscaTarefas.is_valid():  # Se o formulario for valido
+          
+            responsavel = novoFormBuscaTarefas.cleaned_data["responsavel"]   # lote recebe o valor de lote no formulario
+            progresso = novoFormBuscaTarefas.cleaned_data["progresso"]   # e todos os outros recebem seus respectivos valores do formulario
+            prioridade = novoFormBuscaTarefas.cleaned_data["prioridade"]
+            bucket = novoFormBuscaTarefas.cleaned_data["bucket"]
+           
+   
+            listaTarefas = ACOMP_TAREFA.objects.select_related('tarefa_responsavel_cod')   # lista recebe uma lista de todos os lotes que estão no banco de dados
+            if responsavel:  # O mesmo serve para os campos abaixo
+                query = Q(tarefa_responsavel_cod=0)
+                for resp in responsavel:
+                    query.add(Q(tarefa_responsavel_cod=resp.id), Q.OR)
+                listaTarefas = ACOMP_TAREFA.objects.filter(query) 
+         
+          
+            if progresso:
+                queryB = Q(tarefa_progresso="")
+                for prog in progresso:
+                    queryB.add(Q(tarefa_progresso=prog), Q.OR)
+                listaTarefas = listaTarefas.filter(queryB)
+
+            if prioridade:
+                queryC = Q(tarefa_prioridade="")
+                for priori in prioridade:
+                    queryC.add(Q(tarefa_prioridade=priori), Q.OR)
+                listaTarefas = listaTarefas.filter(queryC)
+
+            if bucket:
+               queryD = Q(tarefa_id="0")
+               for buck in bucket:
+                   
+                   queryD.add(Q(tarefa_id=buck.id), Q.OR)
+                   listaTarefas = listaTarefas.filter(queryD)
+            
+           
+               
+
+            
+                # no caso dessa busca por NM, ela apaga a busca por todos os campos anteriores, ou seja, só retorna a busca dela, pois é uma busca em tabelas diferentes
+
+                
+            return render(request, 'table_buscaTarefas.html', {
+                'listaTarefas':listaTarefas,
+           
+                'formBuscaTarefas': novoFormBuscaTarefas,
+                # Aqui eu renderizo o template table_lotesLista.html, essa variável lotes recebe a lista de lotes que eu trate e o formBusca recebe o mesmo formulário que foi buscado
+            })
+        else:
+            listaTarefas = None
+            return render(request, 'table_buscaTarefas.html', {
+                'listaTarefas':listaTarefas,
+                'formBuscaTarefas': novoFormBuscaTarefas
+            })
+    else:  # Como viemos até essa view sem um metodo post do formulario
+        listaTarefas = None   # A lista que vai carregar no template recebe valor nulo
+        return render(request, 'table_buscaTarefas.html', {   
+            'listaTarefas':listaTarefas,
+            'formBuscaTarefas':FormBuscaTarefa()     # retornamos a renderização do template table_lotesLista.html, onde lotes vai ser nulo e o formulario que vamos carregar é um novo formulário de buscas
+        })
+
+class LoteCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    model = ACOMP_TAREFA
+    fields = ['id','tarefa_Criador','tarefa_anotacoes','tarefa_responsavel_cod','tarefa_nome','tarefa_dtinicio','tarefa_id','tarefa_prioridade','tarefa_progresso'] 
+    template_name = 'form_novaTarefa.html'
+            
+    def form_valid(self, form):
+        url = super().form_valid(form)
+        messages.success(self.request, 'Tarefa incluída com sucesso!')
+        
+        
+        return url
+
+class updateTarefas( LoginRequiredMixin, UpdateView): # Essa view é uma view já modelada pelo Django, eu passo de parametros ali o requerimento par aque o user esteja logado e o tipo dessa view, no caso uma UpdateView
+    tarefa= ACOMP_TAREFA.objects.all
+    login_url = reverse_lazy('login')
+    model = ACOMP_TAREFA
+    fields = ['id','tarefa_anotacoes','tarefa_responsavel_cod','tarefa_nome','tarefa_dtinicio','tarefa_id','tarefa_prioridade','tarefa_progresso'] 
+    template_name = 'form_editarTarefa.html'
+    context_object_name = 'listaTarefas' 
+   
+    widget= {
+        'tarefa_id': forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
+        'tarefa_responsavel_cod': forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
+        'tarefa_dtinicio' : forms.DateInput(format='%d-%m-%Y'),
+        'tarefa_anotacoes': forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm'}),label="tarefa_anotacoes:", required=False),
+        'tarefa_nome' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
+        'tarefa_prioride' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
+        'tarefa_progresso' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
+       
+    }  # nesse widget eu posso desenhar o formulário que eu quero jogar para a tela, serve para atribuir class em css e outros coisas relativas ao layout, quando você estiver trabalhando nas melhorias do layout, vale a pena usar
+
+     
+    
+    def form_valid(self, form):
+        lote = ACOMP_TAREFA.objects.get(id=self.kwargs['pk'])   # lote recebe o lote que foi passado por argumento na url, no caso a pk
+        
+        url = super().form_valid(form)
+        messages.success(self.request, 'Lote inserido com sucesso!')
+       
+     
+        return url
+    def get_context_data(self, **kwargs):   # após graver o histórico de alterações, carregamos uma lista para a tela com o histórico de alterações naquele determinado lote
+       
+       
+        context = super(updateTarefas, self).get_context_data(**kwargs)
+           # a tabela historico é filtrada de acordo pela chave primaria do lote
+        
+            # ele retonra a lista de lotes 
+        return context
+        
+
+######## PAGINA DE INICIO
+@login_required
+def inicio(request):
+    
+   
+    return render(request,'index.html',{}
+    )            
+@login_required
+def Post(request):
+    
+    responsavel = User.objects.all()
+    lista_bucket =  ACOMP_BUCKET.objects.all()
+    
+
+    lista_tarefa = ACOMP_TAREFA.objects.select_related('tarefa_responsavel_cod','tarefa_id')
+    for p in lista_tarefa:
+       lista_bucket.id = p.tarefa_id 
+       responsavel.id = p.tarefa_responsavel_cod
+
+    
+
+    for p in lista_tarefa:
+       lista_bucket.id = p.tarefa_id 
+       responsavel.id = p.tarefa_responsavel_cod
+    post = Postagem.objects.all() 
+    for p in  post:
+       lista_tarefa.id = p.categoria
+    return render(request,'Post.html',{}
+    )

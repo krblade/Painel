@@ -1,0 +1,95 @@
+{% extends 'layout.html'%}
+{% load user_tags %}
+{% load static %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800"></h1>
+    {{ listaTarefas.tarefa_datacricacao }}
+    <!-- Collapsable Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">Editar Tarefa:</h6>
+        </a>
+        <!-- INSERÇÃO -->
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+                <form id='tarefa-nova' method="POST">
+                {% csrf_token %}
+               {{form.media}}
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="lote">Bucket</label><br>
+                        {{ form.tarefa_id }}
+                        </div>
+                    <div class="form-group col-md-3">
+                    <h5> data inicial  </h5> 
+                    {{ form.tarefa_dtinicio }}
+                    <span class="datetimeshortcuts">&nbsp;<a href="#">Hoje</a>&nbsp;|&nbsp;<a href="#" id="calendarlink1"><span class="date-icon" title="Escolha uma data"></span></a></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">tarefa_nome:</label><br>
+                    {{ form.tarefa_nome }}
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="lote">Atribuído a::</label><br>
+                    {{ form.tarefa_responsavel_cod }}
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="lote">Prioridade::</label><br>
+                        {{ form.tarefa_prioridade }}
+                        </div>
+                    <div class="form-group col-md-3">
+                            <label for="tarefa_progresso">Progresso:</label><br>
+                            {{ form.tarefa_progresso }}
+                            </div>
+                    <div class="form-group col-md-3">
+                        <label for="tarefa_progresso">Alterado em:</label><br>
+                        {{form.tarefa_Criador}}
+                    </div>
+                               
+                   
+                <div class="form-row">
+                    
+                    <div class="form-group col-md-3">
+                        
+                        <label for="tarefa_anotacoes">Progresso:</label><br>
+                        {{ form.tarefa_anotacoes }}
+                 </div> 
+                
+                </div>
+                </div>
+               
+                
+                <button type="submit" value="salvar" name="save"    id="nova-tarefa" class="btn btn-primary">Salvar</button>
+                <a href="{% url 'tarefa-nova' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i>Retornar</a>
+                </form>
+            </div>
+        </div>
+           
+        
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Histórico de alterações do material</h6>
+        </div>
+        <div class="form-group col-md-3">
+                            
+            <label for="tarefa_anotacoes">Progresso:</label><br>
+            {{ listaTarefas.tarefa_anotacoes|safe}}
+            </div>
+
+    </div>
+
+
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

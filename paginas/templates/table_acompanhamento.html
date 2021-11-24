@@ -16,9 +16,28 @@
 <div id="cont" class="container-fluid">
 
     <div class="container-fluid">
-
+     <div style="text-align: right;">
+      <div class="btn-group" >
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filtrar
+        </button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Action
+        </button>
+        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Criar Tarefa
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Separated link</a>
+        </div>
+      </div>
+      </div><br>
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
+        
 
         <!-- Collapsable Card Example -->
         <div class="card shadow" style="white-space: nowrap;">
@@ -29,9 +48,11 @@
                 <h6 class="m-0 font-weight-bold text-primary">Selecionar os campos abaixo para fazer uma busca detalhada</h6>
 
             </a>
+            
+
             <!-- Parte onde insere os Leilões  somente usuario do Grupo pode visualiza insersões -->
             <div class="collapse show" id="collapseCardExample">
-               
+                
                 <div class="card-body" style="white-space: nowrap;" >
                 
                     <div class="table-responsive" >
@@ -62,6 +83,7 @@
                                 <th>
                                 
                                  {% for tarefas in lista_tarefa %}
+                                 <div>
                                   {% if buckets.id == tarefas.tarefa_id_id %}
                                   <div class="shadow-sm p-3 mb-5 bg-light rounded">
                                   <ul class="list-group">  
@@ -77,6 +99,7 @@
                                         <li class="list-group-item list-group-item-warning">{{tarefas.tarefa_progresso}}</li>
                                         <li class="list-group-item list-group-item-danger">{{tarefas.tarefa_datacriacao}}</li>
                                         <li class="list-group-item list-group-item-danger">{{tarefas.tarefa_responsavel_cod}}</li>
+                                        
                                         <li class="list-group-item list-group-item-warning">Editar</li><br>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal{{tarefas.id}}">
                                         Editar Tarefa
@@ -86,18 +109,29 @@
                                         <div class="modal-dialog" role="document">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h5 class="modal-title" id="exampleModalLabel">Codigo da tarefa: {{tarefas.id}}</h5>
-                                             
+                                              
+                                              <h10 class="modal-title" id="exampleModalLabel">Criado em : {{tarefas.tarefa_datacriacao}}</h10><br>
                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                               </button>
                                             </div>
-                                            <div class="modal-body">
-                                                <h5 class="modal-title" id="exampleModalLabel">{{tarefas.tarefa_datacriacao}}</h5>
-                                                <h5 class="modal-title" id="exampleModalLabel">{{tarefas.tarefa_responsavel_cod}}</h5>
+
+                                            <div class="modal-body" style="text-align: justify;">
+                                              <h8 class="modal-title" id="exampleModalLabel">Codigo da tarefa: {{tarefas.id}}</h8><br>
+                                               <hr>
+                                                <h10 class="modal-title" id="exampleModalLabel">{{tarefas.tarefa_responsavel_cod}}</h10><br>
+                                              <hr>
+                                                
+                                                {% for p in post %}
+                                                  {% if tarefas.id == p.categoria_id %}
+                                                   <h10 class="modal-title" id="exampleModalLabel">{{p.title}}</h10><br>
+                                                   <h10 class="modal-title" id="exampleModalLabel">{{p.sumary|safe}}</h10><br>
+                                                  {% endif %}
+                                                {% endfor%} 
                                                 ...
                                             </div>
                                             <div class="modal-footer">
+                                             
                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                               <button type="button" class="btn btn-primary">Save changes</button>
                                             </div>
@@ -109,6 +143,7 @@
                                     </ul> 
                                     </div>
                                      {% endif %}
+                                  </div> 
                                  {% endfor%}  
                                 
                                 </th>

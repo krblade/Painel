@@ -1,5 +1,7 @@
 {% extends 'layout.html'%}
+{% load money %} 
 {% load user_tags %}
+
 {% load static %}
 {% block content %}
 <!-- Begin Page Content -->
@@ -21,7 +23,7 @@
 {% endif %}
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Lotes</h1>
-
+       
     <!-- Collapsable Card Example -->
     <div class="card shadow mb-4">
         <!-- Card Header - Accordion -->
@@ -239,7 +241,8 @@
                     </tfoot>
                     <tbody>
                     {% for lote in lotes %}
-                        <tr>
+                     
+                    <tr>
                             
                             <td>
                                
@@ -250,7 +253,7 @@
                              
                              
                             <td><a href="{% url 'lotes-det-lista' lote.lote_lote %}">Det</a></td>
-                            <td>{{ lote.lote_lote }}</td>
+                            <td>{{ lote.lote_lote}}</td>
                             <td>{{ lote.lote_gerencia }}</td>
                             <td>{{ lote.lote_proprietario }}</td>
                             <td>{{ lote.lote_al }}</td>
@@ -265,7 +268,11 @@
                             <td>{{ lote.lote_leilao }}</td>
                             <td>{{ lote.lote_isaEnvioArm }}</td>
                             <td>{{ lote.lote_dataEnvoArm }}</td>
-                            <td>{{ lote.lote_vmaLote }}</td>
+                            {% if lote.lote_vmaLote > 0 %}
+                            <td>{{lote.lote_vmaLote|currency}}</td>
+                            {% else %}
+                            <td>{{lote.lote_vmaLote}}</td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -1,0 +1,176 @@
+{% extends 'layout.html'%}
+{% load money %} 
+{% load user_tags %}
+
+{% load static %}
+{% block content %}
+<!-- Begin Page Content -->
+{% if formBuscaTarefas %}
+<div id="loader">
+    <center><p><strong>Carregando...</strong></p></center>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if formBuscaTarefas %}
+<div id="cont" class="container-fluid">
+{% endif %}
+{% if formBuscaTarefas %}
+<div class="container-fluid">
+{% endif %}
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Tarefas</h1>
+       
+    <!-- Collapsable Card Example -->
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            {% if formBuscaTarefas %}
+            <h6 class="m-0 font-weight-bold text-primary">Selecionar os campos abaixo para fazer uma busca detalhada</h6>
+            {% endif %}
+           
+        </a>
+        <!-- Parte onde insere os Leilões  somente usuario do Grupo pode visualiza insersões -->
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+                {% if formBuscaTarefas %}
+                <form id='busca-tarefas' action="{% url 'tarefas' %}" method="POST">
+                {% endif %}
+               
+                {% csrf_token %}
+                <div class="form-row">
+                    
+                    <div class="form-group col-md-3">
+                {% if formBuscaTarefas%}
+                    {{ formBuscaTarefas.responsavel.errors }}
+                    <label for="Responsavel">Responsavel</label>
+                    <p>{{ formBuscaTarefas.responsavel }}</p>
+                {% endif %}
+               
+                    </div>
+                    <div class="form-group col-md-3">
+                {% if formBuscaTarefas%}
+                    {{ formBuscaTarefas.progresso.errors }}
+                    <label for="progresso">progresso</label>
+                    <p>{{ formBuscaTarefas.progresso }}</p>
+                {% endif %}
+                    </div>
+                    <div class="form-group col-md-3">
+                {% if formBuscaTarefas %}
+                    {{ formBuscaTarefas.Prioridade.errors }}
+                    <label for="prioridade">prioridade</label>
+                    <p>{{ formBuscaTarefas.prioridade }}</p>
+                {% endif %}   
+                    </div>
+                </div>
+                
+                {% if formBuscaTarefas%}
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    {{ formBuscaTarefas.al.errors }}
+                    <label for="bucket">Bubket</label> <br>
+                    {{ formBuscaTarefas.bucket }}
+                    </div>
+                 
+                </div>
+               
+                    
+                       
+                
+                {% endif %}
+                
+
+
+                {% if formBuscaTarefas %}
+                <button type="submit" id="busca-tarefas" class="btn btn-primary">Buscar</button>
+                <button type="reset" id="limpar" class="btn btn-primary">Limpar</button>
+                
+               
+                {% endif %}
+                
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+    {% if listaTarefas %}
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tabela geral de Lotes</h6>
+        </div>
+        <div class="card-body">
+         
+         
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="white-space: nowrap;">
+                    <thead>
+                        <tr>
+                          
+                            <th>Editar</th> 
+                            <th>Anotações</th>  
+                            <th>Bucket</th>
+                            <th>Tarefa</th>
+                            <th>Atribuído á:</th>
+                            <th>Prioridade</th>    
+                            <th>Progresso</th>
+                            <th>Data Inicial</th>
+                            <th>Data Conclusão</th>
+                            <th>Data Criação</th>
+                        
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                           
+                            <th>Editar</th> 
+                            <th>Anotações</th>  
+                            <th>Bucket</th>   
+                            <th>Tarefa</th>
+                            <th>Atribuído á:</th>
+                            <th>Prioridade</th>    
+                            <th>Progresso</th>
+                            <th>Data Inicial</th>
+                            <th>Data Conclusão</th>
+                            <th>Data Criação</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for tarefas in listaTarefas %}
+                     
+                    <tr>
+                        <td>
+                               
+                            <button type="button" class="btn btn-primary btn-sm" >  <a href="{% url 'tarefas_editar' tarefas.id %}">Editar</a></button>  
+                          
+                          
+                        </td>
+                            
+                            <td>{{ tarefas.tarefa_anotacoes|safe}}</td>
+                            <td>{{ tarefas.tarefa_id}}</td>
+                            <td>{{ tarefas.tarefa_nome}}</td>
+                            <td>{{ tarefas.tarefa_responsavel_cod}}</td>
+                            {%if tarefas.tarefa_prioridade == 'Urgente'%}
+                            <td><button type="button" class="btn btn-danger btn-sm">{{ tarefas.tarefa_prioridade }}!</button></td>
+                            {%endif%}
+                            <td>{{ tarefas.tarefa_progresso }}</td>
+                            <td>{{ tarefas.tarefa_dtinicio}}</td>
+                            <td>{{ tarefas.tarefa_dtconclusao}}</td>
+                            <td>{{ tarefas.tarefa_datacriacao}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
