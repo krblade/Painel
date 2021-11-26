@@ -41,8 +41,10 @@ urlpatterns = [
     path('logs_tabela', logs_erro, name='logs_tabela'),
     path('acompanhamento', acompanhamento, name='acompanhamento'),
     path('tarefas', buscaTarefas, name='tarefas'),
+    path('ver-tarefas/<str:pk>/', verTarefa.as_view(), name='ver-tarefas'),
     path('tarefas-editar/<str:pk>/', updateTarefas.as_view(), name='tarefas_editar'),
-    path('tarefa-nova', LoteCreateView.as_view(), name='tarefa-nova'),
+    path('tarefas-deletar/<str:pk>/', deleteTarefas.as_view(), name='tarefas_deletar'),
+    path('tarefa-nova', TarefaCreateView.as_view(), name='tarefa-nova'),
     path('post', Post, name='post'),
     path('inicio', inicio, name='inicio'),
 ] 

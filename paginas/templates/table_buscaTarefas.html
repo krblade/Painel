@@ -113,7 +113,8 @@
                         <tr>
                           
                             <th>Editar</th> 
-                            <th>Anotações</th>  
+                            <th>Ver</th> 
+                            <th>Lote</th>  
                             <th>Bucket</th>
                             <th>Tarefa</th>
                             <th>Atribuído á:</th>
@@ -122,6 +123,7 @@
                             <th>Data Inicial</th>
                             <th>Data Conclusão</th>
                             <th>Data Criação</th>
+                            <th>Apagar</th>
                         
                         </tr>
                     </thead>
@@ -129,7 +131,8 @@
                         <tr>
                            
                             <th>Editar</th> 
-                            <th>Anotações</th>  
+                            <th>Ver</th> 
+                            <th>Lote</th>  
                             <th>Bucket</th>   
                             <th>Tarefa</th>
                             <th>Atribuído á:</th>
@@ -138,6 +141,7 @@
                             <th>Data Inicial</th>
                             <th>Data Conclusão</th>
                             <th>Data Criação</th>
+                            <th>Apagar</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -145,23 +149,39 @@
                      
                     <tr>
                         <td>
-                               
-                            <button type="button" class="btn btn-primary btn-sm" >  <a href="{% url 'tarefas_editar' tarefas.id %}">Editar</a></button>  
-                          
+                         
+                            
+                            
+                           
+                            <a href="{% url 'tarefas_editar' tarefas.id %}" class="btn btn-default"><span class="fa fa-server" ></span></a> 
                           
                         </td>
+                           <td><a href="{% url 'ver-tarefas' tarefas.id %}" class="btn btn-default"><span class="fa fa-eye"></span></a></td>
                             
-                            <td>{{ tarefas.tarefa_anotacoes|safe}}</td>
-                            <td>{{ tarefas.tarefa_id}}</td>
+                           <td>{{ tarefas.tarefa_lote|safe}}</td>
+                            
+                            <td>{{tarefas.tarefa_id}}</td>
                             <td>{{ tarefas.tarefa_nome}}</td>
                             <td>{{ tarefas.tarefa_responsavel_cod}}</td>
-                            {%if tarefas.tarefa_prioridade == 'Urgente'%}
+                            {% if tarefas.tarefa_prioridade == 'Urgente'%}
                             <td><button type="button" class="btn btn-danger btn-sm">{{ tarefas.tarefa_prioridade }}!</button></td>
+                            {%else%}
+                            <td>tarefas.tarefa_prioridade</td>
                             {%endif%}
                             <td>{{ tarefas.tarefa_progresso }}</td>
                             <td>{{ tarefas.tarefa_dtinicio}}</td>
                             <td>{{ tarefas.tarefa_dtconclusao}}</td>
                             <td>{{ tarefas.tarefa_datacriacao}}</td>
+                            
+                            <td> <form action= "{% url 'tarefas_deletar' tarefas.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                          
+                                <input type="hidden" name="tarefas_id" value="{{tarefas.id}}"/>   
+                                <button type="submit" class="btn btn-default">
+                                <span class="fa fa-trash"></span>
+                                </button>
+                               
+                             </form></td> 
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -172,5 +192,28 @@
     {% endif %}
 
 </div>
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 <!-- /.container-fluid -->
 {% endblock %}

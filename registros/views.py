@@ -7,9 +7,9 @@ from django.db import connection, reset_queries
 from django.contrib import messages
 from django.views import generic
 from django.core.checks.messages import ERROR
-from django.forms.widgets import RadioSelect
+from django.forms.widgets import RadioSelect,NumberInput
 from django.shortcuts import render
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib import admin
@@ -101,6 +101,7 @@ class LoteUpdateView(LoginRequiredMixin, UpdateView): # Essa view é uma view j�
         'lote_dataSipa' : forms.DateInput(format='%d-%m-%Y'),
         'lote_al': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
         'tipoVenda' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=False)
+   
     }  # nesse widget eu posso desenhar o formulário que eu quero jogar para a tela, serve para atribuir class em css e outros coisas relativas ao layout, quando você estiver trabalhando nas melhorias do layout, vale a pena usar
 
     def form_valid(self, form):   # Como a view é uma premodulada do Django, mas eu preciso fazer algumas outras operações, eu uso essa classe para pegar os valores do formulário
@@ -1436,31 +1437,43 @@ def buscaTarefas(request):
             'formBuscaTarefas':FormBuscaTarefa()     # retornamos a renderização do template table_lotesLista.html, onde lotes vai ser nulo e o formulario que vamos carregar é um novo formulário de buscas
         })
 
-class LoteCreateView(LoginRequiredMixin, CreateView):
+class TarefaCreateView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = ACOMP_TAREFA
-    fields = ['id','tarefa_Criador','tarefa_anotacoes','tarefa_responsavel_cod','tarefa_nome','tarefa_dtinicio','tarefa_id','tarefa_prioridade','tarefa_progresso'] 
+    fields = ['id','tarefa_lote','tarefa_Criador','tarefa_anotacoes','tarefa_responsavel_cod','tarefa_nome','tarefa_dtinicio','tarefa_id','tarefa_prioridade','tarefa_progresso'] 
     template_name = 'form_novaTarefa.html'
-            
+    context_object_name = 'tarefa'         
+   
     def form_valid(self, form):
+      
         url = super().form_valid(form)
+        
+   
+
         messages.success(self.request, 'Tarefa incluída com sucesso!')
         
         
         return url
+    def get_context_data(self, **kwargs):   # após graver o histórico de alterações, carregamos uma lista para a tela com o histórico de alterações naquele determinado lote
+       
+       
+        context = super(TarefaCreateView,self).get_context_data(**kwargs)
+          
+        return context
 
 class updateTarefas( LoginRequiredMixin, UpdateView): # Essa view é uma view já modelada pelo Django, eu passo de parametros ali o requerimento par aque o user esteja logado e o tipo dessa view, no caso uma UpdateView
-    tarefa= ACOMP_TAREFA.objects.all
+
     login_url = reverse_lazy('login')
     model = ACOMP_TAREFA
-    fields = ['id','tarefa_anotacoes','tarefa_responsavel_cod','tarefa_nome','tarefa_dtinicio','tarefa_id','tarefa_prioridade','tarefa_progresso'] 
+    fields = ['id','tarefa_lote','tarefa_anotacoes','tarefa_responsavel_cod','tarefa_nome','tarefa_dtinicio','tarefa_id','tarefa_prioridade','tarefa_progresso'] 
     template_name = 'form_editarTarefa.html'
     context_object_name = 'listaTarefas' 
    
     widget= {
         'tarefa_id': forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
+       
         'tarefa_responsavel_cod': forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
-        'tarefa_dtinicio' : forms.DateInput(format='%d-%m-%Y'),
+        'tarefa_dtinicio' : forms.DateField(widget=NumberInput(attrs={'type': 'date'})),
         'tarefa_anotacoes': forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-sm'}),label="tarefa_anotacoes:", required=False),
         'tarefa_nome' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
         'tarefa_prioride' : forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),required=True),
@@ -1476,17 +1489,40 @@ class updateTarefas( LoginRequiredMixin, UpdateView): # Essa view é uma view j�
         url = super().form_valid(form)
         messages.success(self.request, 'Lote inserido com sucesso!')
        
-     
+       
         return url
     def get_context_data(self, **kwargs):   # após graver o histórico de alterações, carregamos uma lista para a tela com o histórico de alterações naquele determinado lote
        
        
         context = super(updateTarefas, self).get_context_data(**kwargs)
-           # a tabela historico é filtrada de acordo pela chave primaria do lote
-        
-            # ele retonra a lista de lotes 
+          
         return context
+
+class deleteTarefas( LoginRequiredMixin, DeleteView): # Essa view é uma view já modelada pelo Django, eu passo de parametros ali o requerimento par aque o user esteja logado e o tipo dessa view, no caso uma UpdateView
+
+    login_url = reverse_lazy('login')
+    model = ACOMP_TAREFA
+    success_url= reverse_lazy('tarefas') 
+   
+
         
+class verTarefa(LoginRequiredMixin, ListView):     # Essa é a view para visualizar a lista de materiais de um determinado lote
+    # ESSA É MAIS UMA VIEW GENERICA DO PROPRIO DJANGO
+    model = ACOMP_TAREFA     # Nela usamos como model a tabela LOTE_DET
+    template_name = 'ver_tarefa.html'     # Definimos o respectivo template
+    context_object_name = 'ver_tarefa'     # Enviamos uma variável que precisaremos para montar os links de edição
+    
+
+    def get_queryset(self, **kwargs):    # Nesse caso precisamos utilizar o get_queryset obrigatóriamente, pois não busco todos os dados da tabela e sim dados de acordo com um determinado filtro
+        self.object_list = ACOMP_TAREFA.objects.filter(id=self.kwargs['pk'])  
+          # A lista de objetos que vou retornar para o template é uma lista de ACOMP_TAREFA onde a coluna lode_lote = ao argumento passado, no caso PK
+        return self.object_list    # Retorno a lista de objetos
+
+    def get_context_data(self, **kwargs):     # Esse get context serve para enviar algumas variáveis que utilizarei para criar links 
+
+        context = super(verTarefa, self).get_context_data(**kwargs)
+      
+        return context          
 
 ######## PAGINA DE INICIO
 @login_required

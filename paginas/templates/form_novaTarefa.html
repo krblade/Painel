@@ -22,6 +22,14 @@
                 {% csrf_token %}
                {{form.media}}
                 <div class="form-row">
+                    
+                    <div class="form-group col-md-3">
+                        <label for="lote">Bucket</label><br>
+                        {{ form.tarefa_lote}}
+                    </div>
+                  
+                    
+                    
                     <div class="form-group col-md-3">
                         <label for="lote">Bucket</label><br>
                         {{ form.tarefa_id }}

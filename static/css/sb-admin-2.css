@@ -1499,8 +1499,8 @@ tr.highlight {
 
 .table th,
 .table td {
-  padding: 0.75rem;
-  vertical-align: top;
+  padding: 0.20rem;
+  vertical-align: bottom;
   border-top: 1px solid #e3e6f0;
 }
 

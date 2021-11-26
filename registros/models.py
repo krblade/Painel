@@ -234,19 +234,23 @@ class ACOMP_TAREFA(models.Model):
 
 
     )
-    tarefa_lote= models.ForeignKey(LOTE, on_delete=models.SET_NULL, null=True) 
+    tarefa_lote=  models.CharField( max_length=50, null=True) 
     tarefa_nome = models.CharField(max_length=100, null=False)
     tarefa_anotacoes = RichTextUploadingField(blank=True)
     tarefa_id = models.ForeignKey(ACOMP_BUCKET, on_delete=models.SET_NULL, null=True, blank=True)
     tarefa_responsavel_cod = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     tarefa_Criador = models.IntegerField(null=False)
     tarefa_datacriacao = models.DateTimeField(auto_now_add=True)
-    tarefa_dtalteracao = models.DateTimeField(null=True)
+    tarefa_dtalteracao = models.DateTimeField(auto_now_add=True)
     tarefa_dtinicio = models.DateField(null=True)
     tarefa_dtconclusao = models.DateField(null=True)
     tarefa_prioridade = models.CharField(max_length=25, choices=PRIORIDADE,default='Importante')
     tarefa_progresso = models.CharField(max_length=25, choices=PROGRESSO,default='Não iniciada')
     tarefa_atrasado= models.BooleanField(default=False)
+    
+    
+    
+
     
     def get_absolute_url(self):
        return reverse("tarefas_editar", kwargs={"pk": self.pk})

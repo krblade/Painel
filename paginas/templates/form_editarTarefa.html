@@ -13,7 +13,12 @@
         <!-- Card Header - Accordion -->
         <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
             role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            {% if form %}
             <h6 class="m-0 font-weight-bold text-primary">Editar Tarefa:</h6>
+            {% endif %}
+            {% if list %}
+            <h6 class="m-0 font-weight-bold text-primary">Tarefa:</h6>
+            {% endif %} 
         </a>
         <!-- INSERÇÃO -->
         <div class="collapse show" id="collapseCardExample">
@@ -31,6 +36,11 @@
                     {{ form.tarefa_dtinicio }}
                     <span class="datetimeshortcuts">&nbsp;<a href="#">Hoje</a>&nbsp;|&nbsp;<a href="#" id="calendarlink1"><span class="date-icon" title="Escolha uma data"></span></a></span>
                     </div>
+                    <div class="form-group col-md-3">
+                        <h5> Lote  </h5> 
+                        {{ form.tarefa_lote}}
+                        
+                        </div>
                     <div class="form-group col-md-3">
                     <label for="lote">tarefa_nome:</label><br>
                     {{ form.tarefa_nome }}

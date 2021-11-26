@@ -1,0 +1,6 @@
+{% for i in object_list %}
+<h1>{{i.tarefa_responsavel_cod}}</h1>
+
+{{i.tarefa_anotacoes|safe}}
+<button type="button" class="btn btn-primary btn-sm" >  <a href="{% url 'tarefas_editar' i.id %}">Editar</a></button> 
+{% endfor %} 
